@@ -6,3 +6,12 @@
 //
 
 import Foundation
+import UIKit
+
+extension UIView {
+    static func customView() -> UIView {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }
+}

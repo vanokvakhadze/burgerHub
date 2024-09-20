@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import GoogleSignIn
 import UIKit
 
 class LoginVC: UIViewController {
@@ -31,7 +32,9 @@ class LoginVC: UIViewController {
     private let gooleImage = UIImageView.customUIImage(name: "google", width: 24, height: 24)
     private let googleText = UILabel.customLabel()
     
-   
+ 
+    var iteModel = LoginVM()
+    var itemModel2 = RegisterVM()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,6 +45,10 @@ class LoginVC: UIViewController {
         addDetailsStack()
         addGoogleButton()
         addButtons()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.navigationItem.hidesBackButton = true
     }
     
     func addSafeArea(){
@@ -140,7 +147,9 @@ class LoginVC: UIViewController {
         googleText.font = UIFont(name: "FiraGO-Regular", size: 14)
         googleText.setUnderlinedText("Sing-in with Google")
         
-        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(googleSignIn))
+            gooleView.isUserInteractionEnabled = true
+            gooleView.addGestureRecognizer(tap)
         NSLayoutConstraint.activate([
         gooleView.topAnchor.constraint(equalTo: detailStack.bottomAnchor, constant: 80),
         gooleView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
@@ -154,7 +163,27 @@ class LoginVC: UIViewController {
         
     }
     
-    
+    @objc func googleSignIn(){
+        _ = GIDConfiguration(clientID: "710353786699-31f6mnisijter89q9agg1ca74j3a0kjq.apps.googleusercontent.com")
+        GIDSignIn.sharedInstance.signIn(withPresenting: self) { user, error in
+            if let error = error {
+                self.sendAlert(message: "Error with Google Sign-In:", title: "\(error.localizedDescription)")
+                
+            }
+            
+            guard let user = user else {return}
+            let userMail = user.user.profile?.email ?? ""
+            
+            let success = self.itemModel2.SingUpWithSocial(value: userMail, key: "IOS dev")
+            
+            if success {
+                self.navigationController?.pushViewController(UserVC(), animated: true)
+            } else {
+                self.sendAlert(message: "Authorization Error", title: "Error")
+            }
+           
+        }
+    }
     
     
     
@@ -163,7 +192,8 @@ class LoginVC: UIViewController {
         safeArea.addSubview(registerNav)
         
         loginButton.backgroundColor = .buttonC
-        
+        loginButton.addAction(UIAction(handler: { _ in
+            self.loginToMain()}), for: .touchUpInside)
         
         loginButton.setTitle("login an account", for: .normal)
         loginButton.titleLabel?.font =  UIFont(name: "FiraGO-Regular", size: 16)
@@ -184,6 +214,20 @@ class LoginVC: UIViewController {
     
     func registration(){
         navigationController?.pushViewController(RegisterVC(), animated: true)
+    }
+    
+    func loginToMain() {
+        guard let user = emailInput.text, !user.isEmpty else {return sendAlert(message: "please fill email field", title: "Error")}
+        
+        guard  let passwords = passwordInput.text, !passwords.isEmpty else {return sendAlert(message: "please fill password field", title: "Error")}
+        
+        let success = iteModel.Login(user: user, password: passwords)
+        
+        if success {
+            navigationController?.pushViewController(UserVC(), animated: true)
+        } else {
+            sendAlert(message: "not matches email or password", title: "Error")
+        }
     }
 }
 

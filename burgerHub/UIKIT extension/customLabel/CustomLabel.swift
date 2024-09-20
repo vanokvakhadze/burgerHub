@@ -14,4 +14,17 @@ extension UILabel {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
+    
+     func setUnderlinedText(_ text: String) {
+          
+           
+           let attributedString = NSAttributedString(
+               string: text,
+               attributes: [
+                   .underlineStyle: NSUnderlineStyle.single.rawValue,
+               ]
+           )
+           
+           self.attributedText = attributedString
+       }
 }

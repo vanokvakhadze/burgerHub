@@ -6,3 +6,14 @@
 //
 
 import Foundation
+import UIKit
+
+extension UIStackView {
+    static func customStackView() ->  UIStackView {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.backgroundColor = .clear
+        return stack
+    }
+}

@@ -17,10 +17,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         self.window = UIWindow(windowScene: windowScene)
         
-        
-        
-        let navigation = UINavigationController(rootViewController: LoginVC())
-        self.window?.rootViewController = navigation
+        if authService().load() != nil {
+            let navigation = UINavigationController(rootViewController: UserVC())
+            self.window?.rootViewController = navigation
+        } else {
+            let navigation = UINavigationController(rootViewController: LoginVC())
+            self.window?.rootViewController = navigation
+        }
+      
         self.window?.makeKeyAndVisible()
     }
 

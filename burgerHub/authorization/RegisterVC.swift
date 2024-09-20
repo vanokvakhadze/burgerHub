@@ -7,7 +7,9 @@
 
 import UIKit
 
-class RegisterVC: UIViewController {
+class RegisterVC: UIViewController{
+    
+    
     
     private let safeArea = UIView.customView()
     private let logo = UIImageView.customUIImage(name: "logo", width: 34, height: 24)
@@ -30,6 +32,9 @@ class RegisterVC: UIViewController {
     private let loginNavigate = UIButton.customButton(width: 335, height: 51, radius: 20)
   
     
+    var itemModel =  RegisterVM()
+   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .tertiarySystemGroupedBackground
@@ -38,6 +43,11 @@ class RegisterVC: UIViewController {
         addHeader()
         addDetailsStack()
         addButtons()
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationItem.setHidesBackButton(true, animated: true)
     }
     
     func addSafeArea(){
@@ -140,7 +150,8 @@ class RegisterVC: UIViewController {
         safeArea.addSubview(loginNavigate)
         
         createButton.backgroundColor = .buttonC
-        
+        createButton.addAction(UIAction(handler: { _ in
+            self.navigateToMain()}), for: .touchUpInside)
         
         createButton.setTitle("create an account", for: .normal)
         createButton.titleLabel?.font =  UIFont(name: "FiraGO-Regular", size: 16)
@@ -160,7 +171,35 @@ class RegisterVC: UIViewController {
     func goToLogin(){
         navigationController?.popViewController(animated: true)
     }
+    
+    func navigateToMain(){
+        guard /*let user = emailInput.text, let passwords = passwordInput.text,*/ let rePasswords = rePasswordInput.text else { return sendAlert(message: "please fill fields", title: "error")}
+        
+        
+        if !ValidateInfo.isValidEmail(for: emailInput.text ?? "") {
+            sendAlert(message: "invalid userName", title: "Error")
+            return
+        }
+        
+        if !ValidateInfo.isPasswordValid(for: passwordInput.text ?? "") {
+            sendAlert(message: "invalid password", title: "Error")
+            return
+        }
+        
+        let isSuccess = itemModel.registerUser(user: emailInput.text ?? "", password: passwordInput.text ?? "", rePassword: rePasswords)
+        
+        if isSuccess {
+            navigationController?.pushViewController(UserVC(), animated: true)
+            sendAlert(message: "welcome from burgerHub", title: "success")
+            
+        } else {
+            sendAlert(message: "Registation Error", title: "Error")
+        }
+    }
+    
 }
+
+
 
 
 #Preview{
