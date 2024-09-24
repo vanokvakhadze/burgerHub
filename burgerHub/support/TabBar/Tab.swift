@@ -11,21 +11,24 @@ import SwiftUI
 
 enum Tab: String, CaseIterable {
     case home = "Home"
-    case service = "Services"
-    case partners = "Partners"
-    case activity = "Activity"
+    case favorite = "Favorite"
+    case search = "Search"
+    case basket = "Basket"
+    case service = "Service"
     
     
     var systemImage: String {
         switch self {
         case .home :
             return "house"
+        case .favorite :
+            return "suit.heart"
+        case .search :
+            return "magnifyingglass"
+        case .basket :
+            return "cart.fill"
         case .service :
-            return "envelope.open.badge.clock"
-        case .partners :
-            return "hand.raised"
-        case .activity :
-            return "bell"
+            return "list.bullet"
         }
     }
     

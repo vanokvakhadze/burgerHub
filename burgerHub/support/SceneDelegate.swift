@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,8 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = UIWindow(windowScene: windowScene)
         
         if authService().load() != nil {
-            let navigation = UINavigationController(rootViewController: UserVC())
-            self.window?.rootViewController = navigation
+            let swiftUITabBar = UIHostingController(rootView: TabViews())
+            self.window?.rootViewController = swiftUITabBar
         } else {
             let navigation = UINavigationController(rootViewController: LoginVC())
             self.window?.rootViewController = navigation

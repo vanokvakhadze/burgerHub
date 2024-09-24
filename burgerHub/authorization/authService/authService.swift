@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class authService {
+class authService: ObservableObject {
     
     enum KeyChainError: Error {
         case sameItemFound

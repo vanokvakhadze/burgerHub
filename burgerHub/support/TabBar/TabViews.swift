@@ -11,29 +11,128 @@ struct TabViews: View {
     @State private var activeTab: Tab = .home
     @Namespace private var animation
     @State private var tabShapePosition: CGPoint = .zero
+    @State  var showMenu: Bool = false
+    @State var offset: CGFloat  = 0
+    @State var lastStoredOffset: CGFloat  = 0
+    @GestureState var gestureOffset: CGFloat = 0
+    
+    
+    init() {
+        UITabBar.appearance().isHidden = true
+    }
     
     var body: some View {
-        VStack{
-            TabView(selection: $activeTab){
-                Text("Hello, Wh")
-                    .tag(Tab.home)
-                    .toolbar(.hidden, for: .tabBar)
+        let sideBarWidth = getRect().width - 90
+        NavigationView{
+            HStack(spacing: 0){
                 
-                Text("Hello, partners!")
-                    .tag(Tab.partners)
-                    .toolbar(.hidden, for: .tabBar)
+                SideMenuBar(isShow: $showMenu)
                 
-                Text("Hello, service!")
-                    .tag(Tab.service)
-                    .toolbar(.hidden, for: .tabBar)
+                VStack{
+                    TabView(selection: $activeTab){
+                        HomeView(isShown: $showMenu)
+                            .tag(Tab.home)
+                        //  .toolbar(.hidden, for: .tabBar)
+                        
+                        FavoriteView()
+                            .tag(Tab.favorite)
+                        //.toolbar(.hidden, for: .tabBar)
+                        
+                        SearchView()
+                            .tag(Tab.search)
+                        //  .toolbar(.hidden, for: .tabBar)
+                        
+                        OrderView()
+                            .tag(Tab.basket)
+                        //  .toolbar(.hidden, for: .tabBar)
+                        
+                        UserView()
+                            .tag(Tab.service)
+                        //  .toolbar(.hidden, for: .tabBar)
+                    }
+                    customTabBar()
+                }
+                .frame(width: getRect().width)
+                .overlay{
+                    Rectangle()
+                        .fill(
+                            Color.primary.opacity(Double(offset / sideBarWidth) / 5)
+                        )
+                        .ignoresSafeArea(.container, edges: .vertical)
+                        .onTapGesture {
+                            withAnimation{
+                                showMenu.toggle()
+                            }
+                        }
+                }
                 
-                Text("Hello, activity!")
-                    .tag(Tab.activity)
-                    .toolbar(.hidden, for: .tabBar)
             }
-            customTabBar()
+            .frame(width: getRect().width + sideBarWidth)
+            .offset(x: -sideBarWidth / 2)
+            .offset(x: offset > 0 ? offset : 0)
+            .gesture(
+                DragGesture()
+                    .updating($gestureOffset, body: { value, out, _ in
+                        out = value.translation.width
+                    })
+                    .onEnded(onEnd(value:  ))
+            )
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
         }
-       
+        .animation(.easeInOut, value: offset == 0)
+        .onChange(of: showMenu) { newValue, prev in
+            if showMenu && offset == 0 {
+                offset = sideBarWidth
+                lastStoredOffset = offset
+            }
+            
+            if !showMenu && offset == sideBarWidth {
+                offset = 0
+                lastStoredOffset = 0
+            }
+        }
+        .onChange(of: gestureOffset) {onChange()}
+    }
+    
+    func onChange(){
+        let sideBarWidth = getRect().width - 90
+        offset = (gestureOffset != 0 ) ? (gestureOffset + lastStoredOffset < sideBarWidth ? gestureOffset + lastStoredOffset : offset ) : offset
+    }
+    
+    func onEnd(value: DragGesture.Value) {
+        let sideBarWidth = getRect().width - 90
+        let transition = value.translation.width
+        withAnimation{
+            if transition > 0 {
+                
+                if transition > (sideBarWidth / 2) {
+                    offset = sideBarWidth
+                    showMenu = true
+                } else {
+                    
+                    if offset == sideBarWidth {
+                        return
+                    }
+                    offset = 0
+                    showMenu = false
+                }
+                
+            } else {
+                
+                if -transition > (sideBarWidth / 2) {
+                    offset = 0
+                    showMenu = false
+                } else {
+                    
+                    if offset == 0 || !showMenu {
+                        return
+                    }
+                    offset = sideBarWidth
+                    showMenu = true
+                }
+            }
+        }
     }
     
     @ViewBuilder
@@ -42,9 +141,9 @@ struct TabViews: View {
             ForEach(Tab.allCases , id: \.rawValue) {
                 TabItems(tintColor: tint,
                          inactiveCOlor: inactivateTint,
-                         tab: $0, 
+                         tab: $0,
                          animation: animation,
-                         activeTab: $activeTab, 
+                         activeTab: $activeTab,
                          position: $tabShapePosition)
             }
         }
@@ -54,7 +153,7 @@ struct TabViews: View {
             TabShape(midPoint: tabShapePosition.x)
                 .fill(Color.init(uiColor: .tertiarySystemBackground))
                 .ignoresSafeArea()
-                .shadow(color: .blue.opacity(0.2), radius: 5, x: 0, y: -5)
+                .shadow(color: .buttonC.opacity(0.2), radius: 5, x: 0, y: -5)
                 .blur(radius: 2)
                 .padding(.top, 25)
         }
@@ -75,27 +174,27 @@ struct TabItems: View {
         VStack(spacing: 5){
             Image(systemName: tab.systemImage)
                 .font(.title2)
-                .foregroundStyle(activeTab == tab ? .white : inactiveCOlor)
+                .foregroundStyle(activeTab == tab ? .white : .gray)
                 .frame(width:  activeTab == tab ? 58 : 35, height:  activeTab == tab ? 58 : 35 )
                 .background{
                     if activeTab == tab {
                         Circle()
-                            .fill(.blue.gradient)
+                            .fill(.buttonC.gradient)
                             .matchedGeometryEffect(id: "activeTab", in: animation)
-                    
+                        
                     }
                 }
             
             Text(tab.rawValue)
                 .font(.caption)
-                .foregroundStyle(activeTab == tab ? .blue : .gray)
+                .foregroundStyle(activeTab == tab ? .buttonC : .gray)
         }
         .frame(maxWidth: .infinity)
         .contentShape(Rectangle())
         .viewPosition(completion: { rect in
             tapPosition.x = rect.midX
             if activeTab == tab {
-                position.x = rect.midX
+                position.x = rect.midX 
             }
             
         })
@@ -105,7 +204,7 @@ struct TabItems: View {
                 position.x = tapPosition.x
             }
         }
-    
+        
     }
 }
 

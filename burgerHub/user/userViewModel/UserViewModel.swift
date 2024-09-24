@@ -11,8 +11,9 @@ protocol UserDelegate: AnyObject {
     func updateUserView()
 }
 
-class UserViewModel {
-    let auth = authService()
+class UserViewModel: ObservableObject {
+    
+    @Published var auth = authService()
     
     weak var delegate: UserDelegate?
     
