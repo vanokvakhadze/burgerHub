@@ -8,14 +8,16 @@
 import Foundation
 import UIKit
 
+enum KeyChainError: Error {
+    case sameItemFound
+    case unknown
+    case nosuchDataFound
+    case KCErrorWithCode(Int)
+}
+
 class authService: ObservableObject {
     
-    enum KeyChainError: Error {
-        case sameItemFound
-        case unknown
-        case nosuchDataFound
-        case KCErrorWithCode(Int)
-    }
+    
     
     
     func save(

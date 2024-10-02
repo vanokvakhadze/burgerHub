@@ -18,4 +18,13 @@ extension UIImageView {
         imageView.heightAnchor.constraint(equalToConstant: height).isActive = true
         return imageView
     }
+    
+    static func customUIImages(width: CGFloat, height: CGFloat) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.clipsToBounds = true
+        imageView.widthAnchor.constraint(equalToConstant: width).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        return imageView
+    }
 }

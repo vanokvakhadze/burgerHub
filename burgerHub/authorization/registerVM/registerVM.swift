@@ -33,15 +33,26 @@ class RegisterVM {
         }
     }
     
-    func SingUpWithSocial(value: String, key: String) -> Bool{
+    func SingUpWithSocial(value: String, key: String, provider: String) -> Bool{
         let data = Data(value.utf8)
         
         do {
-            try authService().save (
+            try authService().save(
                 service: "IOS dev",
                 account: value,
                 password: data
             )
+            
+            // Save the provider information (for example, "google" or "email")
+            try authService().save(
+                service: "IOS dev",
+                account: "\(value)_provider", // Unique key for provider
+                password: Data(provider.utf8) // Save provider as data
+            )
+            
+            
+            
+            
             print("success")
             return true
         } catch {

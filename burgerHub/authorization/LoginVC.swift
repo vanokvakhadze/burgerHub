@@ -45,6 +45,7 @@ class LoginVC: UIViewController {
         addDetailsStack()
         addGoogleButton()
         addButtons()
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -174,7 +175,7 @@ class LoginVC: UIViewController {
             guard let user = user else {return}
             let userMail = user.user.profile?.email ?? ""
             
-            let success = self.itemModel2.SingUpWithSocial(value: userMail, key: "IOS dev")
+            let success = self.itemModel2.SingUpWithSocial(value: userMail, key: "IOS dev", provider: "google" )
             
             if success {
                 self.navigationController?.pushViewController(UserVC(), animated: true)
