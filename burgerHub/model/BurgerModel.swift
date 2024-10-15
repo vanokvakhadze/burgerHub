@@ -1,5 +1,5 @@
 //
-//  model.swift
+//  BurgerModel..swift
 //  burgerHub
 //
 //  Created by vano Kvakhadze on 02.10.24.
@@ -10,7 +10,7 @@ struct BurgerResponse: Codable {
     let data: [Burgers]
 }
 
-struct Burgers: Codable, Identifiable {
+struct Burgers: Codable, Identifiable, Hashable, Equatable {
     let id: Int
     let name: String
     let images: [ImageSize]
@@ -19,9 +19,18 @@ struct Burgers: Codable, Identifiable {
     let price: Double
     let veg: Bool
     
+    static func == (lhs: Burgers, rhs: Burgers) -> Bool {
+        lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    
 }
 
 struct ImageSize: Codable {
+   
     let sm: String?
     let lg: String?
 }

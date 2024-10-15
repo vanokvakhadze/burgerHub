@@ -8,11 +8,27 @@
 import SwiftUI
 
 struct fetchImage: View {
+    var imageURL: String
+    var width: CGFloat
+    var height: CGFloat
+ 
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack(alignment: .top){
+            if let imageURL = URL(string: imageURL) {
+                AsyncImage(url: imageURL) { phase in
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: width, height: height)
+                          
+                    }
+                }
+                
+            } 
+        }
     }
 }
 
-#Preview {
-    fetchImage()
-}
+

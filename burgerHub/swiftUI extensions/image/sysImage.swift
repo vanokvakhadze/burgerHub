@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct sysImage: View {
+    var image: String
+    var width: CGFloat
+    var height: CGFloat
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Image(systemName: image)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: width, height: height)
     }
 }
 
-#Preview {
-    sysImage()
-}
+

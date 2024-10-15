@@ -22,6 +22,19 @@
 		3B46C93C2CA30FB600053008 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C93B2CA30FB600053008 /* SettingView.swift */; };
 		3B46C93E2CA30FE000053008 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C93D2CA30FE000053008 /* ProfileView.swift */; };
 		3B46C9422CAAF9BF00053008 /* LogOutVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9412CAAF9BF00053008 /* LogOutVC.swift */; };
+		3B46C9492CAD6AD700053008 /* BurgerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9482CAD6AD600053008 /* BurgerModel.swift */; };
+		3B46C94C2CAD76DF00053008 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C94B2CAD76DF00053008 /* MainViewModel.swift */; };
+		3B46C94F2CAD775A00053008 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C94E2CAD775A00053008 /* NetworkService.swift */; };
+		3B46C9522CAD7C7000053008 /* CachingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9512CAD7C7000053008 /* CachingService.swift */; };
+		3B46C9542CB5EDD000053008 /* PizzaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9532CB5EDD000053008 /* PizzaModel.swift */; };
+		3B46C9562CB5F06900053008 /* DesertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9552CB5F06900053008 /* DesertModel.swift */; };
+		3B46C95B2CB7217D00053008 /* fetchImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C95A2CB7217D00053008 /* fetchImage.swift */; };
+		3B46C95D2CB7376800053008 /* sysImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C95C2CB7376800053008 /* sysImage.swift */; };
+		3B46C9602CB8510900053008 /* BurgerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C95F2CB8510900053008 /* BurgerList.swift */; };
+		3B46C9622CB8548F00053008 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9612CB8548F00053008 /* DetailsView.swift */; };
+		3B46C9642CB8A24300053008 /* customBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9632CB8A24300053008 /* customBackButton.swift */; };
+		3B46C9662CB8A69C00053008 /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9652CB8A69C00053008 /* IngredientsView.swift */; };
+		3B46C9682CBDC26E00053008 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9672CBDC26E00053008 /* CartView.swift */; };
 		3B51BD772C9B0DEF006DDF95 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3B51BD762C9B0DEF006DDF95 /* GoogleSignIn */; };
 		3B51BD792C9B0DEF006DDF95 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B51BD782C9B0DEF006DDF95 /* GoogleSignInSwift */; };
 		3B733D912C6AAFEC006D09FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B733D902C6AAFEC006D09FD /* AppDelegate.swift */; };
@@ -62,6 +75,19 @@
 		3B46C93B2CA30FB600053008 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		3B46C93D2CA30FE000053008 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		3B46C9412CAAF9BF00053008 /* LogOutVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogOutVC.swift; sourceTree = "<group>"; };
+		3B46C9482CAD6AD600053008 /* BurgerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurgerModel.swift; sourceTree = "<group>"; };
+		3B46C94B2CAD76DF00053008 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		3B46C94E2CAD775A00053008 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		3B46C9512CAD7C7000053008 /* CachingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachingService.swift; sourceTree = "<group>"; };
+		3B46C9532CB5EDD000053008 /* PizzaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PizzaModel.swift; sourceTree = "<group>"; };
+		3B46C9552CB5F06900053008 /* DesertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesertModel.swift; sourceTree = "<group>"; };
+		3B46C95A2CB7217D00053008 /* fetchImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchImage.swift; sourceTree = "<group>"; };
+		3B46C95C2CB7376800053008 /* sysImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysImage.swift; sourceTree = "<group>"; };
+		3B46C95F2CB8510900053008 /* BurgerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurgerList.swift; sourceTree = "<group>"; };
+		3B46C9612CB8548F00053008 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
+		3B46C9632CB8A24300053008 /* customBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customBackButton.swift; sourceTree = "<group>"; };
+		3B46C9652CB8A69C00053008 /* IngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
+		3B46C9672CBDC26E00053008 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		3B733D8D2C6AAFEC006D09FD /* burgerHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = burgerHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B733D902C6AAFEC006D09FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B733D922C6AAFEC006D09FD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -162,6 +188,76 @@
 			path = paymentView;
 			sourceTree = "<group>";
 		};
+		3B46C9452CAD69BC00053008 /* TabViews */ = {
+			isa = PBXGroup;
+			children = (
+				3B733DDB2C761786006D09FD /* order */,
+				3B733DDC2C761797006D09FD /* Favorite */,
+				3B733DDD2C7617A5006D09FD /* Search */,
+				3B733DDE2C7617C3006D09FD /* Home */,
+			);
+			path = TabViews;
+			sourceTree = "<group>";
+		};
+		3B46C9472CAD69F400053008 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				3B46C9482CAD6AD600053008 /* BurgerModel.swift */,
+				3B46C9532CB5EDD000053008 /* PizzaModel.swift */,
+				3B46C9552CB5F06900053008 /* DesertModel.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		3B46C94A2CAD76BA00053008 /* MainViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				3B46C94B2CAD76DF00053008 /* MainViewModel.swift */,
+			);
+			path = MainViewModel;
+			sourceTree = "<group>";
+		};
+		3B46C94D2CAD774200053008 /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				3B46C94E2CAD775A00053008 /* NetworkService.swift */,
+			);
+			path = NetworkService;
+			sourceTree = "<group>";
+		};
+		3B46C9502CAD7C5600053008 /* CachingService */ = {
+			isa = PBXGroup;
+			children = (
+				3B46C9512CAD7C7000053008 /* CachingService.swift */,
+			);
+			path = CachingService;
+			sourceTree = "<group>";
+		};
+		3B46C9582CB71F6800053008 /* swiftUI extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3B46C9592CB71F7900053008 /* image */,
+			);
+			path = "swiftUI extensions";
+			sourceTree = "<group>";
+		};
+		3B46C9592CB71F7900053008 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				3B46C95A2CB7217D00053008 /* fetchImage.swift */,
+				3B46C95C2CB7376800053008 /* sysImage.swift */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		3B46C95E2CB850EB00053008 /* listBurgers */ = {
+			isa = PBXGroup;
+			children = (
+				3B46C95F2CB8510900053008 /* BurgerList.swift */,
+			);
+			path = listBurgers;
+			sourceTree = "<group>";
+		};
 		3B733D842C6AAFEC006D09FD = {
 			isa = PBXGroup;
 			children = (
@@ -181,13 +277,14 @@
 		3B733D8F2C6AAFEC006D09FD /* burgerHub */ = {
 			isa = PBXGroup;
 			children = (
+				3B46C9582CB71F6800053008 /* swiftUI extensions */,
+				3B46C9502CAD7C5600053008 /* CachingService */,
+				3B46C94D2CAD774200053008 /* NetworkService */,
+				3B46C9472CAD69F400053008 /* model */,
 				3B733DBE2C6F64F6006D09FD /* support */,
 				3B733DBD2C6F64E1006D09FD /* authorization */,
 				3B733DA42C6CBE60006D09FD /* UIKIT extension */,
-				3B733DDE2C7617C3006D09FD /* Home */,
-				3B733DDD2C7617A5006D09FD /* Search */,
-				3B733DDC2C761797006D09FD /* Favorite */,
-				3B733DDB2C761786006D09FD /* order */,
+				3B46C9452CAD69BC00053008 /* TabViews */,
 				3B733DB82C6E8C02006D09FD /* fonts */,
 				3B733D9E2C6AAFEE006D09FD /* Info.plist */,
 				3B733DC72C6F6BAB006D09FD /* user */,
@@ -369,7 +466,13 @@
 		3B733DDE2C7617C3006D09FD /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				3B46C94A2CAD76BA00053008 /* MainViewModel */,
 				3B46C9242CA1BC7300053008 /* HomeView.swift */,
+				3B46C95E2CB850EB00053008 /* listBurgers */,
+				3B46C9612CB8548F00053008 /* DetailsView.swift */,
+				3B46C9632CB8A24300053008 /* customBackButton.swift */,
+				3B46C9652CB8A69C00053008 /* IngredientsView.swift */,
+				3B46C9672CBDC26E00053008 /* CartView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -452,7 +555,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B46C9682CBDC26E00053008 /* CartView.swift in Sources */,
 				3B733DAB2C6CC3A3006D09FD /* customView.swift in Sources */,
+				3B46C9522CAD7C7000053008 /* CachingService.swift in Sources */,
 				3B733D952C6AAFEC006D09FD /* RegisterVC.swift in Sources */,
 				3B733DCD2C6F7E7D006D09FD /* alertExtension.swift in Sources */,
 				3B733DAE2C6CC8FD006D09FD /* customStackView.swift in Sources */,
@@ -465,25 +570,36 @@
 				3B46C9212C9D89CE00053008 /* TabShape.swift in Sources */,
 				3B73A90A2C9ACD4F00E72B9A /* ValidInfo.swift in Sources */,
 				3B733DB42C6CD9F2006D09FD /* CustomTextField.swift in Sources */,
+				3B46C9642CB8A24300053008 /* customBackButton.swift in Sources */,
+				3B46C9492CAD6AD700053008 /* BurgerModel.swift in Sources */,
 				3B46C9232C9D8CD100053008 /* TapPosition.swift in Sources */,
 				3B733DC52C6F6B3E006D09FD /* authService.swift in Sources */,
 				3B46C9272CA1BC9600053008 /* SearchView.swift in Sources */,
 				3B733DD22C74A9C8006D09FD /* UserViewModel.swift in Sources */,
 				3B733D912C6AAFEC006D09FD /* AppDelegate.swift in Sources */,
 				3B46C93E2CA30FE000053008 /* ProfileView.swift in Sources */,
+				3B46C9542CB5EDD000053008 /* PizzaModel.swift in Sources */,
+				3B46C94F2CAD775A00053008 /* NetworkService.swift in Sources */,
 				3B46C9292CA1BCAC00053008 /* FavoriteView.swift in Sources */,
+				3B46C95B2CB7217D00053008 /* fetchImage.swift in Sources */,
 				3B46C93C2CA30FB600053008 /* SettingView.swift in Sources */,
 				3B733DCA2C6F6C12006D09FD /* registerVM.swift in Sources */,
 				3B733D932C6AAFEC006D09FD /* SceneDelegate.swift in Sources */,
 				3B46C9362CA30F7C00053008 /* PaymentView.swift in Sources */,
+				3B46C9622CB8548F00053008 /* DetailsView.swift in Sources */,
+				3B46C94C2CAD76DF00053008 /* MainViewModel.swift in Sources */,
 				3B46C92B2CA1BCBA00053008 /* OrderView.swift in Sources */,
 				3B733DB12C6CCE15006D09FD /* customUIImage.swift in Sources */,
 				3B46C91F2C9C6B3B00053008 /* TabViews.swift in Sources */,
 				3B733DB72C6E3428006D09FD /* customButton.swift in Sources */,
+				3B46C9602CB8510900053008 /* BurgerList.swift in Sources */,
 				3B46C9422CAAF9BF00053008 /* LogOutVC.swift in Sources */,
+				3B46C95D2CB7376800053008 /* sysImage.swift in Sources */,
+				3B46C9562CB5F06900053008 /* DesertModel.swift in Sources */,
 				3B46C92E2CA1BCDF00053008 /* UserView.swift in Sources */,
 				3B46C9252CA1BC7300053008 /* HomeView.swift in Sources */,
 				3B733DD02C6FAF1C006D09FD /* LoginVM.swift in Sources */,
+				3B46C9662CB8A69C00053008 /* IngredientsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
