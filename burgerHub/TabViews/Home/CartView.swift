@@ -10,7 +10,8 @@ import SwiftUI
 struct CartView: View {
    
     @Binding var path: NavigationPath
-    @ObservedObject var viewModel: CachingService
+    @ObservedObject var viewModel: MainViewModel
+   
     
     var body: some View {
         ZStack{
@@ -28,7 +29,7 @@ struct CartView: View {
                         Spacer()
                     }
                     
-                    ForEach(viewModel.burgers ) { item in
+                    ForEach(viewModel.burgerCart, id: \.id ) { item in
                         HStack{
                             Spacer()
                                 .frame(width: 10)
@@ -67,9 +68,13 @@ struct CartView: View {
                                             Circle()
                                                 .fill(.buttonC)
                                         )
+                                        .onTapGesture {
+                                          
+                                            viewModel.decreaseBurger(of: item)
+                                        }
                                     
                                     
-                                    Text("1")
+                                    Text("\(item.amount)")
                                         .font(.system(size: 18))
                                        
                                   
@@ -79,7 +84,10 @@ struct CartView: View {
                                             Circle()
                                                 .fill(.buttonC)
                                             )
-                                        
+                                        .onTapGesture {
+                                            
+                                            viewModel.addBurger(of: item)
+                                        }
                                 }
                                 
                             }
@@ -105,7 +113,7 @@ struct CartView: View {
                         
                         Spacer()
                         
-                        Text("$335")
+                        Text("\(String(format: "%.1f", viewModel.totalPrise))")
                         
                         Spacer()
                             .frame(width: 20)
@@ -134,19 +142,16 @@ struct CartView: View {
                 
             }
             .navigationBarBackButtonHidden()
-            .navigationBarItems(leading: customBackButton(path: $path, text: "Detials"))
+            .navigationBarItems(leading: customBackButton(path: $path, text: "Home", pathNumber: 2))
             
-            .onAppear{
-                viewModel.fetchData()
-            }
         }
     }
 }
-struct CartView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        
-        CartView( path: .constant(NavigationPath()), viewModel: CachingService())
-        
-    }
-}
+//struct CartView_Previews: PreviewProvider {
+//    
+//    static var previews: some View {
+//        
+//        CartView( path: .constant(NavigationPath()), viewModel: MainViewModel(), burger: $burger)
+//        
+//    }
+//}

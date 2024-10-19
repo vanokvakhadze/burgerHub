@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct DetailsView: View {
-    var burger: Burgers
+    @Binding var burger: Burgers
+    @ObservedObject var viewModel: MainViewModel
     @Binding var path: NavigationPath
     
     var body: some View {
@@ -25,12 +26,22 @@ struct DetailsView: View {
                     HStack(spacing: 17){
                         sysImage(image: "minus.circle", width: 20, height: 20)
                             .foregroundStyle(.white)
-                        Text("0")
+                            .onTapGesture {
+                                viewModel.decreaseBurger(of: burger)
+                               
+                            }
+                            
+                        
+                        Text("\(viewModel.getAmount(of: burger))")
                             .font(.system(size: 18))
                             .foregroundStyle(.white)
                         
                         sysImage(image: "plus.circle", width: 20, height: 20)
                             .foregroundStyle(.white)
+                            .onTapGesture {
+                                viewModel.addBurger(of: burger)
+                         
+                            }
                     }
                     .background(
                         RoundedRectangle(cornerRadius: 30)
@@ -71,8 +82,10 @@ struct DetailsView: View {
                     
                     
                     Button(action: {
+                        viewModel.addToCart(burger: burger)
+                        path.append(Destinations.cartView(viewModel))
                         
-                        path.append(Destinations.cartView(CachingService()))
+                              
                         
                     }) {
                         Text("Add to cart ")
@@ -93,14 +106,14 @@ struct DetailsView: View {
             
         }
         .navigationBarBackButtonHidden(true)
-        .navigationBarItems(leading: customBackButton(path: $path, text: "Home"))
+        .navigationBarItems(leading: customBackButton(path: $path, text: "Home", pathNumber: 1))
         .navigationDestination(for: Destinations.self) { destination in
                         switch destination {
                         case .ingredients(let burger):
-                            IngredientsView(ingredients: burger, path: $path)
+                            IngredientsView(burger: $burger, viewModel: viewModel, path: $path)
                             
                         case .cartView(_):
-                            CartView(path: $path, viewModel: CachingService())
+                            CartView(path: $path, viewModel: viewModel)
                             
                         }
                     }
@@ -146,13 +159,13 @@ struct DetailsView: View {
     }
 }
 
-struct DetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        // Provide a default path for the prev
-        DetailsView(burger: Burgers(id: 1, name: "Biscuit", images: [ImageSize(sm: "https://s7d1.scene7.com/is/image/mcdonalds/t-mcdonalds-Bacon-Egg-Cheese-Biscuit-Regular-Size-Biscuit-1:1-4-product-tile-desktop", lg: "https://s7d1.scene7.com/is/image/mcdonalds/t-mcdonalds-Egg-McMuffin-1:product-header-mobile?wid=768&hei=443&dpr=off")], desc: "The McDonald\'s Bacon, Egg & Cheese Biscuit breakfast sandwich features a warm, buttermilk biscuit brushed with real butter, thick cut Applewood smoked bacon, a fluffy folded egg, and a slice of melty American cheese. There are 460 calories in a Bacon, Egg & Cheese Biscuit at McDonald\'s.", ingredients: [Ingredients(id: 1, name: "Folded Egg", img: "https://s7d1.scene7.com/is/image/mcdonalds/biscuit"), Ingredients(id: 2, name: "Biscuit", img: "https://s7d1.scene7.com/is/image/mcdonalds/folded_egg"), Ingredients(id: 3, name: "Pasteurized Process American Cheese", img: "https://s7d1.scene7.com/is/image/mcdonalds/ingredient_american_cheese_180x180"),  Ingredients(id: 4, name: "Salted Butter", img: "https://s7d1.scene7.com/is/image/mcdonalds/applewood_bacon"),  Ingredients(id: 5, name: "Pasteurized Process American Cheese", img: "https://s7d1.scene7.com/is/image/mcdonalds/butter_salted"), Ingredients(id: 6, name:"clarified_butter", img:  "https://s7d1.scene7.com/is/image/mcdonalds/clarified_butter"),    ], price: 3.4, veg: false), path: .constant(NavigationPath()))
-        
-    }
-}
+//struct DetailsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        // Provide a default path for the prev
+//        DetailsView(burger: Burgers(id: 1, name: "Biscuit", images: [ImageSize(sm: "https://s7d1.scene7.com/is/image/mcdonalds/t-mcdonalds-Bacon-Egg-Cheese-Biscuit-Regular-Size-Biscuit-1:1-4-product-tile-desktop", lg: "https://s7d1.scene7.com/is/image/mcdonalds/t-mcdonalds-Egg-McMuffin-1:product-header-mobile?wid=768&hei=443&dpr=off")], desc: "The McDonald\'s Bacon, Egg & Cheese Biscuit breakfast sandwich features a warm, buttermilk biscuit brushed with real butter, thick cut Applewood smoked bacon, a fluffy folded egg, and a slice of melty American cheese. There are 460 calories in a Bacon, Egg & Cheese Biscuit at McDonald\'s.", ingredients: [Ingredients(id: 1, name: "Folded Egg", img: "https://s7d1.scene7.com/is/image/mcdonalds/biscuit"), Ingredients(id: 2, name: "Biscuit", img: "https://s7d1.scene7.com/is/image/mcdonalds/folded_egg"), Ingredients(id: 3, name: "Pasteurized Process American Cheese", img: "https://s7d1.scene7.com/is/image/mcdonalds/ingredient_american_cheese_180x180"),  Ingredients(id: 4, name: "Salted Butter", img: "https://s7d1.scene7.com/is/image/mcdonalds/applewood_bacon"),  Ingredients(id: 5, name: "Pasteurized Process American Cheese", img: "https://s7d1.scene7.com/is/image/mcdonalds/butter_salted"), Ingredients(id: 6, name:"clarified_butter", img:  "https://s7d1.scene7.com/is/image/mcdonalds/clarified_butter"),    ], price: 3.4, veg: false), viewModel: MainViewModel(), path: .constant(NavigationPath()))
+//        
+//    }
+//}
 
 
 struct headerImages: View {
@@ -196,11 +209,18 @@ struct headerImages: View {
 
 
 enum Destinations: Hashable {
-
+   
+    
     case ingredients(Burgers)
-    case cartView(CachingService)
+    case cartView(MainViewModel)
+   
     
     
-    
-    
+//    
+//    
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(hashValue)
+//    }
+//    
+//    
 }

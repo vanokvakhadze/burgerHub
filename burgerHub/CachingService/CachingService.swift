@@ -17,16 +17,14 @@ public enum NetworkError: Error {
 }
 
 class CachingService: ObservableObject, Hashable, Equatable {
-    @Published var burgers: [Burgers] = []
+    
     
     static func == (lhs: CachingService, rhs: CachingService) -> Bool {
-            // Add custom comparison logic for CachingService if needed
-            return true // Or some meaningful comparison based on the properties of CachingService
+            return true 
         }
         
         func hash(into hasher: inout Hasher) {
-            // Add custom hashing logic for CachingService if needed
-            // For example:
+            
             hasher.combine("some unique property")
         }
     
@@ -35,25 +33,7 @@ class CachingService: ObservableObject, Hashable, Equatable {
     
     init() {
         setupCache()
-        // Try fetching cached data from disk when the app starts
     }
-    
-    func fetchData() {
-        let headers = [
-            "x-rapidapi-key": "ee8e6ad656msh1622ed26a2ea971p11ddb1jsn86cfe5139e63",
-            "x-rapidapi-host": "burgers-hub.p.rapidapi.com"
-        ]
-        
-        let urlString = "https://burgers-hub.p.rapidapi.com/burgers"
-        
-        if let url = URL(string: urlString) {
-            fetchData(from: url, headers: headers) { result in
-                print("\(result)")
-                self.burgers = result ?? []
-            }
-        }
-    }
-    
     
     
     private func setupCache() {
@@ -70,7 +50,7 @@ class CachingService: ObservableObject, Hashable, Equatable {
     // Fetches data from cache and decodes it
     func fetchFromDiskCache() {
         if let diskCacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first?.appendingPathComponent(diskCachePath),
-           let cachedData = try? Data(contentsOf: diskCacheURL.appendingPathComponent(diskCachePath)) {
+           let _ = try? Data(contentsOf: diskCacheURL.appendingPathComponent(diskCachePath)) {
             print("Fetched data from disk cache")
         } else {
             print("No cached data found on disk")

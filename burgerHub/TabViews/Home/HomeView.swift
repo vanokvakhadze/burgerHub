@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Binding var isShown: Bool
-    @StateObject var viewModel = CachingService()
+    @StateObject var viewModel = MainViewModel()
     var columns = [GridItem(.adaptive(minimum: 100, maximum: 170), spacing: 13),
                    GridItem(.adaptive(minimum: 100, maximum: 170), spacing: 13)]
     
@@ -40,11 +40,11 @@ struct HomeView: View {
                 
                 ScrollView{
                     LazyVGrid(columns: columns , spacing: 20){
-                        ForEach(viewModel.burgers) { item in
+                        ForEach(viewModel.burgers, id: \.id) { item in
                             Button {
-                                path.append(item)  // Append burger item to path
+                                path.append(item)
                             } label: {
-                                BurgerList(burger: item)
+                                BurgerList(viewModel: viewModel, burger: $viewModel.burgers[item.id])
                                     .foregroundColor(.primary)
                             }
                             
@@ -56,7 +56,7 @@ struct HomeView: View {
                 }
             }
             .navigationDestination(for: Burgers.self, destination: { item in
-                DetailsView(burger: item, path: $path)
+                DetailsView(burger: $viewModel.burgers[item.id], viewModel: viewModel, path: $path)
             })
             
             .onAppear {

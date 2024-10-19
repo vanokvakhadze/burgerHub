@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct BurgerList: View {
-    var burger: Burgers
+    @ObservedObject var viewModel: MainViewModel
+    @Binding var burger: Burgers
     
     var body: some View {
         VStack{
@@ -26,8 +27,6 @@ struct BurgerList: View {
                     .frame(height: 30)
                     .font(.custom("DM Sans", size: 14))
                 
-                    
-                 
                 Spacer()
             }
             .padding(.leading, 10)
@@ -59,10 +58,18 @@ struct BurgerList: View {
                                 .frame(width: 23, height: 23)
                                 .foregroundStyle(.buttonC)
                     )
+                    .onTapGesture {
+                           
+                           viewModel.addToCart(burger: burger)
+                        
+                        }
+                        
                     
+                  
             }
             .padding(.top, -35)
             .padding(.leading, 90)
+           
         }
         .background(Color.init(uiColor: .systemBackground))
         .clipShape(.rect(cornerRadius: 20))

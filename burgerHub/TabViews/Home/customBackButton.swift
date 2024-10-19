@@ -10,10 +10,11 @@ import SwiftUI
 struct customBackButton: View {
    @Binding var path: NavigationPath
     var text: String
+    var pathNumber: Int
     
     var body: some View {
         Button(action: {
-            path.removeLast()
+            path.removeLast(pathNumber)
         }) {
             Image(systemName: "chevron.left") 
                     .foregroundStyle(.black)

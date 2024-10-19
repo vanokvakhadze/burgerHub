@@ -15,9 +15,23 @@ struct Burgers: Codable, Identifiable, Hashable, Equatable {
     let name: String
     let images: [ImageSize]
     let desc: String
-    let ingredients: [Ingredients]
+    var ingredients: [Ingredients]
     let price: Double
     let veg: Bool
+    var amount: Int
+    
+    // Custom initializer to set 'amount' to a default value during decoding
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            id = try container.decode(Int.self, forKey: .id)
+            name = try container.decode(String.self, forKey: .name)
+            price = try container.decode(Double.self, forKey: .price)
+            images = try container.decode([ImageSize].self, forKey: .images)
+            desc = try container.decode(String.self, forKey: .desc)
+            ingredients = try container.decode([Ingredients].self, forKey: .ingredients)
+            veg = try container.decode(Bool.self, forKey: .veg)
+            amount = 1 // Default value, since it's not provided by the JSON
+        }
     
     static func == (lhs: Burgers, rhs: Burgers) -> Bool {
         lhs.id == rhs.id
@@ -39,4 +53,13 @@ struct Ingredients: Codable, Identifiable {
     var id: Int
     let name: String
     let img: String
+    var amountOf: Int
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        name = try container.decode(String.self, forKey: .name)
+        img = try container.decode(String.self, forKey: .img)
+        amountOf = 1 // Default value, since it's not provided by the JSON
+    }
 }
