@@ -71,7 +71,7 @@ struct IngredientsView: View {
                                     .font(.system(size: 18))
                                 
                             } else {
-                                Text("\(item.amountOf)")
+                                Text("\(viewModel.getAmountIngredients(of: item, in: burger))")
                                     .font(.system(size: 18))
                             }
                           

@@ -85,8 +85,6 @@ struct DetailsView: View {
                         viewModel.addToCart(burger: burger)
                         path.append(Destinations.cartView(viewModel))
                         
-                              
-                        
                     }) {
                         Text("Add to cart ")
                             .font(.custom("FiraGO-Regular", size: 18))
@@ -117,7 +115,7 @@ struct DetailsView: View {
                             
                         }
                     }
-        //   }
+//        //   }
         
     }
     

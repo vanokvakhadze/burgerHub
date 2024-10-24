@@ -13,7 +13,8 @@ struct HomeView: View {
     var columns = [GridItem(.adaptive(minimum: 100, maximum: 170), spacing: 13),
                    GridItem(.adaptive(minimum: 100, maximum: 170), spacing: 13)]
     
-    @State var path = NavigationPath()
+    @State  var path = NavigationPath()
+    @State  var burger = Burgers.self
     
     var body: some View {
         NavigationStack(path: $path){
@@ -40,12 +41,15 @@ struct HomeView: View {
                 
                 ScrollView{
                     LazyVGrid(columns: columns , spacing: 20){
-                        ForEach(viewModel.burgers, id: \.id) { item in
+                        ForEach(viewModel.burgers) { item in
                             Button {
                                 path.append(item)
                             } label: {
-                                BurgerList(viewModel: viewModel, burger: $viewModel.burgers[item.id])
-                                    .foregroundColor(.primary)
+                                
+                                    BurgerList(viewModel: viewModel, burger: item)
+                                        .foregroundColor(.primary)
+                            
+
                             }
                             
                         }
@@ -55,9 +59,10 @@ struct HomeView: View {
                     .background(Color.init(uiColor: .systemGroupedBackground))
                 }
             }
-            .navigationDestination(for: Burgers.self, destination: { item in
-                DetailsView(burger: $viewModel.burgers[item.id], viewModel: viewModel, path: $path)
-            })
+            .navigationDestination(for: Burgers.self)  { item in
+                    DetailsView(burger: $viewModel.burgers[item.id],  viewModel: viewModel, path: $path)
+                }
+            
             
             .onAppear {
                 viewModel.fetchData()

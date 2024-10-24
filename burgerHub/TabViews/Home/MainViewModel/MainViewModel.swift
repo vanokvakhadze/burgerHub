@@ -101,6 +101,15 @@ class MainViewModel: ObservableObject, Hashable  {
         }
     }
     
+    func getAmountIngredients(of ingredient: Ingredients, in burger: Burgers)  -> Int{
+        if let index = burgerCart.firstIndex(where: { $0.id == burger.id }),
+           let ingredientIndex = burgerCart[index].ingredients.firstIndex(where: {$0.id == ingredient.id}){
+            return burgerCart[index].ingredients[ingredientIndex].amountOf
+        } else {
+            
+            return  burger.ingredients.first(where: { $0.id == ingredient.id })?.amountOf ?? 1
+        }
+    }
     
     func addIngredients(of ingredient: Ingredients, in burger: Burgers) {
             if let burgerIndex = burgers.firstIndex(where: { $0.id == burger.id }),
@@ -109,10 +118,10 @@ class MainViewModel: ObservableObject, Hashable  {
             } 
        
         
-//        if let burgerIndex = burgers.firstIndex(where: { $0.id == burger.id }),
-//               let ingredientIndex = burgers[burgerIndex].ingredients.firstIndex(where: { $0.id == ingredient.id }) {
-//                burgers[burgerIndex].ingredients[ingredientIndex].amountOf += 1
-//            }
+        if let burgerIndex = burgerCart.firstIndex(where: { $0.id == burger.id }),
+               let ingredientIndex = burgerCart[burgerIndex].ingredients.firstIndex(where: { $0.id == ingredient.id }) {
+            burgerCart[burgerIndex].ingredients[ingredientIndex].amountOf += 1
+            }
         }
     
     func decreaseIngredients(of ingredient:   Ingredients, in burger: Burgers){
@@ -124,12 +133,12 @@ class MainViewModel: ObservableObject, Hashable  {
                }
            } 
         
-//        if let burgerCartIndex = burgerCart.firstIndex(where: { $0.id == burger.id }) {
-//               if let ingredientIndex = burgerCart[burgerCartIndex].ingredients.firstIndex(where: { $0.id == ingredient.id }),
-//                  burgerCart[burgerCartIndex].ingredients[ingredientIndex].amountOf > 1 {
-//                   burgerCart[burgerCartIndex].ingredients[ingredientIndex].amountOf -= 1
-//               }
-//           }
+        if let burgerCartIndex = burgerCart.firstIndex(where: { $0.id == burger.id }) {
+               if let ingredientIndex = burgerCart[burgerCartIndex].ingredients.firstIndex(where: { $0.id == ingredient.id }),
+                  burgerCart[burgerCartIndex].ingredients[ingredientIndex].amountOf > 1 {
+                   burgerCart[burgerCartIndex].ingredients[ingredientIndex].amountOf -= 1
+               }
+           }
     }
     
     

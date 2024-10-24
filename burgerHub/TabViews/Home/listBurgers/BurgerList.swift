@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BurgerList: View {
     @ObservedObject var viewModel: MainViewModel
-    @Binding var burger: Burgers
+    var burger: Burgers
     
     var body: some View {
         VStack{
