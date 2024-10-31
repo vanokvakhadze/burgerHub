@@ -111,8 +111,9 @@ struct DetailsView: View {
                             IngredientsView(burger: $burger, viewModel: viewModel, path: $path)
                             
                         case .cartView(_):
-                            CartView(path: $path, viewModel: viewModel)
+                            CartView(burger: $burger, path: $path, viewModel: viewModel)
                             
+                        
                         }
                     }
 //        //   }
@@ -207,18 +208,8 @@ struct headerImages: View {
 
 
 enum Destinations: Hashable {
-   
     
     case ingredients(Burgers)
     case cartView(MainViewModel)
-   
     
-    
-//    
-//    
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(hashValue)
-//    }
-//    
-//    
 }

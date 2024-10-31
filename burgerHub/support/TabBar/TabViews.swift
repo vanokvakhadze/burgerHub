@@ -15,6 +15,8 @@ struct TabViews: View {
     @State var offset: CGFloat  = 0
     @State var lastStoredOffset: CGFloat  = 0
     @GestureState var gestureOffset: CGFloat = 0
+    @StateObject var viewModel = MainViewModel()
+    @State var path = NavigationPath()
     
     
     init() {
@@ -42,7 +44,7 @@ struct TabViews: View {
                             .tag(Tab.search)
                         //  .toolbar(.hidden, for: .tabBar)
                         
-                        OrderView()
+                        OrderView(viewModel: viewModel, path: $path)
                             .tag(Tab.basket)
                         //  .toolbar(.hidden, for: .tabBar)
                         

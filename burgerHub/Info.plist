@@ -8,7 +8,8 @@
     <!-- GIDClientID for Google Sign-In -->
     <key>GIDClientID</key>
     <string>710353786699-31f6mnisijter89q9agg1ca74j3a0kjq.apps.googleusercontent.com</string>
-
+    <key>NSCameraUsageDescription</key>
+    <string>This app requires access to the camera for capturing photos or videos.</string>
     <key>CFBundleURLTypes</key>
     <array>
         <dict>

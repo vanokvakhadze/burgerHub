@@ -35,6 +35,9 @@
 		3B46C9642CB8A24300053008 /* customBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9632CB8A24300053008 /* customBackButton.swift */; };
 		3B46C9662CB8A69C00053008 /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9652CB8A69C00053008 /* IngredientsView.swift */; };
 		3B46C9682CBDC26E00053008 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9672CBDC26E00053008 /* CartView.swift */; };
+		3B46C96A2CCB14A900053008 /* CardDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9692CCB14A900053008 /* CardDetails.swift */; };
+		3B46C96D2CCFCFF400053008 /* CardTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C96C2CCFCFF400053008 /* CardTypes.swift */; };
+		3B46C96F2CD029BA00053008 /* CardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C96E2CD029BA00053008 /* CardService.swift */; };
 		3B51BD772C9B0DEF006DDF95 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3B51BD762C9B0DEF006DDF95 /* GoogleSignIn */; };
 		3B51BD792C9B0DEF006DDF95 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 3B51BD782C9B0DEF006DDF95 /* GoogleSignInSwift */; };
 		3B733D912C6AAFEC006D09FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B733D902C6AAFEC006D09FD /* AppDelegate.swift */; };
@@ -57,6 +60,7 @@
 		3B733DD02C6FAF1C006D09FD /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B733DCF2C6FAF1B006D09FD /* LoginVM.swift */; };
 		3B733DD22C74A9C8006D09FD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B733DD12C74A9C8006D09FD /* UserViewModel.swift */; };
 		3B73A90A2C9ACD4F00E72B9A /* ValidInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B73A9092C9ACD4F00E72B9A /* ValidInfo.swift */; };
+		3BFE1B812CD436CB00201642 /* ScanningCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFE1B802CD436CB00201642 /* ScanningCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +92,9 @@
 		3B46C9632CB8A24300053008 /* customBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customBackButton.swift; sourceTree = "<group>"; };
 		3B46C9652CB8A69C00053008 /* IngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
 		3B46C9672CBDC26E00053008 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		3B46C9692CCB14A900053008 /* CardDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetails.swift; sourceTree = "<group>"; };
+		3B46C96C2CCFCFF400053008 /* CardTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTypes.swift; sourceTree = "<group>"; };
+		3B46C96E2CD029BA00053008 /* CardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardService.swift; sourceTree = "<group>"; };
 		3B733D8D2C6AAFEC006D09FD /* burgerHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = burgerHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B733D902C6AAFEC006D09FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B733D922C6AAFEC006D09FD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -110,6 +117,7 @@
 		3B733DCF2C6FAF1B006D09FD /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		3B733DD12C74A9C8006D09FD /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		3B73A9092C9ACD4F00E72B9A /* ValidInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidInfo.swift; sourceTree = "<group>"; };
+		3BFE1B802CD436CB00201642 /* ScanningCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +199,7 @@
 		3B46C9452CAD69BC00053008 /* TabViews */ = {
 			isa = PBXGroup;
 			children = (
+				3B46C96B2CCFCFDA00053008 /* addCard */,
 				3B733DDB2C761786006D09FD /* order */,
 				3B733DDC2C761797006D09FD /* Favorite */,
 				3B733DDD2C7617A5006D09FD /* Search */,
@@ -256,6 +265,16 @@
 				3B46C95F2CB8510900053008 /* BurgerList.swift */,
 			);
 			path = listBurgers;
+			sourceTree = "<group>";
+		};
+		3B46C96B2CCFCFDA00053008 /* addCard */ = {
+			isa = PBXGroup;
+			children = (
+				3B46C96C2CCFCFF400053008 /* CardTypes.swift */,
+				3B46C96E2CD029BA00053008 /* CardService.swift */,
+				3BFE1B802CD436CB00201642 /* ScanningCard.swift */,
+			);
+			path = addCard;
 			sourceTree = "<group>";
 		};
 		3B733D842C6AAFEC006D09FD = {
@@ -471,6 +490,7 @@
 				3B46C95E2CB850EB00053008 /* listBurgers */,
 				3B46C9612CB8548F00053008 /* DetailsView.swift */,
 				3B46C9632CB8A24300053008 /* customBackButton.swift */,
+				3B46C9692CCB14A900053008 /* CardDetails.swift */,
 				3B46C9652CB8A69C00053008 /* IngredientsView.swift */,
 				3B46C9672CBDC26E00053008 /* CartView.swift */,
 			);
@@ -555,20 +575,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3B46C96A2CCB14A900053008 /* CardDetails.swift in Sources */,
 				3B46C9682CBDC26E00053008 /* CartView.swift in Sources */,
 				3B733DAB2C6CC3A3006D09FD /* customView.swift in Sources */,
 				3B46C9522CAD7C7000053008 /* CachingService.swift in Sources */,
 				3B733D952C6AAFEC006D09FD /* RegisterVC.swift in Sources */,
 				3B733DCD2C6F7E7D006D09FD /* alertExtension.swift in Sources */,
 				3B733DAE2C6CC8FD006D09FD /* customStackView.swift in Sources */,
+				3B46C96F2CD029BA00053008 /* CardService.swift in Sources */,
 				3B46C91D2C9C65F400053008 /* Tab.swift in Sources */,
 				3B46C9382CA30F8F00053008 /* PrivacyView.swift in Sources */,
 				3B733DA62C6CBE76006D09FD /* CustomLabel.swift in Sources */,
 				3B46C93A2CA30FA300053008 /* HelpView.swift in Sources */,
+				3B46C96D2CCFCFF400053008 /* CardTypes.swift in Sources */,
 				3B733DC22C6F6542006D09FD /* UserVC.swift in Sources */,
 				3B733DBC2C6EBBA3006D09FD /* LoginVC.swift in Sources */,
 				3B46C9212C9D89CE00053008 /* TabShape.swift in Sources */,
 				3B73A90A2C9ACD4F00E72B9A /* ValidInfo.swift in Sources */,
+				3BFE1B812CD436CB00201642 /* ScanningCard.swift in Sources */,
 				3B733DB42C6CD9F2006D09FD /* CustomTextField.swift in Sources */,
 				3B46C9642CB8A24300053008 /* customBackButton.swift in Sources */,
 				3B46C9492CAD6AD700053008 /* BurgerModel.swift in Sources */,
