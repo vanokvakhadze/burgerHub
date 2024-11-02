@@ -61,6 +61,7 @@
 		3B733DD22C74A9C8006D09FD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B733DD12C74A9C8006D09FD /* UserViewModel.swift */; };
 		3B73A90A2C9ACD4F00E72B9A /* ValidInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B73A9092C9ACD4F00E72B9A /* ValidInfo.swift */; };
 		3BFE1B812CD436CB00201642 /* ScanningCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFE1B802CD436CB00201642 /* ScanningCard.swift */; };
+		3BFE1B832CD4549C00201642 /* ScannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFE1B822CD4549C00201642 /* ScannerVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,7 @@
 		3B733DD12C74A9C8006D09FD /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		3B73A9092C9ACD4F00E72B9A /* ValidInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidInfo.swift; sourceTree = "<group>"; };
 		3BFE1B802CD436CB00201642 /* ScanningCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningCard.swift; sourceTree = "<group>"; };
+		3BFE1B822CD4549C00201642 /* ScannerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +275,7 @@
 				3B46C96C2CCFCFF400053008 /* CardTypes.swift */,
 				3B46C96E2CD029BA00053008 /* CardService.swift */,
 				3BFE1B802CD436CB00201642 /* ScanningCard.swift */,
+				3BFE1B822CD4549C00201642 /* ScannerVC.swift */,
 			);
 			path = addCard;
 			sourceTree = "<group>";
@@ -590,6 +593,7 @@
 				3B46C96D2CCFCFF400053008 /* CardTypes.swift in Sources */,
 				3B733DC22C6F6542006D09FD /* UserVC.swift in Sources */,
 				3B733DBC2C6EBBA3006D09FD /* LoginVC.swift in Sources */,
+				3BFE1B832CD4549C00201642 /* ScannerVC.swift in Sources */,
 				3B46C9212C9D89CE00053008 /* TabShape.swift in Sources */,
 				3B73A90A2C9ACD4F00E72B9A /* ValidInfo.swift in Sources */,
 				3BFE1B812CD436CB00201642 /* ScanningCard.swift in Sources */,
@@ -767,6 +771,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TL9HMZCCX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = burgerHub/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -793,6 +798,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TL9HMZCCX7;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = burgerHub/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
