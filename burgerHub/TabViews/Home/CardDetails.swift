@@ -40,7 +40,10 @@ struct CardDetails: View {
                         isScanning.toggle()
                     }
                     .sheet(isPresented: $isScanning, content: {
-                        ScanningCard(cardNumber: $cardNumber, cardExDate: $cardExDate, cardPlaceHolder: $cardHolderName, cardCVV: $cardCvv)
+                        ScanningCard(cardNumber: $cardNumber, expiryDate: $cardExDate, cardHolder: $cardHolderName, cvv: $cardCvv) {
+                            isScanning = false
+                        }
+                        
                     })
                 
                 Spacer()

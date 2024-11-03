@@ -9,83 +9,123 @@ import UIKit
 import SwiftUI
 import VisionKit
 import Vision
+import AVFoundation
 
-class ScannerVC: NSObject, VNDocumentCameraViewControllerDelegate {
-    @Binding var cardNumber: String
-    @Binding var cardExDate: String
-    @Binding var cardPlaceHolder : String
-    @Binding var cardCVV: String
-
-    init(cardNumber: Binding<String>, cardExDate: Binding<String>, cardPlaceHolder: Binding<String>,  cardCVV: Binding<String>) {
-        _cardNumber = cardNumber
-        _cardExDate = cardExDate
-        _cardPlaceHolder = cardPlaceHolder
-        _cardCVV = cardCVV
+class ScannerVC: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
+    var captureSession: AVCaptureSession?
+    weak var delegate: CardScannerDelegate?
+    
+    private var cardDetails: [String: String] = [:]
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupCamera()
     }
-
-    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        controller.dismiss(animated: true)
-        extractCardDetails(from: scan)
-    }
-
-    private func extractCardDetails(from scan: VNDocumentCameraScan) {
-        for pageIndex in 0..<scan.pageCount {
-            let image = scan.imageOfPage(at: pageIndex)
-            recognizeText(in: image)
+    
+    private func setupCamera() {
+        captureSession = AVCaptureSession()
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let captureSession = self?.captureSession,
+                  let videoCaptureDevice = AVCaptureDevice.default(for: .video) else { return }
+            
+            let videoInput: AVCaptureDeviceInput
+            do {
+                videoInput = try AVCaptureDeviceInput(device: videoCaptureDevice)
+            } catch {
+                return
+            }
+            
+            if captureSession.canAddInput(videoInput) {
+                captureSession.addInput(videoInput)
+            }
+            
+            let videoOutput = AVCaptureVideoDataOutput()
+            videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue.global(qos: .background))
+            if captureSession.canAddOutput(videoOutput) {
+                captureSession.addOutput(videoOutput)
+            }
+            
+            DispatchQueue.main.async { [weak self] in
+                let previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                previewLayer.frame = self?.view.layer.bounds ?? .zero
+                previewLayer.videoGravity = .resizeAspectFill
+                self?.view.layer.addSublayer(previewLayer)
+            }
+            
+            captureSession.startRunning()
         }
     }
-
-    private func recognizeText(in image: UIImage) {
-        let request = VNRecognizeTextRequest { [weak self] request, _ in
-            guard let results = request.results as? [VNRecognizedTextObservation] else { return }
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else { return }
+        
+        let request = VNRecognizeTextRequest { [weak self] request, error in
+            guard let results = request.results as? [VNRecognizedTextObservation], error == nil else { return }
             
             for observation in results {
-                if let text = observation.topCandidates(1).first?.string {
-                    self?.processDetectedText(text)
+                guard let topCandidate = observation.topCandidates(1).first else { continue }
+                let recognizedText = topCandidate.string
+                DispatchQueue.main.async {
+                    self?.handleRecognizedText(recognizedText)
                 }
             }
         }
         request.recognitionLevel = .accurate
-
-        if let cgImage = image.cgImage {
-            let handler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-            try? handler.perform([request])
-        }
+        
+        let handler = VNImageRequestHandler(cvPixelBuffer: pixelBuffer, orientation: .up, options: [:])
+        try? handler.perform([request])
     }
+    
+    private func handleRecognizedText(_ text: String) {
+        let cardNumberPattern = "\\b\\d{4} \\d{4} \\d{4} \\d{4}\\b" // Match card number in 'XXXX XXXX XXXX XXXX' format
+        let expiryDatePattern = "\\b\\d{2}/\\d{2}\\b" // Matches 'MM/YY'
+        let holderPattern = "[A-Za-z\\s]+" // Matches cardholder name
+     
 
-    private func processDetectedText(_ text: String) {
-        let cardNumberPattern = "\\d{4} \\d{4} \\d{4} \\d{4}"
-        let expiryPattern = "\\d{2}/\\d{2}"
-        let cvv = "\\d{3}"
-        let placeHolder = "[A-Za-z ]{2,}"
+        // Capture card details if matched
+        if let cardNumber = text.matches(for: cardNumberPattern).first {
+            cardDetails["number"] = cardNumber
+        }
+        
+        if let expiryDate = text.matches(for: expiryDatePattern).first {
+            cardDetails["expiryDate"] = expiryDate
+        }
+        
+        if let holderName = text.matches(for: holderPattern).first {
+            cardDetails["holder"] = holderName
+        }
         
 
-        if let number = text.matchingPattern(cardNumberPattern) {
-            cardNumber = number
-        }
-        if let expiry = text.matchingPattern(expiryPattern) {
-            cardExDate = expiry
-            
-        }
-        
-        if let cvvCard = text.matchingPattern(cvv) {
-            cardCVV = cvvCard
-        }
-        
-        if text.matchingPattern(placeHolder) != nil{
-            cardPlaceHolder = placeHolder
+        if cardDetails.count == 3 {
+            delegate?.didCaptureCardDetails(
+                number: cardDetails["number"] ?? "",
+                expiryDate: cardDetails["expiryDate"] ?? "",
+                holder: cardDetails["holder"] ?? ""
+            )
+            // Stop the session after a brief delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                self?.captureSession?.stopRunning()
+                self?.dismiss(animated: true, completion: nil)
+            }
         }
     }
 }
 
+protocol CardScannerDelegate: AnyObject {
+    func didCaptureCardDetails(number: String, expiryDate: String, holder: String)
+}
 
 extension String {
-    func matchingPattern(_ pattern: String) -> String? {
-        let regex = try? NSRegularExpression(pattern: pattern)
-        let range = NSRange(location: 0, length: self.utf16.count)
-        if let match = regex?.firstMatch(in: self, options: [], range: range) {
-            return (self as NSString).substring(with: match.range)
+    func matches(for regex: String) -> [String] {
+        do {
+            let regex = try NSRegularExpression(pattern: regex, options: [])
+            let nsString = self as NSString
+            let results = regex.matches(in: self, options: [], range: NSRange(location: 0, length: nsString.length))
+            return results.map { nsString.substring(with: $0.range) }
+        } catch {
+            print("Error creating regex: \(error)")
+            return []
         }
-        return nil
     }
 }

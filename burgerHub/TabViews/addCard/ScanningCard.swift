@@ -13,25 +13,41 @@ import Vision
 
 struct ScanningCard: UIViewControllerRepresentable {
     @Binding var cardNumber: String
-    @Binding var cardExDate: String
-    @Binding var cardPlaceHolder: String
-    @Binding var cardCVV: String
+    @Binding var expiryDate: String
+    @Binding var cardHolder: String
+    @Binding var cvv: String
+    var onDismiss: (() -> Void)?
     
-    func makeCoordinator() -> ScannerVC {
-        ScannerVC(cardNumber: $cardNumber, cardExDate: $cardExDate, cardPlaceHolder: $cardPlaceHolder, cardCVV: $cardCVV)
-    }
-
-    func makeUIViewController(context: Context) -> VNDocumentCameraViewController {
-        let scannerVC = VNDocumentCameraViewController()
-        scannerVC.delegate = context.coordinator
-        return scannerVC
+    func makeUIViewController(context: Context) -> ScannerVC {
+        let scannerViewController = ScannerVC()
+        scannerViewController.delegate = context.coordinator
+        return scannerViewController
     }
     
-    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
-        print("Scanning failed: \(error.localizedDescription)")
-        controller.dismiss(animated: true)
+    func updateUIViewController(_ uiViewController: ScannerVC, context: Context) {}
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
     }
-
-    func updateUIViewController(_ uiViewController: VNDocumentCameraViewController, context: Context) {}
+    
+    class Coordinator: NSObject, CardScannerDelegate {
+       
+        
+        var parent: ScanningCard
+        
+        init(_ parent: ScanningCard) {
+            self.parent = parent
+        }
+        
+        func didCaptureCardDetails(number: String, expiryDate: String,  holder: String) {
+            DispatchQueue.main.async {
+                self.parent.cardNumber = number
+                self.parent.expiryDate = expiryDate
+                self.parent.cardHolder = holder
+                self.parent.cvv = " "
+                self.parent.onDismiss?()
+            }
+        }
+    }
 }
 
