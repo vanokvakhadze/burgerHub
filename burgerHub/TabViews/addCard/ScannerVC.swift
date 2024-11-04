@@ -78,12 +78,12 @@ class ScannerVC: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate 
     }
     
     private func handleRecognizedText(_ text: String) {
-        let cardNumberPattern = "\\b\\d{4} \\d{4} \\d{4} \\d{4}\\b" // Match card number in 'XXXX XXXX XXXX XXXX' format
-        let expiryDatePattern = "\\b\\d{2}/\\d{2}\\b" // Matches 'MM/YY'
-        let holderPattern = "[A-Za-z\\s]+" // Matches cardholder name
+        let cardNumberPattern = "\\b\\d{4} \\d{4} \\d{4} \\d{4}\\b"
+        let expiryDatePattern = "\\b\\d{2}/\\d{2}\\b"
+        let holderPattern = "[A-Za-z\\s]+"
      
 
-        // Capture card details if matched
+       
         if let cardNumber = text.matches(for: cardNumberPattern).first {
             cardDetails["number"] = cardNumber
         }
@@ -103,7 +103,7 @@ class ScannerVC: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate 
                 expiryDate: cardDetails["expiryDate"] ?? "",
                 holder: cardDetails["holder"] ?? ""
             )
-            // Stop the session after a brief delay
+          
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
                 self?.captureSession?.stopRunning()
                 self?.dismiss(animated: true, completion: nil)

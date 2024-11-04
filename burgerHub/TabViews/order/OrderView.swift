@@ -80,7 +80,6 @@ struct OrderView: View {
 
 struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
-        // Sample NavigationPath for preview
         @State var samplePath = NavigationPath()
         
         OrderView(viewModel: MainViewModel(), path: $samplePath)
@@ -117,12 +116,57 @@ struct Cards: View {
                         .foregroundStyle(Color.init(uiColor: .systemGray))
                         .multilineTextAlignment(.center)
                     
+                    
+                    Spacer()
+                        .frame(height: 20)
+                    
+                    HStack{
+                        Spacer()
+                        Button(action: {
+                            
+                            show.toggle()
+                            
+                        }) {
+                            HStack{
+                                Image(systemName: "plus")
+                                    .resizable()
+                                    .frame(width: 14, height: 14)
+                                    .foregroundStyle(.buttonC)
+                                
+                                Text("ADD TO NEW")
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.buttonC)
+                                
+                            }
+                        }
+                        
+                        .frame(width:307 ,height: 62)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke( Color(uiColor: .secondarySystemBackground) ,lineWidth: 3)
+                        )
+                        .sheet(isPresented: $show, content: {
+                            
+                            CardDetails(cardType: selected, viewModel: viewModel, show: $show)
+                                .presentationDetents([.medium])
+                            
+                        })
+                        .alert("Please select a card type", isPresented: $showAlert) {
+                            Button("OK", role: .cancel) { }
+                        }
+                        Spacer()
+                        
+                        
+                    }
+                    
                 }
                 .frame(width: 327, height: 257)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color.init(uiColor: .secondarySystemBackground))
                 )
+                
+                
                 
             } else {
                 NavigationView{
@@ -174,6 +218,9 @@ struct Cards: View {
                                 )
                             }
                             
+                            
+                            
+                            
                         }
                         .onDelete(perform: deleteCard)
                         .listRowSeparator(.hidden)
@@ -181,57 +228,56 @@ struct Cards: View {
                         .listRowBackground(Color(uiColor: .systemBackground))
                         
                         
+                        Spacer()
+                            .frame(height: 2)
+                        
+                        HStack{
+                            Spacer()
+                            Button(action: {
+                                
+                                show.toggle()
+                                
+                            }) {
+                                HStack{
+                                    Image(systemName: "plus")
+                                        .resizable()
+                                        .frame(width: 14, height: 14)
+                                        .foregroundStyle(.buttonC)
+                                    
+                                    Text("ADD TO NEW")
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(.buttonC)
+                                    
+                                }
+                            }
+                            
+                            .frame(width:307 ,height: 62)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke( Color(uiColor: .secondarySystemBackground) ,lineWidth: 3)
+                            )
+                            .sheet(isPresented: $show, content: {
+                                
+                                CardDetails(cardType: selected, viewModel: viewModel, show: $show)
+                                    .presentationDetents([.medium])
+                                
+                            })
+                            .alert("Please select a card type", isPresented: $showAlert) {
+                                Button("OK", role: .cancel) { }
+                            }
+                            Spacer()
+                            
+                            
+                        }
+                        
+                        .listRowSeparator(.hidden)
                     }
                     .padding(.top, 15)
-                    .listRowSeparator(.hidden)
-                    
-                    
-                    
                     .scrollIndicators(.hidden)
                     .listStyle(PlainListStyle())
+                    
                 }
-                
             }
-            
-            HStack{
-                Spacer()
-                Button(action: {
-                    
-                    show.toggle()
-                    
-                }) {
-                    HStack{
-                        Image(systemName: "plus")
-                            .resizable()
-                            .frame(width: 14, height: 14)
-                            .foregroundStyle(.buttonC)
-                        
-                        Text("ADD TO NEW")
-                            .fontWeight(.bold)
-                            .foregroundStyle(.buttonC)
-                        
-                    }
-                }
-                
-                .frame(width:307 ,height: 62)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke( Color(uiColor: .secondarySystemBackground) ,lineWidth: 3)
-                )
-                .sheet(isPresented: $show, content: {
-                    
-                    CardDetails(cardType: selected, viewModel: viewModel, show: $show)
-                        .presentationDetents([.medium])
-                    
-                })
-                .alert("Please select a card type", isPresented: $showAlert) {
-                    Button("OK", role: .cancel) { }
-                }
-                Spacer()
-                
-                
-            }
-            
         }
     }
     
