@@ -13,7 +13,7 @@ struct DetailsView: View {
     @Binding var path: NavigationPath
     
     var body: some View {
-        // NavigationStack(path: $path){
+      
         ZStack(alignment: .topTrailing){
             Color(uiColor: UIColor.secondarySystemBackground)
                 .ignoresSafeArea()
@@ -116,8 +116,6 @@ struct DetailsView: View {
                         
                         }
                     }
-//        //   }
-        
     }
     
     

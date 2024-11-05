@@ -14,7 +14,7 @@ struct IngredientsView: View {
     
     var body: some View {
         ZStack{
-            Color(uiColor: .tertiarySystemBackground)
+            Color(uiColor: .secondarySystemBackground)
                 .ignoresSafeArea()
             
             ScrollView {

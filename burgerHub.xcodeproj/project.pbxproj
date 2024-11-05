@@ -3,11 +3,10 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3B428E682CD96146007FB8C3 /* PaymentResultView .swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428E672CD96146007FB8C3 /* PaymentResultView .swift */; };
 		3B46C91D2C9C65F400053008 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C91C2C9C65F400053008 /* Tab.swift */; };
 		3B46C91F2C9C6B3B00053008 /* TabViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C91E2C9C6B3B00053008 /* TabViews.swift */; };
 		3B46C9212C9D89CE00053008 /* TabShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9202C9D89CD00053008 /* TabShape.swift */; };
@@ -33,10 +32,9 @@
 		3B46C95D2CB7376800053008 /* sysImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C95C2CB7376800053008 /* sysImage.swift */; };
 		3B46C9602CB8510900053008 /* BurgerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C95F2CB8510900053008 /* BurgerList.swift */; };
 		3B46C9622CB8548F00053008 /* DetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9612CB8548F00053008 /* DetailsView.swift */; };
-		3B46C9642CB8A24300053008 /* customBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9632CB8A24300053008 /* customBackButton.swift */; };
+		3B46C9642CB8A24300053008 /* customBackButton 2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9632CB8A24300053008 /* customBackButton 2.swift */; };
 		3B46C9662CB8A69C00053008 /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9652CB8A69C00053008 /* IngredientsView.swift */; };
 		3B46C9682CBDC26E00053008 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9672CBDC26E00053008 /* CartView.swift */; };
-		3B46C96A2CCB14A900053008 /* CardDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9692CCB14A900053008 /* CardDetails.swift */; };
 		3B46C96D2CCFCFF400053008 /* CardTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C96C2CCFCFF400053008 /* CardTypes.swift */; };
 		3B46C96F2CD029BA00053008 /* CardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C96E2CD029BA00053008 /* CardService.swift */; };
 		3B51BD772C9B0DEF006DDF95 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 3B51BD762C9B0DEF006DDF95 /* GoogleSignIn */; };
@@ -61,12 +59,10 @@
 		3B733DD02C6FAF1C006D09FD /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B733DCF2C6FAF1B006D09FD /* LoginVM.swift */; };
 		3B733DD22C74A9C8006D09FD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B733DD12C74A9C8006D09FD /* UserViewModel.swift */; };
 		3B73A90A2C9ACD4F00E72B9A /* ValidInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B73A9092C9ACD4F00E72B9A /* ValidInfo.swift */; };
-		3BFE1B812CD436CB00201642 /* ScanningCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFE1B802CD436CB00201642 /* ScanningCard.swift */; };
 		3BFE1B832CD4549C00201642 /* ScannerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BFE1B822CD4549C00201642 /* ScannerVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3B428E672CD96146007FB8C3 /* PaymentResultView .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PaymentResultView .swift"; sourceTree = "<group>"; };
 		3B46C91C2C9C65F400053008 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		3B46C91E2C9C6B3B00053008 /* TabViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViews.swift; sourceTree = "<group>"; };
 		3B46C9202C9D89CD00053008 /* TabShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabShape.swift; sourceTree = "<group>"; };
@@ -92,10 +88,9 @@
 		3B46C95C2CB7376800053008 /* sysImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysImage.swift; sourceTree = "<group>"; };
 		3B46C95F2CB8510900053008 /* BurgerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurgerList.swift; sourceTree = "<group>"; };
 		3B46C9612CB8548F00053008 /* DetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsView.swift; sourceTree = "<group>"; };
-		3B46C9632CB8A24300053008 /* customBackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = customBackButton.swift; sourceTree = "<group>"; };
+		3B46C9632CB8A24300053008 /* customBackButton 2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "customBackButton 2.swift"; sourceTree = "<group>"; };
 		3B46C9652CB8A69C00053008 /* IngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
 		3B46C9672CBDC26E00053008 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
-		3B46C9692CCB14A900053008 /* CardDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetails.swift; sourceTree = "<group>"; };
 		3B46C96C2CCFCFF400053008 /* CardTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTypes.swift; sourceTree = "<group>"; };
 		3B46C96E2CD029BA00053008 /* CardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardService.swift; sourceTree = "<group>"; };
 		3B733D8D2C6AAFEC006D09FD /* burgerHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = burgerHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,9 +115,13 @@
 		3B733DCF2C6FAF1B006D09FD /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
 		3B733DD12C74A9C8006D09FD /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		3B73A9092C9ACD4F00E72B9A /* ValidInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidInfo.swift; sourceTree = "<group>"; };
-		3BFE1B802CD436CB00201642 /* ScanningCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningCard.swift; sourceTree = "<group>"; };
 		3BFE1B822CD4549C00201642 /* ScannerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		3B428E712CD9A6A6007FB8C3 /* payMent */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = payMent; sourceTree = "<group>"; };
+		3B428E722CD9A6B7007FB8C3 /* cardDetais */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = cardDetais; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		3B733D8A2C6AAFEC006D09FD /* Frameworks */ = {
@@ -137,6 +136,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B428E6E2CD9A617007FB8C3 /* detailsView */ = {
+			isa = PBXGroup;
+			children = (
+				3B46C9612CB8548F00053008 /* DetailsView.swift */,
+				3B428E6F2CD9A626007FB8C3 /* ingedientsView */,
+			);
+			path = detailsView;
+			sourceTree = "<group>";
+		};
+		3B428E6F2CD9A626007FB8C3 /* ingedientsView */ = {
+			isa = PBXGroup;
+			children = (
+				3B46C9652CB8A69C00053008 /* IngredientsView.swift */,
+			);
+			path = ingedientsView;
+			sourceTree = "<group>";
+		};
+		3B428E732CD9A6C3007FB8C3 /* ScaneerVC */ = {
+			isa = PBXGroup;
+			children = (
+				3BFE1B822CD4549C00201642 /* ScannerVC.swift */,
+			);
+			path = ScaneerVC;
+			sourceTree = "<group>";
+		};
 		3B46C91B2C9C65DF00053008 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				3B46C9592CB71F7900053008 /* image */,
+				3B46C9632CB8A24300053008 /* customBackButton 2.swift */,
 			);
 			path = "swiftUI extensions";
 			sourceTree = "<group>";
@@ -276,8 +301,9 @@
 			children = (
 				3B46C96C2CCFCFF400053008 /* CardTypes.swift */,
 				3B46C96E2CD029BA00053008 /* CardService.swift */,
-				3BFE1B802CD436CB00201642 /* ScanningCard.swift */,
-				3BFE1B822CD4549C00201642 /* ScannerVC.swift */,
+				3B428E712CD9A6A6007FB8C3 /* payMent */,
+				3B428E732CD9A6C3007FB8C3 /* ScaneerVC */,
+				3B428E722CD9A6B7007FB8C3 /* cardDetais */,
 			);
 			path = addCard;
 			sourceTree = "<group>";
@@ -309,9 +335,9 @@
 				3B733DBD2C6F64E1006D09FD /* authorization */,
 				3B733DA42C6CBE60006D09FD /* UIKIT extension */,
 				3B46C9452CAD69BC00053008 /* TabViews */,
-				3B733DB82C6E8C02006D09FD /* fonts */,
 				3B733D9E2C6AAFEE006D09FD /* Info.plist */,
 				3B733DC72C6F6BAB006D09FD /* user */,
+				3B733DB82C6E8C02006D09FD /* fonts */,
 			);
 			path = burgerHub;
 			sourceTree = "<group>";
@@ -466,6 +492,7 @@
 		3B733DDB2C761786006D09FD /* order */ = {
 			isa = PBXGroup;
 			children = (
+				3B46C9672CBDC26E00053008 /* CartView.swift */,
 				3B46C92A2CA1BCBA00053008 /* OrderView.swift */,
 			);
 			path = order;
@@ -493,12 +520,7 @@
 				3B46C94A2CAD76BA00053008 /* MainViewModel */,
 				3B46C9242CA1BC7300053008 /* HomeView.swift */,
 				3B46C95E2CB850EB00053008 /* listBurgers */,
-				3B46C9612CB8548F00053008 /* DetailsView.swift */,
-				3B46C9632CB8A24300053008 /* customBackButton.swift */,
-				3B46C9692CCB14A900053008 /* CardDetails.swift */,
-				3B46C9652CB8A69C00053008 /* IngredientsView.swift */,
-				3B428E672CD96146007FB8C3 /* PaymentResultView .swift */,
-				3B46C9672CBDC26E00053008 /* CartView.swift */,
+				3B428E6E2CD9A617007FB8C3 /* detailsView */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -517,6 +539,10 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				3B428E712CD9A6A6007FB8C3 /* payMent */,
+				3B428E722CD9A6B7007FB8C3 /* cardDetais */,
 			);
 			name = burgerHub;
 			packageProductDependencies = (
@@ -581,7 +607,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B46C96A2CCB14A900053008 /* CardDetails.swift in Sources */,
 				3B46C9682CBDC26E00053008 /* CartView.swift in Sources */,
 				3B733DAB2C6CC3A3006D09FD /* customView.swift in Sources */,
 				3B46C9522CAD7C7000053008 /* CachingService.swift in Sources */,
@@ -599,9 +624,8 @@
 				3BFE1B832CD4549C00201642 /* ScannerVC.swift in Sources */,
 				3B46C9212C9D89CE00053008 /* TabShape.swift in Sources */,
 				3B73A90A2C9ACD4F00E72B9A /* ValidInfo.swift in Sources */,
-				3BFE1B812CD436CB00201642 /* ScanningCard.swift in Sources */,
 				3B733DB42C6CD9F2006D09FD /* CustomTextField.swift in Sources */,
-				3B46C9642CB8A24300053008 /* customBackButton.swift in Sources */,
+				3B46C9642CB8A24300053008 /* customBackButton 2.swift in Sources */,
 				3B46C9492CAD6AD700053008 /* BurgerModel.swift in Sources */,
 				3B46C9232C9D8CD100053008 /* TapPosition.swift in Sources */,
 				3B733DC52C6F6B3E006D09FD /* authService.swift in Sources */,
@@ -631,7 +655,6 @@
 				3B46C9252CA1BC7300053008 /* HomeView.swift in Sources */,
 				3B733DD02C6FAF1C006D09FD /* LoginVM.swift in Sources */,
 				3B46C9662CB8A69C00053008 /* IngredientsView.swift in Sources */,
-				3B428E682CD96146007FB8C3 /* PaymentResultView .swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
