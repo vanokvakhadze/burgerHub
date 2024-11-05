@@ -107,7 +107,7 @@ struct DetailsView: View {
         .navigationBarItems(leading: customBackButton(path: $path, text: "Home", pathNumber: 1))
         .navigationDestination(for: Destinations.self) { destination in
                         switch destination {
-                        case .ingredients(let burger):
+                        case .ingredients(_):
                             IngredientsView(burger: $burger, viewModel: viewModel, path: $path)
                             
                         case .cartView(_):

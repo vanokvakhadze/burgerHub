@@ -15,67 +15,68 @@ struct OrderView: View {
     
     
     var body: some View {
-        //  ScrollView {
-        VStack (spacing: 20){
-            ScrollView(.horizontal) {
-                HStack(spacing: 16){
-                    ForEach(viewModel.cards, id: \.hashValue) { item in
-                        CardTypeList(viewModel: viewModel, item: item)
+        ZStack{
+            Color(uiColor: UIColor.secondarySystemBackground)
+                .ignoresSafeArea()
+            
+            VStack (spacing: 20){
+                ScrollView(.horizontal) {
+                    HStack(spacing: 16){
+                        ForEach(viewModel.cards, id: \.hashValue) { item in
+                            CardTypeList(viewModel: viewModel, item: item)
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                }
+                .padding(.horizontal, 4)
+                .scrollIndicators(.hidden)
+                
+                
+                Cards(viewModel: viewModel, show: $showSheet, showAlert: $showAlert, selected: viewModel.selectedCardType ?? "")
+                    .padding(.bottom, 20)
+                
+                
+                
+                HStack{
+                    Spacer()
+                        .frame(width: 24)
+                    
+                    Text("TOTAL")
+                        .font(.custom("Sen", size: 22))
+                        .foregroundStyle(.gray)
+                    
+                    Text("$\(String(format: "%.1f", viewModel.totalPrise))")
+                        .font(.custom("Sen", size: 30))
+                    
+                    Spacer()
+                }
+                Spacer()
+                    .frame(height: 14)
+                
+                
+                if viewModel.tappedCard != nil || viewModel.selectedCardType == "Cash" {
+                    NavigationLink(destination: PaymentResultView(path: $path)) {
+                        
+                        Text("Pay & Confirm")
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                            .frame(width: 327, height: 62)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(.buttonC)
+                            )
                     }
                 }
-                .padding(.horizontal, 20)
-                .padding(.vertical, 10)
-            }
-            .padding(.horizontal, 4)
-            .scrollIndicators(.hidden)
-            
-            
-            Cards(viewModel: viewModel, show: $showSheet, showAlert: $showAlert, selected: viewModel.selectedCardType ?? "")
-                .padding(.bottom, 20)
-            
-            
-            
-            HStack{
-                Spacer()
-                    .frame(width: 24)
                 
-                Text("TOTAL")
-                    .font(.custom("Sen", size: 22))
-                    .foregroundStyle(.gray)
-                
-                Text("$\(String(format: "%.1f", viewModel.totalPrise))")
-                    .font(.custom("Sen", size: 30))
-                
-                Spacer()
             }
-            Spacer()
-                .frame(height: 14)
-            
-            
-            if viewModel.tappedCard != nil || viewModel.selectedCardType == "Cash" {
-                Button( action: {
-                    
-                }) {
-                    Text("Pay & Confirm")
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
-                }
-                .frame(width: 327, height: 62)
-                .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(.buttonC)
-                )
+            .navigationBarBackButtonHidden()
+            .navigationBarItems(leading: customBackButton(path: $path, text: "Cart", pathNumber: 3))
+            .onAppear{
+                viewModel.loadCards()
             }
-            
-        }
-        .navigationBarBackButtonHidden()
-        .navigationBarItems(leading: customBackButton(path: $path, text: "Cart", pathNumber: 3))
-        .onAppear{
-            viewModel.loadCards()
         }
     }
-    
-    
 }
 
 struct OrderView_Previews: PreviewProvider {
@@ -218,9 +219,6 @@ struct Cards: View {
                                 )
                             }
                             
-                            
-                            
-                            
                         }
                         .onDelete(perform: deleteCard)
                         .listRowSeparator(.hidden)
@@ -330,8 +328,6 @@ struct CardTypeList: View {
             
             Text(item)
                 .font(.custom("Sen", size: 14))
-            
-            
             
         }
         
