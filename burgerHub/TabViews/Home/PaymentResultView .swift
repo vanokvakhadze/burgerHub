@@ -81,7 +81,7 @@ struct PaymentResultView: View {
             }
         }
         .navigationBarBackButtonHidden()
-        .navigationBarItems(leading: customBackButton(path: $path, text: "Orders", pathNumber: 1))
+        .navigationBarItems(leading: customBackButton(path: $path, text: "Cart", pathNumber: 1))
         .onAppear {
             withAnimation {
                 isAnimated = true

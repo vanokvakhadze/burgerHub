@@ -18,7 +18,7 @@ struct customBackButton: View {
         }) {
             Image(systemName: "chevron.left") 
                     .foregroundStyle(.black)
-                .padding()
+                    .padding(8)
                 .background(
                     Circle()
                       .fill(Color.init(uiColor: .systemBackground))
@@ -26,6 +26,7 @@ struct customBackButton: View {
                 )
             Text(text)
                 .font(.custom("FiraGO-Regular", size: 22))
+                .padding(.leading, 5)
                 
         }
         .foregroundStyle(.primary)
