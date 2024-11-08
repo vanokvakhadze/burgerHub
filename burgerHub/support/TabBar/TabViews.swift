@@ -15,7 +15,7 @@ struct TabViews: View {
     @State var offset: CGFloat  = 0
     @State var lastStoredOffset: CGFloat  = 0
     @GestureState var gestureOffset: CGFloat = 0
-    @StateObject var viewModel = MainViewModel()
+    @ObservedObject var viewModel = MainViewModel()
     @State var path = NavigationPath()
     
     
@@ -32,7 +32,7 @@ struct TabViews: View {
                 
                 VStack{
                     TabView(selection: $activeTab){
-                        HomeView(isShown: $showMenu)
+                        HomeView(isShown: $showMenu, viewModel: viewModel)
                             .tag(Tab.home)
                         //  .toolbar(.hidden, for: .tabBar)
                         
@@ -146,7 +146,8 @@ struct TabViews: View {
                          tab: $0,
                          animation: animation,
                          activeTab: $activeTab,
-                         position: $tabShapePosition)
+                         position: $tabShapePosition,
+                         viewModel: viewModel)
             }
         }
         .padding(.vertical, 10)
@@ -172,21 +173,53 @@ struct TabItems: View {
     @Binding var activeTab: Tab
     @Binding var position: CGPoint
     @State private var tapPosition: CGPoint = .zero
+    @ObservedObject var viewModel: MainViewModel
+    
     var body: some View {
         VStack(spacing: 5){
-            Image(systemName: tab.systemImage)
-                .font(.title2)
-                .foregroundStyle(activeTab == tab ? .white : .gray)
-                .frame(width:  activeTab == tab ? 58 : 35, height:  activeTab == tab ? 58 : 35 )
-                .background{
-                    if activeTab == tab {
-                        Circle()
-                            .fill(.buttonC.gradient)
-                            .matchedGeometryEffect(id: "activeTab", in: animation)
-                        
+            if tab == .basket && viewModel.totalAmount > 0 {
+                ZStack{
+                    Image(systemName: tab.systemImage)
+                        .font(.title2)
+                        .foregroundStyle(activeTab == tab ? .white : .gray)
+                        .frame(width:  activeTab == tab ? 58 : 35, height:  activeTab == tab ? 58 : 35 )
+                        .background{
+                            if activeTab == tab {
+                                Circle()
+                                    .fill(.buttonC.gradient)
+                                    .matchedGeometryEffect(id: "activeTab", in:  animation)
+                                
+                            }
+                        }
+                    
+                    ZStack{
+                        Text("\(viewModel.totalAmount)")
+                            .font(.system(size: activeTab == tab ? 14 : 10))
+                            .foregroundStyle(.white)
+                            .background(
+                                Circle()
+                                    .fill(.red)
+                                    .frame(width: activeTab == tab ? 20 : 17, height: activeTab == tab ? 20 : 17)
+                            )
                     }
+                    .padding(.leading, activeTab == tab ? 31 : 25)
+                    .padding(.bottom,  activeTab == tab ? 26 : 15)
                 }
-            
+                
+            } else {
+                Image(systemName: tab.systemImage)
+                    .font(.title2)
+                    .foregroundStyle(activeTab == tab ? .white : .gray)
+                    .frame(width:  activeTab == tab ? 58 : 35, height:  activeTab == tab ? 58 : 35 )
+                    .background{
+                        if activeTab == tab {
+                            Circle()
+                                .fill(.buttonC.gradient)
+                                .matchedGeometryEffect(id: "activeTab", in: animation)
+                            
+                        }
+                    }
+            }
             Text(tab.rawValue)
                 .font(.caption)
                 .foregroundStyle(activeTab == tab ? .buttonC : .gray)

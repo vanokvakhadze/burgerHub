@@ -9,8 +9,6 @@ import Foundation
 
 class MainViewModel: ObservableObject, Hashable  {
     @Published var creditCard: [String: [String: String]] = [:]
-    
-    
     var id = 1
     
     @Published var burgers: [Burgers] = []
@@ -22,7 +20,6 @@ class MainViewModel: ObservableObject, Hashable  {
     @Published var searchText: String = ""
     
     
-    
     var totalPrise: Double {
         burgerCart.reduce(0.0) { $0 + ($1.price * Double($1.amount))}
     }
@@ -32,6 +29,9 @@ class MainViewModel: ObservableObject, Hashable  {
         burgers.filter({$0.name.localizedStandardContains(searchText)})
     }
     
+    var totalAmount: Int {
+        burgerCart.reduce(0) { $0 +  $1.amount }
+    }
     
     var filteredCreditCards: [String: [String: String]] {
         guard let selectedType = selectedCardType, !selectedType.isEmpty else {
@@ -116,7 +116,9 @@ class MainViewModel: ObservableObject, Hashable  {
     }
     
     func addToCart(burger: Burgers)  {
-        if !burgerCart.contains(where: { $0.id == burger.id }) {
+        if let index = burgerCart.firstIndex(where: { $0.id == burger.id }) {
+            burgerCart[index].amount += 1
+        } else {
             burgerCart.append(burger)
         }
         

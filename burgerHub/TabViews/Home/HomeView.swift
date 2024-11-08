@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @Binding var isShown: Bool
-    @StateObject var viewModel = MainViewModel()
+    @ObservedObject var viewModel: MainViewModel
     var columns = [GridItem(.adaptive(minimum: 100, maximum: 170), spacing: 13),
                    GridItem(.adaptive(minimum: 100, maximum: 170), spacing: 13)]
     
@@ -136,7 +136,7 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(isShown: .constant(false))
+    HomeView(isShown: .constant(false), viewModel: MainViewModel())
 }
 
 struct searchList: View {
