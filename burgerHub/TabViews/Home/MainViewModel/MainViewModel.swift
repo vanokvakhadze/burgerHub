@@ -19,6 +19,7 @@ class MainViewModel: ObservableObject, Hashable  {
     @Published var selectedCardType: String? = nil
     @Published var tappedCard: String? = nil
     @Published var cards =  ["Cash", "Visa", "MasterCard", "PayPal" ]
+    @Published var searchText: String = ""
     
     
     
@@ -26,6 +27,10 @@ class MainViewModel: ObservableObject, Hashable  {
         burgerCart.reduce(0.0) { $0 + ($1.price * Double($1.amount))}
     }
     
+    
+    var filteredByname: [Burgers] {
+        burgers.filter({$0.name.localizedStandardContains(searchText)})
+    }
     
     
     var filteredCreditCards: [String: [String: String]] {
