@@ -16,7 +16,7 @@ struct customBackButton: View {
         Button(action: {
             path.removeLast(pathNumber)
         }) {
-            Image(systemName: "chevron.left") 
+            sysImage(image: "chevron.left", width: 25, height: 25)
                     .foregroundStyle(.black)
                     .padding()
                     .padding(.leading, 5)

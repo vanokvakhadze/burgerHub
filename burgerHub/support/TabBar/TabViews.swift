@@ -24,7 +24,7 @@ struct TabViews: View {
     }
     
     var body: some View {
-        let sideBarWidth = getRect().width - 90
+        let sideBarWidth = getRect().width - 65
         NavigationView{
             HStack(spacing: 0){
                 
@@ -34,7 +34,7 @@ struct TabViews: View {
                     TabView(selection: $activeTab){
                         HomeView(isShown: $showMenu, viewModel: viewModel)
                             .tag(Tab.home)
-                        //  .toolbar(.hidden, for: .tabBar)
+                         // .toolbar(.hidden, for: .tabBar)
                         
                         FavoriteView()
                             .tag(Tab.favorite)
@@ -46,11 +46,11 @@ struct TabViews: View {
                         
                         OrderView(viewModel: viewModel, path: $path)
                             .tag(Tab.basket)
-                        //  .toolbar(.hidden, for: .tabBar)
+                         // .toolbar(.hidden, for: .tabBar)
                         
                         UserView()
                             .tag(Tab.service)
-                        //  .toolbar(.hidden, for: .tabBar)
+                         // .toolbar(.hidden, for: .tabBar)
                     }
                     customTabBar()
                 }
@@ -98,12 +98,12 @@ struct TabViews: View {
     }
     
     func onChange(){
-        let sideBarWidth = getRect().width - 90
+        let sideBarWidth = getRect().width - 65
         offset = (gestureOffset != 0 ) ? (gestureOffset + lastStoredOffset < sideBarWidth ? gestureOffset + lastStoredOffset : offset ) : offset
     }
     
     func onEnd(value: DragGesture.Value) {
-        let sideBarWidth = getRect().width - 90
+        let sideBarWidth = getRect().width - 65
         let transition = value.translation.width
         withAnimation{
             if transition > 0 {
@@ -152,13 +152,15 @@ struct TabViews: View {
         }
         .padding(.vertical, 10)
         .padding(.horizontal, 15)
+        .frame(height: 60)
         .background{
             TabShape(midPoint: tabShapePosition.x)
                 .fill(Color.init(uiColor: .tertiarySystemBackground))
                 .ignoresSafeArea()
                 .shadow(color: .buttonC.opacity(0.2), radius: 5, x: 0, y: -5)
                 .blur(radius: 2)
-                .padding(.top, 25)
+                .frame(height: 75)
+           
         }
         .animation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7), value: activeTab)
     }
