@@ -57,17 +57,21 @@ struct OrderView: View {
                 
                 if viewModel.tappedCard != nil || viewModel.selectedCardType == "Cash" {
                     NavigationLink(destination: PaymentResultView(path: $path)) {
-                        
-                        Text("Pay & Confirm")
-                            .fontWeight(.bold)
-                            .foregroundStyle(.white)
-                            .frame(width: 327, height: 62)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(.buttonC)
-                            )
+                         
+                            Text("Pay & Confirm")
+                                .fontWeight(.bold)
+                                .foregroundStyle(.white)
+                                .frame(width: 327, height: 62)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(.buttonC)
+                                )
+                        }
+                    .simultaneousGesture(TapGesture().onEnded {
+                           viewModel.clearBurgerCart()
+                       })
                     }
-                }
+                
                 
             }
             .navigationBarBackButtonHidden()

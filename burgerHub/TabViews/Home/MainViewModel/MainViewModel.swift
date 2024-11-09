@@ -13,6 +13,7 @@ class MainViewModel: ObservableObject, Hashable  {
     
     @Published var burgers: [Burgers] = []
     @Published var burgerCart: [Burgers] = []
+    @Published var boughtBurger = []
     @Published var ingredients: [Ingredients] = []
     @Published var selectedCardType: String? = nil
     @Published var tappedCard: String? = nil
@@ -234,6 +235,15 @@ class MainViewModel: ObservableObject, Hashable  {
         
         loadCards()
     }
+    
+    func clearBurgerCart() {
+        
+        boughtBurger.append(contentsOf: burgerCart)
+        burgerCart.removeAll()
+      
+    }
+    
+    
     
 }
 
