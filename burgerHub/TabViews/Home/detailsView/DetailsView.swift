@@ -11,6 +11,7 @@ struct DetailsView: View {
     @Binding var burger: Burgers
     @ObservedObject var viewModel: MainViewModel
     @Binding var path: NavigationPath
+    @Binding var tabBarHide: Bool
     
     var body: some View {
       
@@ -103,6 +104,9 @@ struct DetailsView: View {
             .scrollClipDisabled(true)
             
         }
+        .onAppear {
+            tabBarHide = true
+        }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: customBackButton(path: $path, text: "Home", pathNumber: 1))
         .navigationDestination(for: Destinations.self) { destination in
@@ -116,6 +120,7 @@ struct DetailsView: View {
                         
                         }
                     }
+       
     }
     
     

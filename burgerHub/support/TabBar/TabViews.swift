@@ -17,6 +17,7 @@ struct TabViews: View {
     @GestureState var gestureOffset: CGFloat = 0
     @ObservedObject var viewModel = MainViewModel()
     @State var path = NavigationPath()
+    @State var tabBarshow = false
     
     
     init() {
@@ -32,28 +33,32 @@ struct TabViews: View {
                 
                 VStack{
                     TabView(selection: $activeTab){
-                        HomeView(isShown: $showMenu, viewModel: viewModel)
+                        
+                        HomeView(isShown: $showMenu, viewModel: viewModel, tabBarHide: $tabBarshow)
                             .tag(Tab.home)
-                         // .toolbar(.hidden, for: .tabBar)
+                        
                         
                         FavoriteView()
                             .tag(Tab.favorite)
-                        //.toolbar(.hidden, for: .tabBar)
+                        
                         
                         SearchView()
                             .tag(Tab.search)
-                        //  .toolbar(.hidden, for: .tabBar)
+                        
                         
                         OrderView(viewModel: viewModel, path: $path)
                             .tag(Tab.basket)
-                         // .toolbar(.hidden, for: .tabBar)
+                        
                         
                         UserView()
                             .tag(Tab.service)
-                         // .toolbar(.hidden, for: .tabBar)
                     }
-                    customTabBar()
+                    .toolbar(.hidden, for: .tabBar)  // Hides tab bar when isTabBarHidden is true
+                    if !tabBarshow {
+                        customTabBar()
+                    }
                 }
+                
                 .frame(width: getRect().width)
                 .overlay{
                     Rectangle()
@@ -67,6 +72,12 @@ struct TabViews: View {
                             }
                         }
                 }
+                
+                .onChange(of: activeTab) {
+                    tabBarshow = false  // Ensure tab bar is shown when switching tabs
+                }
+                
+                
                 
             }
             .frame(width: getRect().width + sideBarWidth)
@@ -160,7 +171,7 @@ struct TabViews: View {
                 .shadow(color: .buttonC.opacity(0.2), radius: 5, x: 0, y: -5)
                 .blur(radius: 2)
                 .frame(height: 75)
-           
+            
         }
         .animation(.interactiveSpring(response: 0.6, dampingFraction: 0.7, blendDuration: 0.7), value: activeTab)
     }
@@ -231,7 +242,7 @@ struct TabItems: View {
         .viewPosition(completion: { rect in
             tapPosition.x = rect.midX
             if activeTab == tab {
-                position.x = rect.midX 
+                position.x = rect.midX
             }
             
         })
@@ -247,4 +258,19 @@ struct TabItems: View {
 
 #Preview {
     TabViews()
+}
+
+
+extension UITabBar {
+    static func hide() {
+        UIView.animate(withDuration: 0.3) {
+            UITabBar.appearance().alpha = 0
+        }
+    }
+    
+    static func show() {
+        UIView.animate(withDuration: 0.3) {
+            UITabBar.appearance().alpha = 1
+        }
+    }
 }

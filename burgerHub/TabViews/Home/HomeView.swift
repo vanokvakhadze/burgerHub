@@ -15,6 +15,7 @@ struct HomeView: View {
     
     @State  var path = NavigationPath()
     @State  var burger = Burgers.self
+    @Binding var tabBarHide: Bool
     
     var body: some View {
         
@@ -104,12 +105,17 @@ struct HomeView: View {
                     }
                 }
                 .navigationDestination(for: Burgers.self)  { item in
-                    DetailsView(burger: $viewModel.burgers[item.id],  viewModel: viewModel, path: $path)
+                    DetailsView(burger: $viewModel.burgers[item.id],  viewModel: viewModel, path: $path, tabBarHide: $tabBarHide)
                 }
                 
                 
                 .onAppear {
-                    viewModel.fetchData()
+                    DispatchQueue.main.async {
+                        tabBarHide = false
+                        viewModel.fetchData()
+                    }
+                   
+                   
                 }
             }
             
@@ -136,7 +142,7 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(isShown: .constant(false), viewModel: MainViewModel())
+    HomeView(isShown: .constant(false), viewModel: MainViewModel(), tabBarHide: .constant(false))
 }
 
 struct searchList: View {

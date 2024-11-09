@@ -125,7 +125,7 @@ struct SideMenuBar: View {
         }
         .padding(.vertical)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .frame(width: getRect().width - 90)
+        .frame(width: getRect().width - 63)
         .frame(maxHeight: .infinity)
         .background{
             Color.primary
