@@ -12,7 +12,6 @@ import SwiftUI
 enum Tab: String, CaseIterable {
     case home = "Home"
     case favorite = "Favorite"
-    case search = "Search"
     case basket = "Basket"
     case service = "Service"
     
@@ -23,8 +22,7 @@ enum Tab: String, CaseIterable {
             return "house"
         case .favorite :
             return "suit.heart"
-        case .search :
-            return "magnifyingglass"
+    
         case .basket :
             return "cart.fill"
         case .service :

@@ -12,6 +12,8 @@ struct OrderView: View {
     @State private var showSheet: Bool = false
     @State var showAlert: Bool = false
     @Binding var path: NavigationPath
+    @Binding var tabHide: Bool
+    @Binding var activeTab: Tab
     
     
     var body: some View {
@@ -56,7 +58,7 @@ struct OrderView: View {
                 
                 
                 if viewModel.tappedCard != nil || viewModel.selectedCardType == "Cash" {
-                    NavigationLink(destination: PaymentResultView(path: $path)) {
+                    NavigationLink(destination: PaymentResultView(path: $path, activeTab: $activeTab)) {
                          
                             Text("Pay & Confirm")
                                 .fontWeight(.bold)
@@ -75,11 +77,13 @@ struct OrderView: View {
                 
             }
             .navigationBarBackButtonHidden()
-            .navigationBarItems(leading: customBackButton(path: $path, text: "Cart", pathNumber: 3))
-            .onAppear{
-                viewModel.loadCards()
-            }
+            .navigationBarItems(leading: customBackButton(path: $path, text: "Cart", pathNumber: 1))
         }
+        .onAppear{
+            viewModel.loadCards()
+            tabHide = true
+        }
+
     }
 }
 
@@ -87,7 +91,7 @@ struct OrderView_Previews: PreviewProvider {
     static var previews: some View {
         @State var samplePath = NavigationPath()
         
-        OrderView(viewModel: MainViewModel(), path: $samplePath)
+        OrderView(viewModel: MainViewModel(), path: $samplePath, tabHide: .constant(false), activeTab: .constant(.basket))
     }
 }
 

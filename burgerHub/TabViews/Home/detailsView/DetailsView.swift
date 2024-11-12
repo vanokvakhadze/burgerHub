@@ -12,6 +12,7 @@ struct DetailsView: View {
     @ObservedObject var viewModel: MainViewModel
     @Binding var path: NavigationPath
     @Binding var tabBarHide: Bool
+    @Binding var activeTab: Tab
     
     var body: some View {
       
@@ -84,7 +85,7 @@ struct DetailsView: View {
                     
                     Button(action: {
                         viewModel.addToCart(burger: burger)
-                        path.append(Destinations.cartView(viewModel))
+                        activeTab = .basket
                         
                     }) {
                         Text("Add to cart ")
@@ -110,16 +111,11 @@ struct DetailsView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading: customBackButton(path: $path, text: "Home", pathNumber: 1))
         .navigationDestination(for: Destinations.self) { destination in
-                        switch destination {
-                        case .ingredients(_):
-                            IngredientsView(burger: $burger, viewModel: viewModel, path: $path)
-                            
-                        case .cartView(_):
-                            CartView(burger: $burger, path: $path, viewModel: viewModel)
-                            
-                        
-                        }
-                    }
+            switch destination {
+            case .ingredients(_):
+                IngredientsView(burger: $burger, viewModel: viewModel, path: $path)
+            }
+        }
        
     }
     
@@ -213,6 +209,5 @@ struct headerImages: View {
 enum Destinations: Hashable {
     
     case ingredients(Burgers)
-    case cartView(MainViewModel)
     
 }

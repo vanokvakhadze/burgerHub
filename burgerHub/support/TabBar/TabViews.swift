@@ -20,13 +20,15 @@ struct TabViews: View {
     @State var tabBarshow = false
     
     
+    
     init() {
         UITabBar.appearance().isHidden = true
     }
     
     var body: some View {
         let sideBarWidth = getRect().width - 65
-        NavigationView{
+        
+            
             HStack(spacing: 0){
                 
                 SideMenuBar(isShow: $showMenu)
@@ -34,26 +36,24 @@ struct TabViews: View {
                 VStack{
                     TabView(selection: $activeTab){
                         
-                        HomeView(isShown: $showMenu, viewModel: viewModel, tabBarHide: $tabBarshow)
+                        HomeView(isShown: $showMenu, viewModel: viewModel, activeTab: $activeTab, tabBarHide: $tabBarshow)
+                        
                             .tag(Tab.home)
                         
                         
                         FavoriteView()
                             .tag(Tab.favorite)
                         
+                  
                         
-                        SearchView()
-                            .tag(Tab.search)
-                        
-                        
-                        OrderView(viewModel: viewModel, path: $path)
+                        CartView(viewModel: viewModel, tabHide: $tabBarshow, activeTab: $activeTab)
                             .tag(Tab.basket)
                         
                         
                         UserView()
                             .tag(Tab.service)
                     }
-                    .toolbar(.hidden, for: .tabBar)  // Hides tab bar when isTabBarHidden is true
+                    .toolbar(.hidden, for: .tabBar)  
                     if !tabBarshow {
                         customTabBar()
                     }
@@ -74,7 +74,7 @@ struct TabViews: View {
                 }
                 
                 .onChange(of: activeTab) {
-                    tabBarshow = false  // Ensure tab bar is shown when switching tabs
+                    tabBarshow = false
                 }
                 
                 
@@ -92,7 +92,7 @@ struct TabViews: View {
             )
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
-        }
+        
         .animation(.easeInOut, value: offset == 0)
         .onChange(of: showMenu) { newValue, prev in
             if showMenu && offset == 0 {

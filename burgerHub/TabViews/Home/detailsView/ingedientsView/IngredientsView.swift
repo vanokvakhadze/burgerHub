@@ -94,13 +94,13 @@ struct IngredientsView: View {
                     Spacer()
                         .frame(height: 20)
                     
-                    Button("Done", action: {
+                    Button("Ok", action: {
                         path.removeLast( )
                     })
                     .frame(width: 160, height: 40)
                     .background(.buttonC)
                     .clipShape(.rect(cornerRadius: 20))
-                    .foregroundColor(.primary)
+                    .foregroundColor(.white)
                     
                 }
                 .navigationBarBackButtonHidden(true)

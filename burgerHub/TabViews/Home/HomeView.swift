@@ -10,16 +10,17 @@ import SwiftUI
 struct HomeView: View {
     @Binding var isShown: Bool
     @ObservedObject var viewModel: MainViewModel
+    @Binding var activeTab: Tab
     var columns = [GridItem(.adaptive(minimum: 100, maximum: 170), spacing: 13),
                    GridItem(.adaptive(minimum: 100, maximum: 170), spacing: 13)]
     
-    @State  var path = NavigationPath()
-    @State  var burger = Burgers.self
+    @State var path = NavigationPath()
+   
     @Binding var tabBarHide: Bool
     
     var body: some View {
         
-        NavigationStack(path: $path){
+    NavigationStack(path: $path){
             ZStack{
                 
                 Color(uiColor: UIColor.secondarySystemBackground)
@@ -105,7 +106,7 @@ struct HomeView: View {
                     }
                 }
                 .navigationDestination(for: Burgers.self)  { item in
-                    DetailsView(burger: $viewModel.burgers[item.id],  viewModel: viewModel, path: $path, tabBarHide: $tabBarHide)
+                    DetailsView(burger: $viewModel.burgers[item.id],  viewModel: viewModel, path: $path, tabBarHide: $tabBarHide, activeTab: $activeTab)
                 }
                 
                 
@@ -142,7 +143,7 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(isShown: .constant(false), viewModel: MainViewModel(), tabBarHide: .constant(false))
+    HomeView(isShown: .constant(false), viewModel: MainViewModel(), activeTab: .constant(.home), tabBarHide: .constant(false))
 }
 
 struct searchList: View {

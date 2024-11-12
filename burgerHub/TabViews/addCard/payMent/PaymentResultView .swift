@@ -10,6 +10,7 @@ import SwiftUI
 struct PaymentResultView: View {
     @Binding var path: NavigationPath
     @State var isAnimated: Bool = false
+    @Binding var activeTab: Tab
     
     var body: some View {
         ZStack{
@@ -68,8 +69,8 @@ struct PaymentResultView: View {
                 Spacer()
                     .frame(height: 40)
                 
-                Button("Go To Home ", action: {
-                    path.removeLast(3)
+                Button("Go To Home", action: {
+                    activeTab  = .home
                 })
                 .frame(width: 330, height: 60)
                 .background(
@@ -91,11 +92,11 @@ struct PaymentResultView: View {
     }
 }
 
-
-struct PaymentResultView_Previews: PreviewProvider {
-    static var previews: some View {
-        @State var samplePath = NavigationPath()
-        @State var animated = true
-        PaymentResultView(path: $samplePath)
-    }
-}
+//
+//struct PaymentResultView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        @State var samplePath = NavigationPath()
+//        @State var animated = true
+//        PaymentResultView(path: $samplePath, activeTab: .constant(true))
+//    }
+//}
