@@ -142,7 +142,7 @@ struct DetailsView: View {
                     )
                     .padding(1)
                     .background(
-                        RoundedRectangle(cornerRadius: 40) // Outer
+                        RoundedRectangle(cornerRadius: 40)
                             .fill(Color.buttonC)
                         
                     )
@@ -191,7 +191,7 @@ struct headerImages: View {
                         .padding(2)
                         .background(
                             RoundedRectangle(cornerRadius: 18)
-                                .fill(.blue)
+                                .fill(.green)
                                 .frame(width: 36, height: 36, alignment: .center)
                         )
                     

@@ -10,16 +10,32 @@ import SwiftUI
 struct BurgerList: View {
     @ObservedObject var viewModel: MainViewModel
     var burger: Burgers
-    
     var body: some View {
         ZStack(alignment: .bottomTrailing){
+          
             VStack{
                 
-                ForEach(burger.images, id: \.sm) { img in
-                    fetchImage(imageURL: img.lg ?? "" , width: 120, height: 60)
-                        .padding(.top, 5)
+                ZStack(alignment: .topTrailing) {
+                    ForEach(burger.images, id: \.sm) { img in
+                        fetchImage(imageURL: img.lg ?? "" , width: 120, height: 60)
+                            .padding(.top, 10)
+                    }
+                    
+                    ZStack{
+                        sysImage(image: viewModel.isLiked(burger), width: 16, height: 16)
+                            .foregroundStyle(.red)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color(uiColor: .secondarySystemBackground))
+                                    .frame(width: 22, height: 22)
+                            )
+                            .padding(.top, 10)
+                            .padding(.trailing, -17)
+                            .onTapGesture {
+                                viewModel.clickHeartButton(burger: burger)
+                            }
+                    }
                 }
-                
                 Spacer()
                     .frame(height: 15)
                 
@@ -57,11 +73,11 @@ struct BurgerList: View {
             .clipShape(.rect(cornerRadius: 20))
             
             ZStack{
-                sysImage(image: "plus", width: 16, height: 16)
+                sysImage(image: "plus", width: 13, height: 13)
                     .foregroundStyle(.white)
                     .background(
                         Circle()
-                            .frame(width: 22, height: 22)
+                            .frame(width: 20, height: 20)
                             .foregroundStyle(.buttonC)
                     )
                     .onTapGesture {
@@ -81,3 +97,7 @@ struct BurgerList: View {
 }
 
 
+
+#Preview {
+    HomeView(isShown: .constant(false), viewModel: MainViewModel(), activeTab: .constant(.home), tabBarHide: .constant(false))
+}

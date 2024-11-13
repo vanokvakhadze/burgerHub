@@ -19,8 +19,9 @@ struct Burgers: Codable, Identifiable, Hashable, Equatable {
     let price: Double
     let veg: Bool
     var amount: Int
+    var isLiked: Bool
     
-    // Custom initializer to set 'amount' to a default value during decoding
+   
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             id = try container.decode(Int.self, forKey: .id)
@@ -31,6 +32,7 @@ struct Burgers: Codable, Identifiable, Hashable, Equatable {
             ingredients = try container.decode([Ingredients].self, forKey: .ingredients)
             veg = try container.decode(Bool.self, forKey: .veg)
             amount = 1 // Default value, since it's not provided by the JSON
+            isLiked = false
         }
     
     static func == (lhs: Burgers, rhs: Burgers) -> Bool {

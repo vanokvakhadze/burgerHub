@@ -18,7 +18,7 @@ struct OrderView: View {
     
     var body: some View {
         ZStack{
-            Color(uiColor: UIColor.secondarySystemBackground)
+            Color(uiColor: UIColor.systemBackground)
                 .ignoresSafeArea()
             
             VStack (spacing: 20){

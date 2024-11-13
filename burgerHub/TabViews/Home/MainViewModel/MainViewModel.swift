@@ -19,6 +19,7 @@ class MainViewModel: ObservableObject, Hashable  {
     @Published var tappedCard: String? = nil
     @Published var cards =  ["Cash", "Visa", "MasterCard", "PayPal" ]
     @Published var searchText: String = ""
+    @Published var favoriteBurger: [Burgers] =  []
     
     
     var totalPrise: Double {
@@ -41,6 +42,12 @@ class MainViewModel: ObservableObject, Hashable  {
         
         return creditCard.filter { $0.value["cardType"] == selectedType }
         
+    }
+    
+    var isLiked: (Burgers) -> String {
+        return { burger in
+            self.favoriteBurger.contains(where: { $0.id == burger.id }) ? "heart.fill" : "heart"
+        }
     }
     
     
@@ -72,6 +79,7 @@ class MainViewModel: ObservableObject, Hashable  {
                 let modifiedBurgers = fetchedBurgers.map { burger -> Burgers in
                     var updatedBurger = burger
                     updatedBurger.amount = 1
+                    updatedBurger.isLiked = false
                     
                     
                     let updatedIngredients = updatedBurger.ingredients.map { ingredient -> Ingredients in
@@ -225,8 +233,6 @@ class MainViewModel: ObservableObject, Hashable  {
         CardService.delete(key: "\(uniqueKey)_cvv")
         CardService.delete(key: "\(uniqueKey)_cardType")
         
-        
-        
         var keys = CardService.fetchAllCardKeys()
         if let index = keys.firstIndex(of: uniqueKey) {
             keys.remove(at: index)
@@ -243,7 +249,15 @@ class MainViewModel: ObservableObject, Hashable  {
       
     }
     
-    
+    func clickHeartButton(burger: Burgers) {
+        if favoriteBurger.contains(where: { $0.id == burger.id }) {
+            favoriteBurger.removeAll(where: {$0.id == burger.id })
+          
+        } else {
+            
+            favoriteBurger.append(burger)
+        }
+    }
     
 }
 

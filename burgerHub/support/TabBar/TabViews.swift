@@ -41,7 +41,7 @@ struct TabViews: View {
                             .tag(Tab.home)
                         
                         
-                        FavoriteView()
+                        FavoriteView(viewModel: viewModel, tabHide: $tabBarshow, activeTab: $activeTab )
                             .tag(Tab.favorite)
                         
                   
