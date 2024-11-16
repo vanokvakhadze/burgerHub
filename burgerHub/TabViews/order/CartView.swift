@@ -118,76 +118,82 @@ struct CartView: View {
         @ObservedObject var viewModel: MainViewModel
         
         var body: some View {
-            HStack{
-                Spacer()
-                    .frame(width: 10)
-                ForEach(item.images,id: \.lg){ img in
-                    fetchImage(imageURL: img.lg ?? "", width: 78, height: 70)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                }
-                
-                VStack (spacing: 20){
-                    HStack{
-                        Spacer()
-                            .frame(width: 20)
-                        Text(item.name)
-                            .lineLimit(3)
-                        Spacer()
-                    }
-                    .padding(.top, -10)
-                    
-                    HStack{
-                        Spacer()
-                            .frame(width: 25)
-                        
-                            .foregroundStyle(.green)
-                        Text("$ \(String(format: "%.1f", item.price))")
-                        
-                        Spacer()
+            if viewModel.burgerCart.isEmpty {
+                Text("there is nothing added")
+                    .font(.custom("Fira-GO", size: 20))
+                    .fontWeight(.regular)
+            } else {
+                HStack{
+                    Spacer()
+                        .frame(width: 10)
+                    ForEach(item.images,id: \.lg){ img in
+                        fetchImage(imageURL: img.lg ?? "", width: 78, height: 70)
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
                     }
                     
-                }
-                
-                ZStack{
-                    HStack{
-                        sysImage(image: "minus.circle", width: 22, height: 22)
-                            .foregroundStyle(.white)
-                            .background(
-                                Circle()
-                                    .fill(.buttonC)
-                            )
-                            .onTapGesture {
-                                
-                                viewModel.decreaseBurger(of: item)
-                            }
+                    VStack (spacing: 20){
+                        HStack{
+                            Spacer()
+                                .frame(width: 20)
+                            Text(item.name)
+                                .lineLimit(3)
+                            Spacer()
+                        }
+                        .padding(.top, -10)
                         
+                        HStack{
+                            Spacer()
+                                .frame(width: 25)
+                            
+                                .foregroundStyle(.green)
+                            Text("$ \(String(format: "%.1f", item.price))")
+                            
+                            Spacer()
+                        }
                         
-                        Text("\(item.amount)")
-                            .font(.system(size: 18))
-                        
-                        
-                        sysImage(image: "plus.circle", width: 22, height: 22)
-                            .foregroundStyle(.white)
-                            .background(
-                                Circle()
-                                    .fill(.buttonC)
-                            )
-                            .onTapGesture {
-                                
-                                viewModel.addBurger(of: item)
-                            }
                     }
                     
+                    ZStack{
+                        HStack{
+                            sysImage(image: "minus.circle", width: 22, height: 22)
+                                .foregroundStyle(.white)
+                                .background(
+                                    Circle()
+                                        .fill(.buttonC)
+                                )
+                                .onTapGesture {
+                                    
+                                    viewModel.decreaseBurger(of: item)
+                                }
+                            
+                            
+                            Text("\(item.amount)")
+                                .font(.system(size: 18))
+                            
+                            
+                            sysImage(image: "plus.circle", width: 22, height: 22)
+                                .foregroundStyle(.white)
+                                .background(
+                                    Circle()
+                                        .fill(.buttonC)
+                                )
+                                .onTapGesture {
+                                    
+                                    viewModel.addBurger(of: item)
+                                }
+                        }
+                        
+                    }
+                    .padding(.top, 30)
+                    
+                    
+                    Spacer()
                 }
-                .padding(.top, 30)
-                
-                
-                Spacer()
+                .frame(width: 335, height: 120)
+                .background(Color.init(uiColor: .systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 25))
+                .padding(.vertical, 10)
             }
-            .frame(width: 335, height: 120)
-            .background(Color.init(uiColor: .systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 25))
-            .padding(.vertical, 10)
         }
         
     }

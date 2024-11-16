@@ -20,6 +20,7 @@ class MainViewModel: ObservableObject, Hashable  {
     @Published var cards =  ["Cash", "Visa", "MasterCard", "PayPal" ]
     @Published var searchText: String = ""
     @Published var favoriteBurger: [Burgers] =  []
+    @Published var notification: [String] = []
     
     
     var totalPrise: Double {

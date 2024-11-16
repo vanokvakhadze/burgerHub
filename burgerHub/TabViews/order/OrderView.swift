@@ -128,45 +128,8 @@ struct Cards: View {
                     
                     Spacer()
                         .frame(height: 20)
-                    
-                    HStack{
-                        Spacer()
-                        Button(action: {
-                            
-                            show.toggle()
-                            
-                        }) {
-                            HStack{
-                                Image(systemName: "plus")
-                                    .resizable()
-                                    .frame(width: 14, height: 14)
-                                    .foregroundStyle(.buttonC)
-                                
-                                Text("ADD TO NEW")
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(.buttonC)
-                                
-                            }
-                        }
-                        
-                        .frame(width:307 ,height: 62)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke( Color(uiColor: .secondarySystemBackground) ,lineWidth: 3)
-                        )
-                        .sheet(isPresented: $show, content: {
-                            
-                            CardDetails(cardType: selected, viewModel: viewModel, show: $show)
-                                .presentationDetents([.medium])
-                            
-                        })
-                        .alert("Please select a card type", isPresented: $showAlert) {
-                            Button("OK", role: .cancel) { }
-                        }
-                        Spacer()
-                        
-                        
-                    }
+                 
+                   
                     
                 }
                 .frame(width: 327, height: 257)
@@ -174,6 +137,47 @@ struct Cards: View {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(Color.init(uiColor: .secondarySystemBackground))
                 )
+                .padding(.vertical, 20)
+                
+                
+                HStack{
+                    Spacer()
+                    Button(action: {
+                        
+                        show.toggle()
+                        
+                    }) {
+                        HStack{
+                            Image(systemName: "plus")
+                                .resizable()
+                                .frame(width: 14, height: 14)
+                                .foregroundStyle(.buttonC)
+                            
+                            Text("ADD TO NEW")
+                                .fontWeight(.bold)
+                                .foregroundStyle(.buttonC)
+                            
+                        }
+                    }
+                    
+                    .frame(width:307 ,height: 62)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke( Color(uiColor: .secondarySystemBackground) ,lineWidth: 3)
+                    )
+                    .sheet(isPresented: $show, content: {
+                        
+                        CardDetails(cardType: selected, viewModel: viewModel, show: $show)
+                            .presentationDetents([.medium])
+                        
+                    })
+                    .alert("Please select a card type", isPresented: $showAlert) {
+                        Button("OK", role: .cancel) { }
+                    }
+                    Spacer()
+                    
+                    
+                }
                 
                 
                 

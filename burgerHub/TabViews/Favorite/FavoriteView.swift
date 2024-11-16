@@ -20,53 +20,53 @@ struct FavoriteView: View {
             ZStack{
                 Color(uiColor: .secondarySystemBackground)
                     .ignoresSafeArea()
-                ScrollView{
-                    HStack{
-                        Spacer()
-                            .frame(width: 22)
+                VStack{
+                    if viewModel.favoriteBurger.isEmpty {
                         
-                        Text("Burgers")
-                            .font(.custom("FiraGO", size: 21))
-                            .fontWeight(.bold)
+                        Text("there is not favorite burgers yet")
+                            .font(.custom("Fira-GO", size: 21))
+                            .fontWeight(.regular)
                         
-                        Spacer()
                         
-                    }
-                    .padding(.top, 5)
-                    
-                    LazyVGrid(columns: columns , spacing: 20){
-                        ForEach(viewModel.favoriteBurger) { item in
-                            Button {
-                                path.append(item)
-                            } label: {
-                                
-                                BurgerList(viewModel: viewModel, burger: item)
-                                    .foregroundColor(.primary)
-                                
-                                
+                        
+                    } else {
+                        ScrollView{
+                            LazyVGrid(columns: columns , spacing: 20){
+                                ForEach(viewModel.favoriteBurger) { item in
+                                    Button {
+                                        path.append(item)
+                                    } label: {
+                                        
+                                        BurgerList(viewModel: viewModel, burger: item)
+                                            .foregroundColor(.primary)
+                                        
+                                        
+                                    }
+                                    
+                                }
                             }
-                            
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 10)
                         }
+                        .padding(.vertical, 15)
                     }
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 10)
-                }
-                .padding(.vertical, 15)
-            }
-            .navigationDestination(for: Burgers.self)  { item in
-                DetailsView(burger: $viewModel.burgers[item.id],  viewModel: viewModel, path: $path, tabBarHide: $tabHide, activeTab: $activeTab)
-            }
-            
-            .onAppear {
-                DispatchQueue.main.async {
-                    tabHide = false
                     
                 }
+                .navigationDestination(for: Burgers.self)  { item in
+                    DetailsView(burger: $viewModel.burgers[item.id],  viewModel: viewModel, path: $path, tabBarHide: $tabHide, activeTab: $activeTab)
+                }
+                
+                .onAppear {
+                    DispatchQueue.main.async {
+                        tabHide = false
+                        
+                    }
+                }
             }
+            .navigationTitle("Favorite Burgers")
         }
     }
 }
-
 
 #Preview {
     FavoriteView(viewModel: MainViewModel(), tabHide: .constant(false), activeTab: .constant(.favorite))

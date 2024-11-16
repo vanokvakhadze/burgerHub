@@ -19,6 +19,7 @@ struct SideMenuBar: View {
     @Binding var isShow: Bool
     @State private var photoPickerItem: PhotosPickerItem?
     @StateObject var viewModel =  UserViewModel()
+    @ObservedObject var viewModelMain: MainViewModel
     @State var profileImage: UIImage?
     
     var body: some View {
@@ -73,7 +74,7 @@ struct SideMenuBar: View {
                     NavigationLink(destination: ProfileView()) {
                         tabButton(title: "My Profile", sysImage: "person")
                     }
-                    NavigationLink(destination: PaymentView()) {
+                    NavigationLink(destination: PaymentView(viewModel: viewModelMain)) {
                         tabButton(title: "Payment method", sysImage: "handbag")
                     }
                     NavigationLink(destination: SettingView()) {
@@ -82,10 +83,11 @@ struct SideMenuBar: View {
                     NavigationLink(destination: HelpView()) {
                         tabButton(title: "Help", sysImage: "ellipsis.message")
                     }
-                    NavigationLink(destination: PrivacyView()) {
+                    Link(destination: URL(string: "https://www.google.com")!) {
                         tabButton(title: "Privacy Policy", sysImage: "list.clipboard")
                     }
-                    
+                   
+                   
                 }
                 .padding()
                 .padding(.horizontal)

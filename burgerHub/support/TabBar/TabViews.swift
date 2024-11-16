@@ -31,7 +31,7 @@ struct TabViews: View {
             
             HStack(spacing: 0){
                 
-                SideMenuBar(isShow: $showMenu)
+                SideMenuBar(isShow: $showMenu, viewModelMain: viewModel)
                 
                 VStack{
                     TabView(selection: $activeTab){
@@ -44,14 +44,14 @@ struct TabViews: View {
                         FavoriteView(viewModel: viewModel, tabHide: $tabBarshow, activeTab: $activeTab )
                             .tag(Tab.favorite)
                         
-                  
+                        
+                        NotificationView(viewModel: viewModel)
+                            .tag(Tab.notification)
                         
                         CartView(viewModel: viewModel, tabHide: $tabBarshow, activeTab: $activeTab)
                             .tag(Tab.basket)
                         
                         
-                        UserView()
-                            .tag(Tab.service)
                     }
                     .toolbar(.hidden, for: .tabBar)  
                     if !tabBarshow {
@@ -191,33 +191,12 @@ struct TabItems: View {
     var body: some View {
         VStack(spacing: 5){
             if tab == .basket && viewModel.totalAmount > 0 {
-                ZStack{
-                    Image(systemName: tab.systemImage)
-                        .font(.title2)
-                        .foregroundStyle(activeTab == tab ? .white : .gray)
-                        .frame(width:  activeTab == tab ? 58 : 35, height:  activeTab == tab ? 58 : 35 )
-                        .background{
-                            if activeTab == tab {
-                                Circle()
-                                    .fill(.buttonC.gradient)
-                                    .matchedGeometryEffect(id: "activeTab", in:  animation)
-                                
-                            }
-                        }
-                    
-                    ZStack{
-                        Text("\(viewModel.totalAmount)")
-                            .font(.system(size: activeTab == tab ? 14 : 10))
-                            .foregroundStyle(.white)
-                            .background(
-                                Circle()
-                                    .fill(.red)
-                                    .frame(width: activeTab == tab ? 20 : 17, height: activeTab == tab ? 20 : 17)
-                            )
-                    }
-                    .padding(.leading, activeTab == tab ? 31 : 25)
-                    .padding(.bottom,  activeTab == tab ? 26 : 15)
-                }
+                cartViewAmount()
+                
+            } else  if tab == .notification && !viewModel.notification.isEmpty {
+                
+                notificationAmount()
+                
                 
             } else {
                 Image(systemName: tab.systemImage)
@@ -254,6 +233,68 @@ struct TabItems: View {
         }
         
     }
+    
+    
+    func cartViewAmount() -> some View {
+        ZStack{
+            Image(systemName: tab.systemImage)
+                .font(.title2)
+                .foregroundStyle(activeTab == tab ? .white : .gray)
+                .frame(width:  activeTab == tab ? 58 : 35, height:  activeTab == tab ? 58 : 35 )
+                .background{
+                    if activeTab == tab {
+                        Circle()
+                            .fill(.buttonC.gradient)
+                            .matchedGeometryEffect(id: "activeTab", in:  animation)
+                        
+                    }
+                }
+            
+            ZStack{
+                Text("\(viewModel.totalAmount)")
+                    .font(.system(size: activeTab == tab ? 14 : 10))
+                    .foregroundStyle(.white)
+                    .background(
+                        Circle()
+                            .fill(.red)
+                            .frame(width: activeTab == tab ? 20 : 17, height: activeTab == tab ? 20 : 17)
+                    )
+            }
+            .padding(.leading, activeTab == tab ? 31 : 25)
+            .padding(.bottom,  activeTab == tab ? 26 : 15)
+        }
+    }
+    
+    func notificationAmount() -> some View {
+        ZStack{
+            Image(systemName: tab.systemImage)
+                .font(.title2)
+                .foregroundStyle(activeTab == tab ? .white : .gray)
+                .frame(width:  activeTab == tab ? 64 : 35, height:  activeTab == tab ? 65 : 35 )
+                .background{
+                    if activeTab == tab {
+                        Circle()
+                            .fill(.buttonC.gradient)
+                            .matchedGeometryEffect(id: "activeTab", in:  animation)
+                        
+                    }
+                }
+            
+            ZStack{
+                Text("\(viewModel.notification.count)")
+                    .font(.system(size: activeTab == tab ? 14 : 10))
+                    .foregroundStyle(.white)
+                    .background(
+                        Circle()
+                            .fill(.red)
+                            .frame(width: activeTab == tab ? 20 : 17, height: activeTab == tab ? 20 : 17)
+                    )
+            }
+            .padding(.leading, activeTab == tab ? 21 : 19)
+            .padding(.bottom,  activeTab == tab ? 24 : 20)
+        }
+    }
+    
 }
 
 #Preview {
