@@ -13,7 +13,7 @@ class MainViewModel: ObservableObject, Hashable  {
     
     @Published var burgers: [Burgers] = []
     @Published var burgerCart: [Burgers] = []
-    @Published var boughtBurger = []
+    @Published var boughtBurger: [Burgers]  = []
     @Published var ingredients: [Ingredients] = []
     @Published var selectedCardType: String? = nil
     @Published var tappedCard: String? = nil
@@ -21,7 +21,8 @@ class MainViewModel: ObservableObject, Hashable  {
     @Published var searchText: String = ""
     @Published var favoriteBurger: [Burgers] =  []
     @Published var notification: [String] = []
-    
+    @Published var colorSets: [String] = ["green1",  "green2", "green3", "green4", "green5", "green6"]
+
     
     var totalPrise: Double {
         burgerCart.reduce(0.0) { $0 + ($1.price * Double($1.amount))}
@@ -258,6 +259,13 @@ class MainViewModel: ObservableObject, Hashable  {
             
             favoriteBurger.append(burger)
         }
+    }
+    
+    func colorOfBoughtBurgers(index: Int) -> String {
+        let colorIndex = index % colorSets.count
+              return colorSets[colorIndex]
+        
+      
     }
     
 }

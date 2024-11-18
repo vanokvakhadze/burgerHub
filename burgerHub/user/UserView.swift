@@ -77,8 +77,8 @@ struct SideMenuBar: View {
                     NavigationLink(destination: PaymentView(viewModel: viewModelMain)) {
                         tabButton(title: "Payment method", sysImage: "handbag")
                     }
-                    NavigationLink(destination: SettingView()) {
-                        tabButton(title: "Settings", sysImage: "gearshape.2")
+                    NavigationLink(destination: HistoryView(viewModel: viewModelMain)) {
+                        tabButton(title: "History", sysImage: "book")
                     }
                     NavigationLink(destination: HelpView()) {
                         tabButton(title: "Help", sysImage: "ellipsis.message")
