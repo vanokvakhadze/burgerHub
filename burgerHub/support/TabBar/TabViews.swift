@@ -31,7 +31,7 @@ struct TabViews: View {
             
             HStack(spacing: 0){
                 
-                SideMenuBar(isShow: $showMenu, viewModelMain: viewModel)
+                SideMenuBar(isShow: $showMenu, viewModelMain: viewModel, path: $path)
                 
                 VStack{
                     TabView(selection: $activeTab){
