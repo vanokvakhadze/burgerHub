@@ -84,6 +84,8 @@ struct SideMenuBar: View {
                                                 .frame(width: 35, height: 35)
                                         )
                                 }
+                                .frame(width: 32, height: 32)
+                                .clipShape(Circle())
                             }
                         }
                     }

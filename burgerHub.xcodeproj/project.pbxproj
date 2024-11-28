@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3B428E8C2CEB6BDD007FB8C3 /* SearchList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428E8B2CEB6BDD007FB8C3 /* SearchList.swift */; };
-		3B428E9F2CEF642B007FB8C3 /* chatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428E9E2CEF642B007FB8C3 /* chatModel.swift */; };
+		3B428E9F2CEF642B007FB8C3 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428E9E2CEF642B007FB8C3 /* MapModel.swift */; };
 		3B428EA32CEF6827007FB8C3 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428EA22CEF6827007FB8C3 /* MapViewModel.swift */; };
 		3B46C91D2C9C65F400053008 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C91C2C9C65F400053008 /* Tab.swift */; };
 		3B46C91F2C9C6B3B00053008 /* TabViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C91E2C9C6B3B00053008 /* TabViews.swift */; };
@@ -66,7 +66,7 @@
 
 /* Begin PBXFileReference section */
 		3B428E8B2CEB6BDD007FB8C3 /* SearchList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchList.swift; sourceTree = "<group>"; };
-		3B428E9E2CEF642B007FB8C3 /* chatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatModel.swift; sourceTree = "<group>"; };
+		3B428E9E2CEF642B007FB8C3 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		3B428EA22CEF6827007FB8C3 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		3B46C91C2C9C65F400053008 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
 		3B46C91E2C9C6B3B00053008 /* TabViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabViews.swift; sourceTree = "<group>"; };
@@ -166,20 +166,20 @@
 			path = ScaneerVC;
 			sourceTree = "<group>";
 		};
-		3B428E9D2CEF6400007FB8C3 /* chatModel */ = {
+		3B428E9D2CEF6400007FB8C3 /* MapModel */ = {
 			isa = PBXGroup;
 			children = (
-				3B428E9E2CEF642B007FB8C3 /* chatModel.swift */,
+				3B428E9E2CEF642B007FB8C3 /* MapModel.swift */,
 			);
-			path = chatModel;
+			path = MapModel;
 			sourceTree = "<group>";
 		};
-		3B428EA02CEF6802007FB8C3 /* chatViewModel */ = {
+		3B428EA02CEF6802007FB8C3 /* MapViewModel */ = {
 			isa = PBXGroup;
 			children = (
 				3B428EA22CEF6827007FB8C3 /* MapViewModel.swift */,
 			);
-			path = chatViewModel;
+			path = MapViewModel;
 			sourceTree = "<group>";
 		};
 		3B46C91B2C9C65DF00053008 /* TabBar */ = {
@@ -198,7 +198,7 @@
 			children = (
 				3B46C9342CA30F6200053008 /* paymentView */,
 				3B46C9332CA30F3E00053008 /* PrivacyPolicyView */,
-				3B46C9322CA30F3700053008 /* helpView */,
+				3B46C9322CA30F3700053008 /* MapView */,
 				3B46C9312CA30F2900053008 /* settingView */,
 				3B46C9302CA30F2100053008 /* profileView */,
 			);
@@ -221,14 +221,14 @@
 			path = settingView;
 			sourceTree = "<group>";
 		};
-		3B46C9322CA30F3700053008 /* helpView */ = {
+		3B46C9322CA30F3700053008 /* MapView */ = {
 			isa = PBXGroup;
 			children = (
-				3B428EA02CEF6802007FB8C3 /* chatViewModel */,
-				3B428E9D2CEF6400007FB8C3 /* chatModel */,
+				3B428EA02CEF6802007FB8C3 /* MapViewModel */,
+				3B428E9D2CEF6400007FB8C3 /* MapModel */,
 				3B46C9392CA30FA300053008 /* MapView.swift */,
 			);
-			path = helpView;
+			path = MapView;
 			sourceTree = "<group>";
 		};
 		3B46C9332CA30F3E00053008 /* PrivacyPolicyView */ = {
@@ -638,7 +638,7 @@
 				3B46C96D2CCFCFF400053008 /* CardTypes.swift in Sources */,
 				3B733DC22C6F6542006D09FD /* UserVC.swift in Sources */,
 				3B733DBC2C6EBBA3006D09FD /* LoginVC.swift in Sources */,
-				3B428E9F2CEF642B007FB8C3 /* chatModel.swift in Sources */,
+				3B428E9F2CEF642B007FB8C3 /* MapModel.swift in Sources */,
 				3BFE1B832CD4549C00201642 /* ScannerVC.swift in Sources */,
 				3B46C9212C9D89CE00053008 /* TabShape.swift in Sources */,
 				3B73A90A2C9ACD4F00E72B9A /* ValidInfo.swift in Sources */,
