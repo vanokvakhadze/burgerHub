@@ -11,115 +11,147 @@ import MapKit
 
 
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
-    
-    
-    @Published var locations: [Location] 
+    @Published var userLocation:  CLLocationCoordinate2D?
+    @Published var locations: [Location]
+    @Published var sortedLocations: [Location] = []
     @Published var mapLocation: Location {
-        didSet{
-            updateMapRegion(location: mapLocation)
+        didSet {
+            sortLocationsByDistance()
+            calculateRouteDetails(to: mapLocation)
         }
     }
+    
     @Published var currentIndex = 0 {
         didSet {
-            mapLocation = locations[currentIndex]
+            mapLocation = sortedLocations[currentIndex]
         }
     }
     
     @Published var cameraPosition: MapCameraPosition
+    @Published var route: MKRoute?
+    @Published var activeRoute: Bool = false
     
-    private var region: MKCoordinateRegion = MKCoordinateRegion()
-    let mapSpan = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+    private let locationManager = CLLocationManager()
+    private let mapSpan = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
     
     override init() {
         let locations = MapLocation.location
         self.locations = locations
-        self.mapLocation = MapLocation.location.first!
+        self.mapLocation =  locations.first!
         self.cameraPosition = .region(
-                    MKCoordinateRegion(
-                        center: locations.first!.coordinates,
-                        span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-                    )
-                )
+            MKCoordinateRegion(
+                center: locations.first?.coordinates ?? CLLocationCoordinate2D(),
+                span: mapSpan
+            )
+        )
         super.init()
-        self.updateMapRegion(location: locations.first!)
+        requestLocationAccess()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        updateMapRegion(location: mapLocation)
+        
+        
+    }
+    
+    func requestLocationAccess() {
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
     private func updateMapRegion(location: Location) {
-        withAnimation(.easeInOut){
+        withAnimation {
             cameraPosition = .region(
-                           MKCoordinateRegion(
-                               center: location.coordinates,
-                               span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
-                           )
-                       )
+                MKCoordinateRegion(
+                    center: location.coordinates,
+                    span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+                )
+            )
         }
     }
     
     func tapToNextLocation(location: Location) {
-        withAnimation{
+        withAnimation {
             currentIndex = location.id - 1
             updateMapRegion(location: location)
-      
         }
     }
     
-    
-    func swipeAction(){
-        guard let currentIndex = locations.firstIndex(where: {$0 == mapLocation}) else { return }
+    func swipeAction() {
+        guard let currentIndex = sortedLocations.firstIndex(where: { $0 == mapLocation }) else { return }
         
         let nextIndex = currentIndex + 1
         
-        guard locations.indices.contains(nextIndex) else {
-            
-            guard let firstLocation = locations.first else { return }
-            tapToNextLocation(location: firstLocation)
-            return
+        withAnimation {
+            if locations.indices.contains(nextIndex) {
+                tapToNextLocation(location: locations[nextIndex])
+               
+            } else if let firstLocation = locations.first {
+                tapToNextLocation(location: firstLocation)
+               
+            }
         }
     }
     
-//    @Published var region =
-//        MKCoordinateRegion(
-//            center: CLLocationCoordinate2D(latitude: 41.6938, longitude: 44.8015),
-//            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-//        )
-//    
-//    var locationManager: CLLocationManager?
-//    
-//    
-//    
-//    func checkIfLocationManagerEnabled() {
-//        if CLLocationManager.locationServicesEnabled() {
-//            locationManager = CLLocationManager()
-//            locationManager?.delegate = self
-//            
-//        } else {
-//            print("it's off and please active")
-//        }
-//    }
-//    
-//    private  func checkLocationAuthorization(){
-//        guard let locationManager = locationManager else { return }
-//        
-//        switch locationManager.authorizationStatus {
-//            
-//        case .notDetermined:
-//            locationManager.requestWhenInUseAuthorization()
-//        case .restricted:
-//            print("you location is restricted likely due parental control")
-//        case .denied:
-//            print("you have denied please go to setting")
-//        case .authorizedAlways, .authorizedWhenInUse:
-//            region = MKCoordinateRegion(center: locationManager.location!.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-//        @unknown default:
-//            break
-//        }
-//    }
-//   
-//       func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-//           checkLocationAuthorization()
-//       }
-//       
-       
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let userLocation = locations.last else { return }
+        self.userLocation = userLocation.coordinate
+        
+        
+        sortLocationsByDistance()
+    }
+    
+    func sortLocationsByDistance() {
+        guard let userLocation = userLocation else { return }
+        sortedLocations = self.locations.sorted {
+            let distance1 = CLLocation(latitude: $0.coordinates.latitude, longitude: $0.coordinates.longitude)
+                .distance(from: CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude))
+            let distance2 = CLLocation(latitude: $1.coordinates.latitude, longitude: $1.coordinates.longitude)
+                .distance(from: CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude))
+            return distance1 < distance2
+        }
+    }
+    
+    func calculateRouteDetails(to location: Location) {
+        guard let userLocation = userLocation else {
+                    print("User location not available")
+                    return
+                }
+
+                let request = MKDirections.Request()
+                request.source = MKMapItem(placemark: MKPlacemark(coordinate: userLocation))
+                request.destination = MKMapItem(placemark: MKPlacemark(coordinate: location.coordinates))
+                request.transportType = .any
+
+                let directions = MKDirections(request: request)
+                directions.calculate { [weak self] response, error in
+                    if let error = error {
+                        print("Error calculating route: \(error)")
+                        return
+                    }
+
+                    guard let route = response?.routes.first else {
+                        print("No route found")
+                        return
+                    }
+
+                    DispatchQueue.main.async {
+                        self?.route = route
+                        self?.activeRoute = true
+                    }
+                }
+    }
+    
+    
+    
+    func cancelRoute() {
+        DispatchQueue.main.async {
+            self.route = nil
+            self.activeRoute = false
+        }
+    }
+    
+    
 }
 
 
