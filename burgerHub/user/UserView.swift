@@ -162,7 +162,7 @@ struct userViewItems: View {
                     tabButton(title: "History", sysImage: "book")
                 }
                 Button(action: { activeView = .MapView }) {
-                    tabButton(title: "Help", sysImage: "ellipsis.message")
+                    tabButton(title: "Map", sysImage: "mappin.and.ellipse")
                 }
                 Link(destination: URL(string: "https://www.google.com")!) {
                     tabButton(title: "Privacy Policy", sysImage: "list.clipboard")

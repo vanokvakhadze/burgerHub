@@ -11,55 +11,52 @@ import MapKit
 
 
 final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
-    @Published var userLocation:  CLLocationCoordinate2D?
+    @Published var userLocation = CLLocationCoordinate2D(latitude: 41.781898, longitude: 44.797892)
     @Published var locations: [Location]
-    @Published var sortedLocations: [Location] = []
-    @Published var mapLocation: Location {
-        didSet {
-            sortLocationsByDistance()
-            calculateRouteDetails(to: mapLocation)
-        }
-    }
+    
+    //  @Published let defaultLocation = CLLocationCoordinate2D(latitude: 41.781898, longitude: 44.797892)
+    
+    @Published var mapLocation: Location
+    
     
     @Published var currentIndex = 0 {
         didSet {
-            mapLocation = sortedLocations[currentIndex]
+            mapLocation = locations[currentIndex]
+            updateMapRegion(location: mapLocation)
         }
     }
     
     @Published var cameraPosition: MapCameraPosition
     @Published var route: MKRoute?
     @Published var activeRoute: Bool = false
+    private var lastUpdateTime: Date?
     
-    private let locationManager = CLLocationManager()
+    @Published var locationManager = CLLocationManager()
     private let mapSpan = MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)
     
     override init() {
         let locations = MapLocation.location
         self.locations = locations
         self.mapLocation =  locations.first!
+        
         self.cameraPosition = .region(
             MKCoordinateRegion(
-                center: locations.first?.coordinates ?? CLLocationCoordinate2D(),
+                center: locations.first?.coordinates ?? CLLocationCoordinate2D(latitude: 41.781898, longitude: 44.797892),
                 span: mapSpan
             )
         )
         super.init()
-        requestLocationAccess()
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
+        //  requestLocationAccess()
+        //        locationManager.delegate = self
+        //        locationManager.desiredAccuracy = kCLLocationAccuracyBest
         updateMapRegion(location: mapLocation)
         
         
     }
     
-    func requestLocationAccess() {
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-    }
     
-    private func updateMapRegion(location: Location) {
+    
+    func updateMapRegion(location: Location) {
         withAnimation {
             cameraPosition = .region(
                 MKCoordinateRegion(
@@ -71,75 +68,42 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     }
     
     func tapToNextLocation(location: Location) {
+        guard let index = locations.firstIndex(of: location) else { return }
         withAnimation {
-            currentIndex = location.id - 1
+            currentIndex = index
             updateMapRegion(location: location)
         }
     }
     
-    func swipeAction() {
-        guard let currentIndex = sortedLocations.firstIndex(where: { $0 == mapLocation }) else { return }
+    func calculateRouteDetails(to location: Location) {
         
-        let nextIndex = currentIndex + 1
         
-        withAnimation {
-            if locations.indices.contains(nextIndex) {
-                tapToNextLocation(location: locations[nextIndex])
-               
-            } else if let firstLocation = locations.first {
-                tapToNextLocation(location: firstLocation)
-               
+        let destinationPlacemark = MKPlacemark(coordinate: location.coordinates)
+        
+        let request = MKDirections.Request()
+        request.source = .init(placemark: .init(coordinate: userLocation))
+        request.destination = .init(placemark:  .init(placemark: destinationPlacemark))
+        request.transportType = .automobile
+        
+        
+        let directions = MKDirections(request: request)
+        directions.calculate { [weak self] response, error in
+            if let error = error {
+                print("Failed to calculate route: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let route = response?.routes.first else {
+                print("No routes available.")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self?.route = route
+                self?.activeRoute = true
+                print("Route calculated successfully!")
             }
         }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let userLocation = locations.last else { return }
-        self.userLocation = userLocation.coordinate
-        
-        
-        sortLocationsByDistance()
-    }
-    
-    func sortLocationsByDistance() {
-        guard let userLocation = userLocation else { return }
-        sortedLocations = self.locations.sorted {
-            let distance1 = CLLocation(latitude: $0.coordinates.latitude, longitude: $0.coordinates.longitude)
-                .distance(from: CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude))
-            let distance2 = CLLocation(latitude: $1.coordinates.latitude, longitude: $1.coordinates.longitude)
-                .distance(from: CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude))
-            return distance1 < distance2
-        }
-    }
-    
-    func calculateRouteDetails(to location: Location) {
-        guard let userLocation = userLocation else {
-                    print("User location not available")
-                    return
-                }
-
-                let request = MKDirections.Request()
-                request.source = MKMapItem(placemark: MKPlacemark(coordinate: userLocation))
-                request.destination = MKMapItem(placemark: MKPlacemark(coordinate: location.coordinates))
-                request.transportType = .any
-
-                let directions = MKDirections(request: request)
-                directions.calculate { [weak self] response, error in
-                    if let error = error {
-                        print("Error calculating route: \(error)")
-                        return
-                    }
-
-                    guard let route = response?.routes.first else {
-                        print("No route found")
-                        return
-                    }
-
-                    DispatchQueue.main.async {
-                        self?.route = route
-                        self?.activeRoute = true
-                    }
-                }
     }
     
     

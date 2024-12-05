@@ -21,8 +21,9 @@ struct CarouselList: View {
                     Image(uiImage: UIImage(named: card.image) ?? .burgerlogo)
                         .resizable()
                         .scaledToFill()
-                        .frame(width: size.width, height: size.height - 80)
+                        .frame(width: size.width - 20, height: size.height - 100)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .padding(.top, 10)
                     
                     
                     HStack{
@@ -48,19 +49,19 @@ struct CarouselList: View {
                         
                         
                     }
-                    .padding(.bottom, 5)
+                    .padding(.bottom, 10)
                     
                     
                     
                 }
                 .frame(width: size.width)
-                .background(.gray)
+                .background(Color(uiColor: .secondarySystemBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(color: .gray, radius: 8)
                 
                 ZStack{
                     Button(action: {
-                        viewModel.calculateRouteDetails(to: card)
+                        viewModel.calculateRouteDetails(to: viewModel.mapLocation)
                         print("click")
                         
                     }) {
@@ -73,6 +74,7 @@ struct CarouselList: View {
                                     .shadow(color: .green, radius: 2)
                             )
                     }
+                 //   .simultaneousGesture(DragGesture(), including: .subviews)
                     
                    
                 }

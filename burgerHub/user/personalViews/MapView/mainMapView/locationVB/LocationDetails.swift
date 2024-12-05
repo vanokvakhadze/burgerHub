@@ -14,15 +14,16 @@ struct LocationDetails<Content: View, T: Identifiable>: View {
     var spacing: CGFloat
     var trailingSpace: CGFloat
     @Binding var index: Int
-    
+    @ObservedObject var viewModel: MapViewModel
     @GestureState var offset: CGFloat = 0
     
     
-    init( spacing: CGFloat = 15, trailingSpace: CGFloat = 100, index: Binding<Int>, items: [T], @ViewBuilder content: @escaping (T) -> Content) {
+    init( spacing: CGFloat = 15, trailingSpace: CGFloat = 100, index: Binding<Int>, items: [T], viewModel: MapViewModel, @ViewBuilder content: @escaping (T) -> Content) {
         self.list = items
         self.spacing = spacing
         self.trailingSpace = trailingSpace
         self._index = index
+        self.viewModel = viewModel
         self.content = content
     }
     
@@ -47,13 +48,28 @@ struct LocationDetails<Content: View, T: Identifiable>: View {
                         out = value.translation.width
                     })
                     .onEnded({ value in
-                        let offsetX = value.translation.width
-                        let progress = -offsetX / width
-                        let roundedIndex = progress.rounded()
+                        let threshold: CGFloat = width / 2
+                        var newIndex = index 
+          
+                        if value.translation.width > threshold {
+                            newIndex -= 1 
+                        } else if value.translation.width < -threshold {
+                            newIndex += 1 
+                        }
                         
-                        index =  max(min(index + Int((roundedIndex)), list.count - 1), 0)
                         
+                        newIndex = max(min(newIndex, list.count - 1), 0)
+                        
+                    
+                        withAnimation {
+                            index = newIndex
+                        }
+                        let updatedLocation = viewModel.locations[index]
+                        DispatchQueue.main.async {
+                            viewModel.updateMapRegion(location: updatedLocation)
+                        }
                     })
+                
                 
             )
             

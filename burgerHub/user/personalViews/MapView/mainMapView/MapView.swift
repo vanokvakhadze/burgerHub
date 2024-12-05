@@ -7,7 +7,7 @@
 
 import SwiftUI
 import MapKit
-
+import CoreLocation
 
 
 
@@ -21,38 +21,38 @@ struct MapView: View {
         
         ZStack(alignment: .bottom){
             
-            Map(position: $viewModel.cameraPosition,  scope: scope) {
-                if let userLocation = viewModel.userLocation {
-                    Annotation("User Location", coordinate: userLocation) {
-                        Circle()
-                            .fill(Color.blue)
-                            .frame(width: 12, height: 12)
-                            .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                    }.annotationTitles(.hidden)
-                }
-               
+            Map(position: $viewModel.cameraPosition, scope: scope) {
                 
-                ForEach(viewModel.sortedLocations) { location in
-                    Annotation(" ", coordinate: location.coordinates) {
+                Annotation("", coordinate: viewModel.userLocation) {
+                    Circle()
+                        .fill(Color.blue)
+                        .frame(width: 12, height: 12)
+                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                }.annotationTitles(.hidden)
+                
+                
+                
+                ForEach(viewModel.locations) { location in
+                    Annotation("", coordinate: location.coordinates) {
                         BurgerLocation(location: location)
                             .scaleEffect(viewModel.mapLocation == location ? 1 : 0.7)
                             .onTapGesture {
                                 viewModel.tapToNextLocation(location: location)
                             }
-                    }.annotationTitles(.hidden)
+                    }
+                    
+                    //   UserAnnotation()
+                    
+                    
                 }
-                
-                if let route = viewModel.route {
-                                    MapPolyline(route.polyline)
-                                        .stroke(Color.blue, lineWidth: 5)
-                                }
                 
             }
             
             .ignoresSafeArea()
             .onAppear{
-                viewModel.requestLocationAccess()
+                viewModel.locationManager.requestWhenInUseAuthorization()
             }
+            
             .overlay(alignment: .topTrailing ){
                 VStack(spacing: 15) {
                     MapUserLocationButton(scope: scope)
@@ -69,26 +69,20 @@ struct MapView: View {
             .toolbarBackground(.ultraThinMaterial, for: .navigationBar)
             
             
+            
             ZStack {
-                if viewModel.activeRoute {
-                    DirectionView(viewModel: viewModel)
-                    
-                } else {
-                    VStack{
-                        LocationDetails(spacing: 30, index: $viewModel.currentIndex, items: viewModel.sortedLocations) { card in
-                            
-                            CarouselList(viewModel: viewModel, card: card)
-                                
-                        }
-//
+                VStack{
+                    LocationDetails(spacing: 30, index: $viewModel.currentIndex, items: viewModel.locations, viewModel: viewModel) { card in
+                        
+                        CarouselList(viewModel: viewModel, card: card)
                         
                         
-                        indicators(viewModel: viewModel)
-                            .padding(.top, 5)
                     }
-                    .padding(.vertical, 30)
                     
+                    indicators(viewModel: viewModel)
+                        .padding(.top, 5)
                 }
+                .padding(.vertical, 30)
                 
             }
             
@@ -97,35 +91,37 @@ struct MapView: View {
             .background(.background)
             .clipShape(RoundedRectangle(cornerRadius: 30))
             .padding(.bottom, -35)
-//            .onTapGesture{
-//                viewModel.swipeAction()
-//            }
             
-           
+            
         }
     }
     
     func BurgerLocation(location: Location) -> some View{
         ZStack{
-            Image(uiImage: UIImage(named: location.image) ?? .burgerlogo)
+            Image(uiImage: .burgerlogo)
                 .resizable()
-                .scaledToFit()
-                .frame(width: 40, height: 40)
+                .scaledToFill()
+                .frame(width: 38, height: 38)
                 .clipShape(Circle())
+                .background(
+                    Circle()
+                        .fill(Color.orange.opacity(viewModel.currentIndex == location.id ? 1 : 0.1))
+                        .frame(width: 45, height: 45)
+                )
             
         }
     }
     
     func indicators(viewModel: MapViewModel) -> some View {
         HStack{
-            ForEach(viewModel.sortedLocations.indices) {  index in
+            ForEach(viewModel.locations.indices) {  index in
                 Circle()
-                    .fill(Color.blue.opacity(viewModel.currentIndex == index ? 1 : 0.1))
+                    .fill(Color.orange.opacity(viewModel.currentIndex == index ? 1 : 0.1))
                     .frame(width: 10, height: 10)
                     .scaleEffect(viewModel.currentIndex == index ? 1.4 : 1)
-                    .animation(.spring, value: viewModel.currentIndex == index )
+                    .animation(.spring, value: viewModel.currentIndex == index)
                     .onTapGesture {
-                        viewModel.currentIndex = index
+                        viewModel.tapToNextLocation(location: viewModel.locations[index])
                     }
                 
                 

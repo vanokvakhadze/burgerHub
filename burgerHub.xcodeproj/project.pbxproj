@@ -10,7 +10,6 @@
 		3B428E8C2CEB6BDD007FB8C3 /* SearchList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428E8B2CEB6BDD007FB8C3 /* SearchList.swift */; };
 		3B428E9F2CEF642B007FB8C3 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428E9E2CEF642B007FB8C3 /* MapModel.swift */; };
 		3B428EA32CEF6827007FB8C3 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428EA22CEF6827007FB8C3 /* MapViewModel.swift */; };
-		3B428EB82CFE79AA007FB8C3 /* DirectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428EB72CFE79AA007FB8C3 /* DirectionView.swift */; };
 		3B428EBA2CFE79FA007FB8C3 /* CarouselList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428EB92CFE79FA007FB8C3 /* CarouselList.swift */; };
 		3B428EBD2CFE7A69007FB8C3 /* LocationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B428EBC2CFE7A69007FB8C3 /* LocationDetails.swift */; };
 		3B46C91D2C9C65F400053008 /* Tab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C91C2C9C65F400053008 /* Tab.swift */; };
@@ -71,7 +70,6 @@
 		3B428E8B2CEB6BDD007FB8C3 /* SearchList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchList.swift; sourceTree = "<group>"; };
 		3B428E9E2CEF642B007FB8C3 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		3B428EA22CEF6827007FB8C3 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
-		3B428EB72CFE79AA007FB8C3 /* DirectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionView.swift; sourceTree = "<group>"; };
 		3B428EB92CFE79FA007FB8C3 /* CarouselList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselList.swift; sourceTree = "<group>"; };
 		3B428EBC2CFE7A69007FB8C3 /* LocationDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetails.swift; sourceTree = "<group>"; };
 		3B46C91C2C9C65F400053008 /* Tab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tab.swift; sourceTree = "<group>"; };
@@ -201,7 +199,6 @@
 		3B428EB62CFE797D007FB8C3 /* Map extensions  */ = {
 			isa = PBXGroup;
 			children = (
-				3B428EB72CFE79AA007FB8C3 /* DirectionView.swift */,
 				3B428EB92CFE79FA007FB8C3 /* CarouselList.swift */,
 			);
 			path = "Map extensions ";
@@ -707,7 +704,6 @@
 				3B46C9562CB5F06900053008 /* DesertModel.swift in Sources */,
 				3B46C92E2CA1BCDF00053008 /* UserView.swift in Sources */,
 				3B46C9252CA1BC7300053008 /* HomeView.swift in Sources */,
-				3B428EB82CFE79AA007FB8C3 /* DirectionView.swift in Sources */,
 				3B733DD02C6FAF1C006D09FD /* LoginVM.swift in Sources */,
 				3B46C9662CB8A69C00053008 /* IngredientsView.swift in Sources */,
 			);
