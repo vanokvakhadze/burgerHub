@@ -29,9 +29,23 @@ class LogOutVC: UIViewController {
     
     
     func navigateButton(){
-        let vc = LoginVC()
-        self.navigationController?.pushViewController(vc, animated: true)
-      
+        let loginVC = LoginVC()
+    
+        let user = authService().getUser(service: "IOS dev") ?? ""
+        
+        do {
+            try authService().deletePassword(service: "IOS dev", account: user)
+
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                       let window = scene.windows.first {
+                        window.rootViewController = UINavigationController(rootViewController: loginVC)
+                        window.makeKeyAndVisible()
+                    }
+            
+                    }
+        catch {
+           // sendAlert(message: "account couldn't delete", title: "Delete error")
+        }
     }
     /*
     // MARK: - Navigation

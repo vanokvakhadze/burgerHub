@@ -116,6 +116,8 @@ struct LogOutView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> LogOutVC{
         return LogOutVC()
     }
+    
+  
 }
 
 

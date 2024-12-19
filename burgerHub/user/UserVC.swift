@@ -208,10 +208,20 @@ class UserVC: UIViewController {
     
     func navigateToLogin(){
         let vc = LoginVC()
+        guard let navigationController = self.navigationController else {
+                   print("Navigation controller not found")
+                   return
+               }
         do {
             try authService().deletePassword(service: "IOS dev", account: userTitle.text ?? "")
-            self.navigationController?.present(vc, animated: true)
-            self.modalPresentationStyle = .fullScreen
+
+                   for viewController in navigationController.viewControllers {
+                       if let loginVC = viewController as? LoginVC {
+                           navigationController.popToViewController(loginVC, animated: true)
+                           return
+                       }
+                   }
+            navigationController.setViewControllers([vc], animated: true)
             sendAlert(message: "your account was deleted", title: "Success")
         } catch {
             sendAlert(message: "account couldn't delete", title: "Delete error")

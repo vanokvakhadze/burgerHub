@@ -34,8 +34,6 @@
 		3B46C94C2CAD76DF00053008 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C94B2CAD76DF00053008 /* MainViewModel.swift */; };
 		3B46C94F2CAD775A00053008 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C94E2CAD775A00053008 /* NetworkService.swift */; };
 		3B46C9522CAD7C7000053008 /* CachingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9512CAD7C7000053008 /* CachingService.swift */; };
-		3B46C9542CB5EDD000053008 /* PizzaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9532CB5EDD000053008 /* PizzaModel.swift */; };
-		3B46C9562CB5F06900053008 /* DesertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C9552CB5F06900053008 /* DesertModel.swift */; };
 		3B46C95B2CB7217D00053008 /* fetchImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C95A2CB7217D00053008 /* fetchImage.swift */; };
 		3B46C95D2CB7376800053008 /* sysImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C95C2CB7376800053008 /* sysImage.swift */; };
 		3B46C9602CB8510900053008 /* BurgerList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B46C95F2CB8510900053008 /* BurgerList.swift */; };
@@ -98,8 +96,6 @@
 		3B46C94B2CAD76DF00053008 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		3B46C94E2CAD775A00053008 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		3B46C9512CAD7C7000053008 /* CachingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachingService.swift; sourceTree = "<group>"; };
-		3B46C9532CB5EDD000053008 /* PizzaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PizzaModel.swift; sourceTree = "<group>"; };
-		3B46C9552CB5F06900053008 /* DesertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesertModel.swift; sourceTree = "<group>"; };
 		3B46C95A2CB7217D00053008 /* fetchImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchImage.swift; sourceTree = "<group>"; };
 		3B46C95C2CB7376800053008 /* sysImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysImage.swift; sourceTree = "<group>"; };
 		3B46C95F2CB8510900053008 /* BurgerList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BurgerList.swift; sourceTree = "<group>"; };
@@ -301,8 +297,6 @@
 			isa = PBXGroup;
 			children = (
 				3B46C9482CAD6AD600053008 /* BurgerModel.swift */,
-				3B46C9532CB5EDD000053008 /* PizzaModel.swift */,
-				3B46C9552CB5F06900053008 /* DesertModel.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -697,7 +691,6 @@
 				3B733D912C6AAFEC006D09FD /* AppDelegate.swift in Sources */,
 				3B46C93E2CA30FE000053008 /* ProfileView.swift in Sources */,
 				3B428EC62D03C557007FB8C3 /* IngredientsService.swift in Sources */,
-				3B46C9542CB5EDD000053008 /* PizzaModel.swift in Sources */,
 				3B428EBF2D03BFCD007FB8C3 /* CardManager.swift in Sources */,
 				3B46C94F2CAD775A00053008 /* NetworkService.swift in Sources */,
 				3B46C9292CA1BCAC00053008 /* FavoriteView.swift in Sources */,
@@ -717,7 +710,6 @@
 				3B46C9602CB8510900053008 /* BurgerList.swift in Sources */,
 				3B46C9422CAAF9BF00053008 /* LogOutVC.swift in Sources */,
 				3B46C95D2CB7376800053008 /* sysImage.swift in Sources */,
-				3B46C9562CB5F06900053008 /* DesertModel.swift in Sources */,
 				3B46C92E2CA1BCDF00053008 /* UserView.swift in Sources */,
 				3B46C9252CA1BC7300053008 /* HomeView.swift in Sources */,
 				3B733DD02C6FAF1C006D09FD /* LoginVM.swift in Sources */,
