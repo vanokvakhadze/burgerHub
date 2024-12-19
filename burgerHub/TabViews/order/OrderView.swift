@@ -80,27 +80,29 @@ struct OrderView: View {
             .navigationBarItems(leading: customBackButton(path: $path, text: "Cart", pathNumber: 1))
         }
         .onAppear{
-            viewModel.loadCards()
-            tabHide = true
+            DispatchQueue.main.async{
+                self.viewModel.loadCards()
+                self.tabHide = true
+            }
         }
 
     }
 }
 
-struct OrderView_Previews: PreviewProvider {
-    static var previews: some View {
-        @State var samplePath = NavigationPath()
-        
-        OrderView(viewModel: MainViewModel(), path: $samplePath, tabHide: .constant(false), activeTab: .constant(.basket))
-    }
-}
+//struct OrderView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        @State var samplePath = NavigationPath()
+//        
+//        OrderView(viewModel: MainViewModel(), path: $samplePath, tabHide: .constant(false), activeTab: .constant(.basket))
+//    }
+//}
 
 
 struct Cards: View {
     @ObservedObject var viewModel: MainViewModel
     @Binding var show: Bool
     @Binding var showAlert: Bool
-    var selected: String
+    var selected: String?
     
     var body: some View {
         
@@ -139,46 +141,53 @@ struct Cards: View {
                 )
                 .padding(.vertical, 20)
                 
-                
-                HStack{
-                    Spacer()
-                    Button(action: {
-                        
-                        show.toggle()
-                        
-                    }) {
-                        HStack{
-                            Image(systemName: "plus")
-                                .resizable()
-                                .frame(width: 14, height: 14)
-                                .foregroundStyle(.buttonC)
+              
+                switch viewModel.selectedCardType {
+                case "Visa", "MasterCard", "PayPal":
+                    
+                    HStack{
+                        Spacer()
+                        Button(action: {
                             
-                            Text("ADD TO NEW")
-                                .fontWeight(.bold)
-                                .foregroundStyle(.buttonC)
+                            show.toggle()
                             
+                        }) {
+                            HStack{
+                                Image(systemName: "plus")
+                                    .resizable()
+                                    .frame(width: 14, height: 14)
+                                    .foregroundStyle(.buttonC)
+                                
+                                Text("ADD TO NEW")
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.buttonC)
+                                
+                            }
                         }
-                    }
-                    
-                    .frame(width:307 ,height: 62)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke( Color(uiColor: .secondarySystemBackground) ,lineWidth: 3)
-                    )
-                    .sheet(isPresented: $show, content: {
+                        .frame(width:307 ,height: 62)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke( Color(uiColor: .secondarySystemBackground) ,lineWidth: 3)
+                        )
+                        .sheet(isPresented: $show, content: {
+                            
+                            CardDetails(cardType: selected ?? "", viewModel: viewModel, show: $show)
+                                .presentationDetents([.medium])
+                            
+                        })
+                        .alert("Please select a card type", isPresented: $showAlert) {
+                            Button("OK", role: .cancel) { }
+                        }
+                        Spacer()
                         
-                        CardDetails(cardType: selected, viewModel: viewModel, show: $show)
-                            .presentationDetents([.medium])
-                        
-                    })
-                    .alert("Please select a card type", isPresented: $showAlert) {
-                        Button("OK", role: .cancel) { }
                     }
-                    Spacer()
+                default:
                     
-                    
+                    EmptyView()
                 }
+
                 
+                    
                 
                 
             } else {
@@ -238,53 +247,63 @@ struct Cards: View {
                         .listRowBackground(Color(uiColor: .systemBackground))
                         
                         
+                        switch viewModel.selectedCardType {
+                        case "Visa", "MasterCard", "PayPal":
+                        
                         Spacer()
                             .frame(height: 2)
-                        
-                        HStack{
-                            Spacer()
-                            Button(action: {
-                                
-                                show.toggle()
-                                
-                            }) {
-                                HStack{
-                                    Image(systemName: "plus")
-                                        .resizable()
-                                        .frame(width: 14, height: 14)
-                                        .foregroundStyle(.buttonC)
-                                    
-                                    Text("ADD TO NEW")
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(.buttonC)
-                                    
-                                }
-                            }
-                            
-                            .frame(width:307 ,height: 62)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke( Color(uiColor: .secondarySystemBackground) ,lineWidth: 3)
-                            )
-                            .sheet(isPresented: $show, content: {
-                                
-                                CardDetails(cardType: selected, viewModel: viewModel, show: $show)
-                                    .presentationDetents([.medium])
-                                
-                            })
-                            .alert("Please select a card type", isPresented: $showAlert) {
-                                Button("OK", role: .cancel) { }
-                            }
-                            Spacer()
-                            
-                            
-                        }
+                              HStack{
+                                  Spacer()
+                                  Button(action: {
+                                      
+                                      show.toggle()
+                                      
+                                  }) {
+                                      HStack{
+                                          Image(systemName: "plus")
+                                              .resizable()
+                                              .frame(width: 14, height: 14)
+                                              .foregroundStyle(.buttonC)
+                                          
+                                          Text("ADD TO NEW")
+                                              .fontWeight(.bold)
+                                              .foregroundStyle(.buttonC)
+                                          
+                                      }
+                                  }
+                                  
+                                  .frame(width:307 ,height: 62)
+                                  .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke( Color(uiColor: .secondarySystemBackground) ,lineWidth: 3)
+                                  )
+                                  .sheet(isPresented: $show, content: {
+                                      
+                                      CardDetails(cardType: selected ?? "", viewModel: viewModel, show: $show)
+                                          .presentationDetents([.medium])
+                                      
+                                  })
+                                  .alert("Please select a card type", isPresented: $showAlert) {
+                                      Button("OK", role: .cancel) { }
+                                  }
+                                  Spacer()
+                                  
+                              }
                         
                         .listRowSeparator(.hidden)
+                            
+                        default:
+                            
+                            EmptyView()
+                            
+                    }
+                        
+                        
                     }
                     .padding(.top, 15)
                     .scrollIndicators(.hidden)
                     .listStyle(PlainListStyle())
+                    
                     
                 }
             }
@@ -345,7 +364,6 @@ struct CardTypeList: View {
         
         .frame(width: 85, height: 93)
         .onTapGesture {
-            
             viewModel.selectedCardType = item
         }
     }

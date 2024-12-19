@@ -32,9 +32,10 @@ struct PaymentView: View {
                 .padding(.top, 20)
                 .padding(.bottom, 40)
                 
-                
-                
-                Cards(viewModel: viewModel, show: $showSheet, showAlert: $showAlert, selected: viewModel.selectedCardType ?? "")
+                ScrollView{
+                    
+                    Cards(viewModel: viewModel, show: $showSheet, showAlert: $showAlert, selected: viewModel.selectedCardType ?? "")
+                }
             }
          
      
@@ -43,6 +44,6 @@ struct PaymentView: View {
     }
 }
 
-#Preview {
-    PaymentView(viewModel: MainViewModel())
-}
+//#Preview {
+//    PaymentView(viewModel: MainViewModel())
+//}

@@ -6,23 +6,23 @@
 //
 
 import Foundation
-struct BurgerResponse: Codable {
-    let data: [Burgers]
-}
+import SwiftData
 
-struct Burgers: Codable, Identifiable, Hashable, Equatable {
-    let id: Int
-    let name: String
-    let images: [ImageSize]
-    let desc: String
+
+@Model
+class Burgers: Decodable, Identifiable, Hashable, Equatable {
+    @Attribute(.unique) var id: Int
+    var name: String
+    var images: [ImageSize]
+    var desc: String
     var ingredients: [Ingredients]
-    let price: Double
-    let veg: Bool
+    var price: Double
+    var veg: Bool
     var amount: Int
     var isLiked: Bool
-    
+
    
-        init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             id = try container.decode(Int.self, forKey: .id)
             name = try container.decode(String.self, forKey: .name)
@@ -31,9 +31,13 @@ struct Burgers: Codable, Identifiable, Hashable, Equatable {
             desc = try container.decode(String.self, forKey: .desc)
             ingredients = try container.decode([Ingredients].self, forKey: .ingredients)
             veg = try container.decode(Bool.self, forKey: .veg)
-            amount = 1 // Default value, since it's not provided by the JSON
-            isLiked = false
-        }
+            amount = try container.decodeIfPresent(Int.self, forKey: .amount) ?? 1
+            isLiked = try container.decodeIfPresent(Bool.self, forKey: .isLiked) ?? false
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+           case id, name, images, desc, ingredients, price, veg, amount, isLiked
+       }
     
     static func == (lhs: Burgers, rhs: Burgers) -> Bool {
         lhs.id == rhs.id
@@ -62,6 +66,7 @@ struct Ingredients: Codable, Identifiable {
         id = try container.decode(Int.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
         img = try container.decode(String.self, forKey: .img)
-        amountOf = 1 // Default value, since it's not provided by the JSON
+        amountOf = 1
     }
+  
 }

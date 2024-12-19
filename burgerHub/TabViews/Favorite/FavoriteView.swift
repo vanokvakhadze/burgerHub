@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SwiftData
+import CoreData
 
 struct FavoriteView: View {
     @ObservedObject var viewModel: MainViewModel
@@ -14,6 +16,7 @@ struct FavoriteView: View {
                    GridItem(.adaptive(minimum: 100, maximum: 170), spacing: 13)]
     @State var path = NavigationPath()
     @Binding var activeTab: Tab
+    @Environment(\.modelContext) var context: ModelContext
     
     var body: some View {
         NavigationStack(path: $path){
@@ -21,7 +24,7 @@ struct FavoriteView: View {
                 Color(uiColor: .secondarySystemBackground)
                     .ignoresSafeArea()
                 VStack{
-                    if viewModel.favoriteBurger.isEmpty {
+                    if viewModel.favoriteBurgers.isEmpty {
                         
                         Text("there is not favorite burgers yet")
                             .font(.custom("Fira-GO", size: 21))
@@ -32,7 +35,7 @@ struct FavoriteView: View {
                     } else {
                         ScrollView{
                             LazyVGrid(columns: columns , spacing: 20){
-                                ForEach(viewModel.favoriteBurger) { item in
+                                ForEach(viewModel.favoriteBurgers) { item in
                                     Button {
                                         path.append(item)
                                     } label: {
@@ -48,26 +51,27 @@ struct FavoriteView: View {
                             .padding(.horizontal, 10)
                             .padding(.vertical, 10)
                         }
-                        .padding(.vertical, 15)
                     }
-                    
-                }
-                .navigationDestination(for: Burgers.self)  { item in
-                    DetailsView(burger: $viewModel.burgers[item.id],  viewModel: viewModel, path: $path, tabBarHide: $tabHide, activeTab: $activeTab)
-                }
-                
-                .onAppear {
-                    DispatchQueue.main.async {
-                        tabHide = false
                         
                     }
+                        .navigationDestination(for: Burgers.self)  { item in
+                            DetailsView(burger: $viewModel.burgers[item.id],  viewModel: viewModel, path: $path, tabBarHide: $tabHide, activeTab: $activeTab)
+                        }
+                    
+                        .onAppear {
+                            DispatchQueue.main.async {
+                                tabHide = false
+                              //  viewModel.fetchBurgers(context: context)
+                            }
+                            
+                            
+                        }
                 }
+                .navigationTitle("Favorite Burgers")
             }
-            .navigationTitle("Favorite Burgers")
         }
     }
-}
-
-#Preview {
-    FavoriteView(viewModel: MainViewModel(), tabHide: .constant(false), activeTab: .constant(.favorite))
-}
+    
+//    #Preview {
+//        FavoriteView(viewModel: MainViewModel(), tabHide: .constant(false), activeTab: .constant(.favorite))
+//    }

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class RegisterVC: UIViewController{
     
@@ -173,7 +174,11 @@ class RegisterVC: UIViewController{
     }
     
     func navigateToMain(){
-        guard /*let user = emailInput.text, let passwords = passwordInput.text,*/ let rePasswords = rePasswordInput.text else { return sendAlert(message: "please fill fields", title: "error")}
+        
+        lazy var container = (UIApplication.shared.delegate as! AppDelegate).modelContainer
+        
+        
+        guard  let rePasswords = rePasswordInput.text else { return sendAlert(message: "please fill fields", title: "error")}
         
         
         if !ValidateInfo.isValidEmail(for: emailInput.text ?? "") {
@@ -188,8 +193,14 @@ class RegisterVC: UIViewController{
         
         let isSuccess = itemModel.registerUser(user: emailInput.text ?? "", password: passwordInput.text ?? "", rePassword: rePasswords)
         
+        
+        let swiftUIView = TabViews().modelContainer(container)
+
+        let hostingController = UIHostingController(rootView: swiftUIView)
+
+        
         if isSuccess {
-            navigationController?.pushViewController(UserVC(), animated: true)
+            navigationController?.pushViewController(hostingController, animated: true)
             sendAlert(message: "welcome from burgerHub", title: "success")
             
         } else {

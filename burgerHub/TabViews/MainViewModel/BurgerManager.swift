@@ -7,48 +7,83 @@
 
 import Foundation
 
+
+protocol BurgerFavorite{
+    func clickHeartButton(burger: Burgers, in viewModel: MainViewModel)
+}
+
+
 class BurgerManager {
-    private var burgers: [Burgers] = []
-    private var isLiked: Bool = false
-    private var amount: Int = 1
     
+    static let shared = BurgerManager()
     
-    func fetchBurgers() {
-        let headers = [
-            "x-rapidapi-key": "ee8e6ad656msh1622ed26a2ea971p11ddb1jsn86cfe5139e63",
-            "x-rapidapi-host": "burgers-hub.p.rapidapi.com"
-        ]
+    private let headers = [
+               "x-rapidapi-key": "27a6606d57msh2fdc635268fefd1p1bfe7ajsn309aa932fe0f",
+               "x-rapidapi-host": "exercisedb.p.rapidapi.com"
+           ]
+           
+    private let urlString = "https://exercisedb.p.rapidapi.com/exercises?limit=250&offset=0"
+           
+   
+    func addToCart(burger: Burgers, in viewModel: MainViewModel) {
+        if let index = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
+            viewModel.burgerCart[index].amount += 1
+        } else {
+            viewModel.burgerCart.append(burger)
+        }
+    }
+  
+    
+    func addBurger(of burger: Burgers, in viewModel: MainViewModel) {
+        if let index = viewModel.burgers.firstIndex(where: { $0.id == burger.id }) {
+            viewModel.burgers[index].amount += 1
+        }
         
-        let urlString = "https://burgers-hub.p.rapidapi.com/burgers"
+        if let index = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
+            viewModel.burgerCart[index].amount += 1
+        }
+    }
+    
+    func decreaseBurger(of burger: Burgers, in viewModel: MainViewModel){
+        if let index = viewModel.burgers.firstIndex(where: { $0.id == burger.id}){
+            if viewModel.burgers[index].amount > 1 {
+                viewModel.burgers[index].amount -= 1
+            }
+        }
         
-        if let url = URL(string: urlString) {
-            CachingService().fetchData(from: url, headers: headers) { result in
-                guard let fetchedBurgers = result else {
-                    return
-                }
-                
-                
-                let modifiedBurgers = fetchedBurgers.map { burger -> Burgers in
-                    var updatedBurger = burger
-                    updatedBurger.amount = 1
-                    updatedBurger.isLiked = false
-                    
-                    
-                    let updatedIngredients = updatedBurger.ingredients.map { ingredient -> Ingredients in
-                        var updatedIngredient = ingredient
-                        updatedIngredient.amountOf = 1
-                        return updatedIngredient
-                    }
-                    
-                    updatedBurger.ingredients = updatedIngredients
-                    return updatedBurger
-                }
-                
-                
-                DispatchQueue.main.async {
-                    self.burgers = modifiedBurgers
-                }
+        if let index = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id}){
+            if viewModel.burgerCart[index].amount > 1 {
+                viewModel.burgerCart[index].amount -= 1
             }
         }
     }
+    
+    func getAmount(of burger: Burgers, in viewModel: MainViewModel)  -> Int{
+        if let index = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
+            return viewModel.burgerCart[index].amount
+        } else {
+            return  burger.amount
+        }
+    }
+}
+
+
+
+
+extension BurgerManager {
+  
+    
+    func clearBurgerCart(in viewModel: MainViewModel) {
+        viewModel.boughtBurger.append(contentsOf: viewModel.burgerCart)
+        viewModel.burgerCart.removeAll()
+    }
+    
+//    
+//    func clickHeartButton(burger: Burgers, in viewModel: MainViewModel) {
+//        if viewModel.favoriteBurger.contains(where: { $0.id == burger.id }) {
+//            viewModel.favoriteBurger.removeAll { $0.id == burger.id }
+//        } else {
+//            viewModel.favoriteBurger.append(burger)
+//        }
+//    }
 }

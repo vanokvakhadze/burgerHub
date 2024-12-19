@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BurgerList: View {
     @ObservedObject var viewModel: MainViewModel
     var burger: Burgers
+    @Environment(\.modelContext) private var context
+
+    
+
     var body: some View {
         ZStack(alignment: .bottomTrailing){
           
@@ -22,7 +27,7 @@ struct BurgerList: View {
                     }
                     
                     ZStack{
-                        sysImage(image: viewModel.isLiked(burger), width: 16, height: 16)
+                        sysImage(image: viewModel.filterFavorites(burger: burger) ? "heart.fill" : "heart", width: 16, height: 16)
                             .foregroundStyle(.red)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
@@ -32,7 +37,7 @@ struct BurgerList: View {
                             .padding(.top, 10)
                             .padding(.trailing, -17)
                             .onTapGesture {
-                                viewModel.clickHeartButton(burger: burger)
+                                viewModel.toggleLikedButton(burger: burger, context: context)
                             }
                     }
                 }
@@ -98,6 +103,7 @@ struct BurgerList: View {
 
 
 
-#Preview {
-    HomeView(isShown: .constant(false), viewModel: MainViewModel(), activeTab: .constant(.home), tabBarHide: .constant(false))
-}
+
+//#Preview {
+//    HomeView(isShown: .constant(false), viewModel: MainViewModel(), activeTab: .constant(.home), tabBarHide: .constant(false))
+//}

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct TabViews: View {
     @State private var activeTab: Tab = .home
@@ -15,7 +16,7 @@ struct TabViews: View {
     @State var offset: CGFloat  = 0
     @State var lastStoredOffset: CGFloat  = 0
     @GestureState var gestureOffset: CGFloat = 0
-    @ObservedObject var viewModel = MainViewModel()
+    @StateObject var viewModel = MainViewModel()
     @State var path = NavigationPath()
     @State var tabBarshow = false
     
@@ -41,7 +42,7 @@ struct TabViews: View {
                             .tag(Tab.home)
                         
                         
-                        FavoriteView(viewModel: viewModel, tabHide: $tabBarshow, activeTab: $activeTab )
+                        FavoriteView(viewModel: viewModel, tabHide: $tabBarshow, activeTab: $activeTab)
                             .tag(Tab.favorite)
                         
                         
@@ -53,7 +54,8 @@ struct TabViews: View {
                         
                         
                     }
-                    .toolbar(.hidden, for: .tabBar)  
+                    .modelContainer((UIApplication.shared.delegate as! AppDelegate).modelContainer)
+                    .toolbar(.hidden, for: .tabBar)
                     if !tabBarshow {
                         customTabBar()
                     }

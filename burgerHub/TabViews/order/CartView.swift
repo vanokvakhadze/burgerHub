@@ -21,70 +21,75 @@ struct CartView: View {
                 Color(uiColor: UIColor.secondarySystemBackground)
                     .ignoresSafeArea()
                 VStack {
-                    ScrollView {
-                        VStack {
-                            HStack {
-                                Spacer()
-                                    .frame(width: 20)
-                                Text("Your Cart")
-                                    .font(.custom("FiraGO-Regular", size: 20))
-                                Spacer()
-                            }
-                            
-                            ForEach(viewModel.burgerCart, id: \.id) { items in
-                                Button {
-                                    path.append(DestinationCart.ingredients(items))
-                                } label: {
-                                    cartList(item: items, viewModel: viewModel)
-                                        .foregroundColor(.primary)
+                    if viewModel.burgerCart.isEmpty{
+                        Text("Cart is empty")
+                            .font(.custom("FiraGO-Regular", size: 20))
+                    } else {
+                        
+                        ScrollView {
+                            VStack {
+                                HStack {
+                                    Spacer()
+                                        .frame(width: 20)
+                                    Text("Your Cart")
+                                        .font(.custom("FiraGO-Regular", size: 20))
+                                    Spacer()
                                 }
+                                
+                                ForEach(viewModel.burgerCart, id: \.id) { items in
+                                    Button {
+                                        path.append(DestinationCart.ingredients(items))
+                                    } label: {
+                                        cartList(item: items, viewModel: viewModel)
+                                            .foregroundColor(.primary)
+                                    }
+                                }
+                                
                             }
-                            
                         }
-                    }
-                    
-                    
-                    ZStack(alignment: .bottom) {
-                        Color(uiColor: .systemBackground)
-                        VStack {
-                            HStack {
+                        
+                        
+                        ZStack(alignment: .bottom) {
+                            Color(uiColor: .systemBackground)
+                            VStack {
+                                HStack {
+                                    Spacer()
+                                        .frame(width: 15)
+                                    Text("Total")
+                                    Spacer()
+                                    Text("$ \(String(format: "%.1f", viewModel.totalPrise))")
+                                    Spacer()
+                                        .frame(width: 20)
+                                }
+                                .frame(width: 330, height: 60)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .fill(Color(uiColor: .tertiarySystemGroupedBackground))
+                                )
+                                
                                 Spacer()
-                                    .frame(width: 15)
-                                Text("Total")
+                                    .frame(height: 26)
+                                
+                                Button("Place Order", action: {
+                                    path.append(DestinationCart.OrderView(viewModel))
+                                })
+                                .frame(width: 280, height: 50)
+                                .foregroundColor(.white)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 25)
+                                        .fill(.buttonC)
+                                )
+                                
                                 Spacer()
-                                Text("$ \(String(format: "%.1f", viewModel.totalPrise))")
-                                Spacer()
-                                    .frame(width: 20)
+                                    .frame(height: 50)
                             }
-                            .frame(width: 330, height: 60)
-                            .background(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(Color(uiColor: .tertiarySystemGroupedBackground))
-                            )
-                            
-                            Spacer()
-                                .frame(height: 26)
-                            
-                            Button("Place Order", action: {
-                                path.append(DestinationCart.OrderView(viewModel))
-                            })
-                            .frame(width: 280, height: 50)
-                            .foregroundColor(.white)
-                            .background(
-                                RoundedRectangle(cornerRadius: 25)
-                                    .fill(.buttonC)
-                            )
-                            
-                            Spacer()
-                                .frame(height: 50)
+                            .padding(.vertical, 20)
                         }
-                        .padding(.vertical, 20)
+                        .frame(height: 240)
+                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                        .shadow(color: Color(uiColor: .tertiarySystemGroupedBackground), radius: 1)
+                        .padding(.bottom, -50)
                     }
-                    .frame(height: 240)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .shadow(color: Color(uiColor: .tertiarySystemGroupedBackground), radius: 1)
-                    .padding(.bottom, -50)
-                    
                 }
                 .navigationBarBackButtonHidden()
                 .navigationDestination(for: DestinationCart.self) { destination in
@@ -153,7 +158,7 @@ struct CartView: View {
                                     )
                                     .onTapGesture {
                                         
-                                        viewModel.addBurger(of: item)
+                                        viewModel.addBurger(of:  item)
                                     }
                             }
                             

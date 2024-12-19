@@ -37,6 +37,6 @@ struct NotificationView: View {
     }
 }
 
-#Preview {
-    NotificationView(viewModel: MainViewModel())
-}
+//#Preview {
+//    NotificationView(viewModel: MainViewModel())
+//}

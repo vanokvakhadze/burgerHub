@@ -7,9 +7,9 @@
 
 import Foundation
 
-class CartService {
-    var burgers: [Burgers] = []
-    var burgerCart: [Burgers] = []
+class CartService: ObservableObject {
+    @Published var burgers: [Burgers] = []
+    @Published var burgerCart: [Burgers] = []
     
     
     func getAmount(of burger: Burgers)  -> Int{
@@ -31,6 +31,15 @@ class CartService {
         } else {
             burgerCart.append(burger)
         }
+    }
+    
+    func addToCart(burger: Burgers)  {
+        if let index = burgerCart.firstIndex(where: { $0.id == burger.id }) {
+            burgerCart[index].amount += 1
+        } else {
+            burgerCart.append(burger)
+        }
+        
     }
     
     func decreaseBurger(of burger: Burgers){

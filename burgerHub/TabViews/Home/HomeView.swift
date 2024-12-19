@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HomeView: View {
     @Binding var isShown: Bool
@@ -15,8 +16,9 @@ struct HomeView: View {
                    GridItem(.adaptive(minimum: 100, maximum: 170), spacing: 13)]
     
     @State var path = NavigationPath()
-   
     @Binding var tabBarHide: Bool
+    @Environment(\.modelContext) private var context
+    
     
     var body: some View {
         
@@ -114,6 +116,7 @@ struct HomeView: View {
                     DispatchQueue.main.async {
                         tabBarHide = false
                         viewModel.fetchData()
+                        viewModel.fetchBurgers(context: context)
                     }
                    
                    
@@ -142,9 +145,9 @@ struct HomeView: View {
     
 }
 
-#Preview {
-    HomeView(isShown: .constant(false), viewModel: MainViewModel(), activeTab: .constant(.home), tabBarHide: .constant(false))
-}
+//#Preview {
+//    HomeView(isShown: .constant(false), viewModel: MainViewModel(), activeTab: .constant(.home), tabBarHide: .constant(false))
+//}
 
 struct searchList: View {
     var burger: Burgers

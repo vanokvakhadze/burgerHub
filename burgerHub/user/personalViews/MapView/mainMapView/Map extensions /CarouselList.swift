@@ -40,7 +40,7 @@ struct CarouselList: View {
                         Spacer()
                             .frame(width: 10)
                         
-                        Text(card.name)
+                        Text(card.adress)
                             .font(.custom("FiraGO", size: 18))
                             .fontWeight(.regular)
                         

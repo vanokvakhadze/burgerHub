@@ -8,6 +8,7 @@
 import Foundation
 import GoogleSignIn
 import UIKit
+import SwiftUI
 
 class LoginVC: UIViewController {
     
@@ -218,14 +219,24 @@ class LoginVC: UIViewController {
     }
     
     func loginToMain() {
+        
+        lazy var container = (UIApplication.shared.delegate as! AppDelegate).modelContainer
+        
         guard let user = emailInput.text, !user.isEmpty else {return sendAlert(message: "please fill email field", title: "Error")}
         
         guard  let passwords = passwordInput.text, !passwords.isEmpty else {return sendAlert(message: "please fill password field", title: "Error")}
         
         let success = iteModel.Login(user: user, password: passwords)
         
+        
+        let swiftUIView = TabViews().modelContainer(container)
+
+        let hostingController = UIHostingController(rootView: swiftUIView)
+
+        
+        
         if success {
-            navigationController?.pushViewController(UserVC(), animated: true)
+            navigationController?.pushViewController(hostingController, animated: true)
         } else {
             sendAlert(message: "not matches email or password", title: "Error")
         }

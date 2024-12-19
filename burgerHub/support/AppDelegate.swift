@@ -6,13 +6,23 @@
 //
 
 import UIKit
+import SwiftData
+
 
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
+    
+    lazy var modelContainer: ModelContainer = {
+           do {
+               let container = try ModelContainer(for: Burgers.self)
+               return container
+           } catch {
+               fatalError("Error creating ModelContainer: \(error)")
+           }
+       }()
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
      
          

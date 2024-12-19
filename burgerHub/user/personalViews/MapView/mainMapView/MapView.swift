@@ -105,7 +105,7 @@ struct MapView: View {
                 .clipShape(Circle())
                 .background(
                     Circle()
-                        .fill(Color.orange.opacity(viewModel.currentIndex == location.id ? 1 : 0.1))
+                        .fill(Color.orange.opacity(viewModel.mapLocation == location ? 1 : 0.1))
                         .frame(width: 45, height: 45)
                 )
             

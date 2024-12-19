@@ -29,7 +29,7 @@ struct HistoryView: View {
                 .padding(.vertical, 15)
                 
                 ScrollView{
-                    ForEach(viewModel.boughtBurger.indices, id: \.self ) {
+                    ForEach(viewModel.burgers.indices, id: \.self ) {
                         
                         index in
                         let burger = viewModel.burgers[index]
@@ -65,6 +65,6 @@ struct HistoryView: View {
     }
 }
 
-#Preview {
-    HistoryView(viewModel: MainViewModel())
-}
+//#Preview {
+//    HistoryView(viewModel: MainViewModel())
+//}

@@ -8,23 +8,13 @@
 import SwiftUI
 
 
-protocol CardHandling {
-    func loadCards()
-    func addNewCard(cardDetails: [String: String])
-    func deleteCard(uniqueKey: String)
-    func maskedCardNumber(_ number: String) -> String
-    var filteredCreditCards: [String: [String: String]] { get }
-}
 
-class CardManager: ObservableObject, CardHandling {
-    @Published var creditCard: [String: [String: String]] = [:]
-    @Published var selectedCardType: String? = nil
-    @Published var cards = ["Cash", "Visa", "MasterCard", "PayPal"]
 
-    func loadCards() {
-        self.creditCard = fetchAllCards()
-    }
-
+class CardManager:  cardNumberConfigure {
+    
+    static let shared = CardManager()
+    
+      
     func fetchAllCards() -> [String: [String: String]] {
         var cards: [String: [String: String]] = [:]
         for key in   CardService.fetchAllCardKeys() {
@@ -41,7 +31,8 @@ class CardManager: ObservableObject, CardHandling {
     func addNewCard(cardDetails: [String: String]) {
         let uniqueKey = UUID().uuidString
         CardService.saveCard(uniqueKey: uniqueKey, cardInfo: cardDetails)
-        loadCards()
+      
+        
     }
 
     func deleteCard(uniqueKey: String) {
@@ -50,8 +41,7 @@ class CardManager: ObservableObject, CardHandling {
         CardService.delete(key: "\(uniqueKey)_exDate")
         CardService.delete(key: "\(uniqueKey)_cvv")
         CardService.delete(key: "\(uniqueKey)_cardType")
-
-        loadCards()
+        
     }
 
     func maskedCardNumber(_ number: String) -> String {
@@ -62,10 +52,8 @@ class CardManager: ObservableObject, CardHandling {
         return maskedPart + " " + lastThreeDigits
     }
 
-    var filteredCreditCards: [String: [String: String]] {
-        guard let selectedType = selectedCardType, !selectedType.isEmpty else {
-            return creditCard // If no type selected, show all cards
-        }
-        return creditCard.filter { $0.value["cardType"] == selectedType }
-    }
+}
+
+protocol cardNumberConfigure{
+  func  maskedCardNumber(_ number: String) -> String
 }

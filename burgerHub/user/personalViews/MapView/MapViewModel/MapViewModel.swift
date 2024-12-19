@@ -14,8 +14,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
     @Published var userLocation = CLLocationCoordinate2D(latitude: 41.781898, longitude: 44.797892)
     @Published var locations: [Location]
     
-    //  @Published let defaultLocation = CLLocationCoordinate2D(latitude: 41.781898, longitude: 44.797892)
-    
     @Published var mapLocation: Location
     
     
@@ -49,11 +47,11 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         //  requestLocationAccess()
         //        locationManager.delegate = self
         //        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        sortLocationsByDistance()
         updateMapRegion(location: mapLocation)
         
         
     }
-    
     
     
     func updateMapRegion(location: Location) {
@@ -74,6 +72,45 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
             updateMapRegion(location: location)
         }
     }
+    
+    
+}
+
+
+protocol LocationDistance{
+    
+    func sortLocationsByDistance()
+
+}
+
+
+protocol LocationNavigation{
+    func calculateRouteDetails(to location: Location)
+    func cancelRoute()
+}
+
+extension MapViewModel: LocationDistance , LocationNavigation{
+    func sortLocationsByDistance() {
+        guard !locations.isEmpty else { return }
+        
+        locations.sort { loc1, loc2 in
+            let loc1Distance = CLLocation(latitude: loc1.coordinates.latitude, longitude: loc1.coordinates.longitude)
+                .distance(from: CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude))
+            
+            let loc2Distance = CLLocation(latitude: loc2.coordinates.latitude, longitude: loc2.coordinates.longitude)
+                .distance(from: CLLocation(latitude: userLocation.latitude, longitude: userLocation.longitude))
+            
+            return loc1Distance < loc2Distance
+        }
+        
+        // Update the current index and map location to the new closest location
+        if let closestLocation = locations.first {
+            currentIndex = 0
+            mapLocation = closestLocation
+            updateMapRegion(location: closestLocation)
+        }
+    }
+    
     
     func calculateRouteDetails(to location: Location) {
         
@@ -106,8 +143,6 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         }
     }
     
-    
-    
     func cancelRoute() {
         DispatchQueue.main.async {
             self.route = nil
@@ -115,7 +150,4 @@ final class MapViewModel: NSObject, ObservableObject, CLLocationManagerDelegate 
         }
     }
     
-    
 }
-
-

@@ -70,7 +70,13 @@ struct PaymentResultView: View {
                     .frame(height: 40)
                 
                 Button("Go To Home", action: {
-                    activeTab  = .home
+                    DispatchQueue.main.async {
+                        self.path.removeLast()
+                        self.activeTab  = .home
+                       
+                    }
+                   
+                    
                 })
                 .frame(width: 330, height: 60)
                 .background(

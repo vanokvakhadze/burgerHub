@@ -6,11 +6,14 @@
 //
 
 import Foundation
+import SwiftData
+import SwiftUI
+
 
 class MainViewModel: ObservableObject, Hashable  {
-    @Published var creditCard: [String: [String: String]] = [:]
+   // static let shared = MainViewModel()
     var id = 1
-    
+    @Published var creditCard: [String: [String: String]] = [:]
     @Published var burgers: [Burgers] = []
     @Published var burgerCart: [Burgers] = []
     @Published var boughtBurger: [Burgers]  = []
@@ -19,48 +22,25 @@ class MainViewModel: ObservableObject, Hashable  {
     @Published var tappedCard: String? = nil
     @Published var cards =  ["Cash", "Visa", "MasterCard", "PayPal" ]
     @Published var searchText: String = ""
-    @Published var favoriteBurger: [Burgers] =  []
     @Published var notification: [String] = []
     @Published var colorSets: [String] = ["green1",  "green2", "green3", "green4", "green5", "green6"]
-
+    @Published var favoriteBurgers: [Burgers] = []
     
-    var totalPrise: Double {
-        burgerCart.reduce(0.0) { $0 + ($1.price * Double($1.amount))}
-    }
+    private var ingredientsManager = IngredientsService.shared
+    private var burgerManager = BurgerManager.shared
+    private var cardManager = CardManager.shared
+   
     
-    
-    var filteredByname: [Burgers] {
-        burgers.filter({$0.name.localizedStandardContains(searchText)})
-    }
-    
-    var totalAmount: Int {
-        burgerCart.reduce(0) { $0 +  $1.amount }
-    }
-    
-    var filteredCreditCards: [String: [String: String]] {
-        guard let selectedType = selectedCardType, !selectedType.isEmpty else {
-            return creditCard // If no type selected, show all cards
-        }
-        
-        return creditCard.filter { $0.value["cardType"] == selectedType }
-        
-    }
-    
-    var isLiked: (Burgers) -> String {
-        return { burger in
-            self.favoriteBurger.contains(where: { $0.id == burger.id }) ? "heart.fill" : "heart"
-        }
-    }
-    
-    
-    init() {
-        
+    init(){
         loadCards()
+        
     }
     
     func loadCards() {
         self.creditCard = fetchAllCards()
+       
     }
+    
     
     
     func fetchData() {
@@ -79,7 +59,7 @@ class MainViewModel: ObservableObject, Hashable  {
                 
                 
                 let modifiedBurgers = fetchedBurgers.map { burger -> Burgers in
-                    var updatedBurger = burger
+                    let updatedBurger = burger
                     updatedBurger.amount = 1
                     updatedBurger.isLiked = false
                     
@@ -103,88 +83,94 @@ class MainViewModel: ObservableObject, Hashable  {
     }
     
     func addBurger(of burger: Burgers) {
-        if let index = burgers.firstIndex(where: { $0.id == burger.id }) {
-            burgers[index].amount += 1
-        }
-        
-        if let index = burgerCart.firstIndex(where: { $0.id == burger.id }) {
-            burgerCart[index].amount += 1
-        }
+        burgerManager.addBurger(of: burger, in: self)
     }
     
     func decreaseBurger(of burger: Burgers){
-        if let index = burgers.firstIndex(where: { $0.id == burger.id}){
-            if burgers[index].amount > 1 {
-                burgers[index].amount -= 1
-            }
-        }
-        
-        if let index = burgerCart.firstIndex(where: { $0.id == burger.id}){
-            if burgerCart[index].amount > 1 {
-                burgerCart[index].amount -= 1
-            }
-        }
+        burgerManager.decreaseBurger(of: burger, in: self)
     }
     
     func addToCart(burger: Burgers)  {
-        if let index = burgerCart.firstIndex(where: { $0.id == burger.id }) {
-            burgerCart[index].amount += 1
-        } else {
-            burgerCart.append(burger)
-        }
-        
+        burgerManager.addToCart(burger: burger, in: self)
     }
     
     
     func getAmount(of burger: Burgers)  -> Int{
-        if let index = burgerCart.firstIndex(where: { $0.id == burger.id }) {
-            return burgerCart[index].amount
-        } else {
-            return  burger.amount
-        }
+        burgerManager.getAmount(of: burger, in: self)
     }
     
     func getAmountIngredients(of ingredient: Ingredients, in burger: Burgers)  -> Int{
-        if let index = burgerCart.firstIndex(where: { $0.id == burger.id }),
-           let ingredientIndex = burgerCart[index].ingredients.firstIndex(where: {$0.id == ingredient.id}){
-            return burgerCart[index].ingredients[ingredientIndex].amountOf
-        } else {
-            
-            return  burger.ingredients.first(where: { $0.id == ingredient.id })?.amountOf ?? 1
-        }
+        ingredientsManager.getAmountIngredients(of: ingredient, in: burger, in: self)
     }
     
     func addIngredients(of ingredient: Ingredients, in burger: Burgers) {
-        if let burgerIndex = burgers.firstIndex(where: { $0.id == burger.id }),
-           let ingredientIndex = burgers[burgerIndex].ingredients.firstIndex(where: { $0.id == ingredient.id }) {
-            burgers[burgerIndex].ingredients[ingredientIndex].amountOf += 1
-        }
-        
-        
-        if let burgerIndex = burgerCart.firstIndex(where: { $0.id == burger.id }),
-           let ingredientIndex = burgerCart[burgerIndex].ingredients.firstIndex(where: { $0.id == ingredient.id }) {
-            burgerCart[burgerIndex].ingredients[ingredientIndex].amountOf += 1
-        }
+        ingredientsManager.addIngredients(of: ingredient, in: burger, in: self)
     }
     
     func decreaseIngredients(of ingredient:   Ingredients, in burger: Burgers){
-        
-        if let burgerCartIndex = burgers.firstIndex(where: { $0.id == burger.id }) {
-            if let ingredientIndex = burgers[burgerCartIndex].ingredients.firstIndex(where: { $0.id == ingredient.id }),
-               burgers[burgerCartIndex].ingredients[ingredientIndex].amountOf > 0 {
-                burgers[burgerCartIndex].ingredients[ingredientIndex].amountOf -= 1
-            }
-        }
-        
-        if let burgerCartIndex = burgerCart.firstIndex(where: { $0.id == burger.id }) {
-            if let ingredientIndex = burgerCart[burgerCartIndex].ingredients.firstIndex(where: { $0.id == ingredient.id }),
-               burgerCart[burgerCartIndex].ingredients[ingredientIndex].amountOf > 1 {
-                burgerCart[burgerCartIndex].ingredients[ingredientIndex].amountOf -= 1
-            }
-        }
+        ingredientsManager.decreaseIngredients(of: ingredient, in: burger, in: self)
     }
     
     
+    func fetchAllCards() -> [String: [String: String]] {
+        cardManager.fetchAllCards()
+    }
+    
+    
+    func addNewCard(cardDetails: [String: String]) {
+        cardManager.addNewCard(cardDetails: cardDetails)
+        loadCards()
+    }
+    
+    
+    
+    
+    func deleteCard(uniqueKey: String) {
+        cardManager.deleteCard(uniqueKey: uniqueKey)
+        loadCards()
+    }
+    
+    
+    
+}
+
+extension MainViewModel: ColorBurgerList {
+    func clearBurgerCart() {
+        burgerManager.clearBurgerCart(in: self)
+    }
+    
+    
+    func colorOfBoughtBurgers(index: Int) -> String {
+        let colorIndex = index % colorSets.count
+        return colorSets[colorIndex]
+        
+    }
+    
+    func maskedCardNumber(_ number: String) -> String {
+        cardManager.maskedCardNumber(number)
+    }
+    
+    var totalPrise: Double {
+        burgerCart.reduce(0.0) { $0 + ($1.price * Double($1.amount))}
+    }
+    
+    
+    var filteredByname: [Burgers] {
+        burgers.filter({$0.name.localizedStandardContains(searchText)})
+    }
+    
+    var totalAmount: Int {
+        burgerCart.reduce(0) { $0 +  $1.amount }
+    }
+    
+    var filteredCreditCards: [String: [String: String]] {
+        guard let selectedType = selectedCardType else {
+            return creditCard
+        }
+        
+        return creditCard.filter { $0.value["cardType"] == selectedType }
+        
+    }
     
     static func == (lhs: MainViewModel, rhs: MainViewModel) -> Bool {
         lhs.id == rhs.id
@@ -194,79 +180,74 @@ class MainViewModel: ObservableObject, Hashable  {
         hasher.combine(id)
     }
     
-    
-    func fetchAllCards() -> [String: [String: String]] {
-        var cards: [String: [String: String]] = [:]
-        for key in   CardService.fetchAllCardKeys() {
-            let cardNumber =   CardService.fetch(key: "\(key)_number") ?? ""
-            let cardHolderName =   CardService.fetch(key: "\(key)_holderName") ?? ""
-            let cardExDate =   CardService.fetch(key: "\(key)_exDate") ?? ""
-            let cardCvv =   CardService.fetch(key: "\(key)_cvv") ?? ""
-            let cardType = CardService.fetch(key: "\(key)_cardType") ?? ""
-            cards[key] = ["number": cardNumber, "holderName": cardHolderName, "exDate": cardExDate, "cvv": cardCvv, "cardType": cardType]
+   
+
+    func fetchBurgers(context: ModelContext) {
+        let request = FetchDescriptor<Burgers>()
+           do {
+               favoriteBurgers = try context.fetch(request)
+               
+           } catch {
+               print("Fetch error: \(error)")
+           }
+       }
+   
+    func toggleLikedButton(burger: Burgers, context: ModelContext) {
+        if filterFavorites(burger: burger){
+            deleteBurger(burger,  context)
+           
+        }else {
+            favoriteBurgers.append(burger)
+            context.insert(burger)
         }
-        return cards
+        saveContext(context: context)
     }
     
-    
-    func addNewCard(cardDetails: [String: String]) {
-        let uniqueKey = UUID().uuidString
-        
-        CardService.saveCard(uniqueKey: uniqueKey, cardInfo: cardDetails)
-        loadCards()
-    }
+    func filterFavorites(burger: Burgers) -> Bool {
+        favoriteBurgers.contains(where: {$0.id == burger.id})
+        }
     
     
-    func maskedCardNumber(_ number: String) -> String {
-        
-        let cleanedNumber = number.replacingOccurrences(of: " ", with: "")
-        guard cleanedNumber.count > 3 else { return number }
-        
-        let maskedPart = String(repeating: "*", count: cleanedNumber.count - 3)
-        let lastThreeDigits = cleanedNumber.suffix(3)
-        return maskedPart + " " + lastThreeDigits
-    }
-    
-    func deleteCard(uniqueKey: String) {
-        
-        CardService.delete(key: "\(uniqueKey)_number")
-        CardService.delete(key: "\(uniqueKey)_holderName")
-        CardService.delete(key: "\(uniqueKey)_exDate")
-        CardService.delete(key: "\(uniqueKey)_cvv")
-        CardService.delete(key: "\(uniqueKey)_cardType")
-        
-        var keys = CardService.fetchAllCardKeys()
-        if let index = keys.firstIndex(of: uniqueKey) {
-            keys.remove(at: index)
-            UserDefaults.standard.setValue(keys, forKey: "savedCardKeys")
+    private func deleteBurger(_ burger: Burgers, _ context: ModelContext) {
+        let predicate = #Predicate<Burgers> { burger in
+            burger.id == burger.id
         }
         
-        loadCards()
-    }
-    
-    func clearBurgerCart() {
+        let request = FetchDescriptor<Burgers>(predicate: predicate)
         
-        boughtBurger.append(contentsOf: burgerCart)
-        burgerCart.removeAll()
-      
-    }
-    
-    func clickHeartButton(burger: Burgers) {
-        if favoriteBurger.contains(where: { $0.id == burger.id }) {
-            favoriteBurger.removeAll(where: {$0.id == burger.id })
-          
-        } else {
-            
-            favoriteBurger.append(burger)
+        do {
+            if let existingBurger = try context.fetch(request).first {
+             
+                context.delete(existingBurger)
+                print("Deleting burger with id: \(existingBurger.id)")
+                
+                if let index = favoriteBurgers.firstIndex(where: { $0.id == existingBurger.id }) {
+                    favoriteBurgers.remove(at: index)
+                    print("Burger removed from the array: \(existingBurger.id)")
+                }
+                
+             
+            } else {
+                print("Burger not found in context.")
+            }
+        } catch {
+            print("Error fetching burger from context: \(error)")
         }
     }
-    
-    func colorOfBoughtBurgers(index: Int) -> String {
-        let colorIndex = index % colorSets.count
-              return colorSets[colorIndex]
+
+
         
-      
-    }
+        private func saveContext(context: ModelContext) {
+            do {
+                try context.save()
+                //fetchBurgers(context: context)
+            } catch {
+                print("Failed to save context: \(error)")
+            }
+        }
     
 }
 
+protocol ColorBurgerList {
+    func colorOfBoughtBurgers(index: Int) -> String
+}
