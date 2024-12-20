@@ -11,7 +11,7 @@ import SwiftUI
 
 
 class MainViewModel: ObservableObject, Hashable  {
-   // static let shared = MainViewModel()
+    static let shared = MainViewModel()
     var id = 1
     @Published var creditCard: [String: [String: String]] = [:]
     @Published var burgers: [Burgers] = []
@@ -126,7 +126,7 @@ class MainViewModel: ObservableObject, Hashable  {
     
     
     func deleteCard(uniqueKey: String) {
-        cardManager.deleteCard(uniqueKey: uniqueKey)
+        cardManager.deleteCard(uniqueKey: uniqueKey, viewModel: self)
         loadCards()
     }
     

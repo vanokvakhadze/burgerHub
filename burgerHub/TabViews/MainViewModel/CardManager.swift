@@ -35,13 +35,20 @@ class CardManager:  cardNumberConfigure {
         
     }
 
-    func deleteCard(uniqueKey: String) {
+    func deleteCard(uniqueKey: String, viewModel: MainViewModel) {
         CardService.delete(key: "\(uniqueKey)_number")
         CardService.delete(key: "\(uniqueKey)_holderName")
         CardService.delete(key: "\(uniqueKey)_exDate")
         CardService.delete(key: "\(uniqueKey)_cvv")
         CardService.delete(key: "\(uniqueKey)_cardType")
         
+        var savedKeys = UserDefaults.standard.stringArray(forKey: "savedCardKeys") ?? []
+           if let index = savedKeys.firstIndex(of: uniqueKey) {
+               savedKeys.remove(at: index)
+               UserDefaults.standard.set(savedKeys, forKey: "savedCardKeys")
+           }
+        
+        viewModel.creditCard.removeValue(forKey: uniqueKey)
     }
 
     func maskedCardNumber(_ number: String) -> String {

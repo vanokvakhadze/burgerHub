@@ -30,14 +30,26 @@ struct PaymentView: View {
                     Spacer()
                 }
                 .padding(.top, 20)
-                .padding(.bottom, 40)
+                .padding(.bottom, 20)
+                
+                ScrollView(.horizontal) {
+                    HStack(spacing: 25){
+                        ForEach(viewModel.cards.dropFirst(), id: \.hashValue) { item in
+                            CardTypeList(viewModel: viewModel, item: item)
+                        }
+                    }
+                    .padding(.horizontal, 40)
+                    .padding(.vertical, 10)
+                }
+                .padding(.horizontal, 4)
+                .scrollIndicators(.hidden)
+                
                 
                 ScrollView{
                     
-                    Cards(viewModel: viewModel, show: $showSheet, showAlert: $showAlert, selected: viewModel.selectedCardType ?? "")
+                    Cards(viewModel: viewModel, show: $showSheet, showAlert: $showAlert)
                 }
             }
-         
      
         }
         

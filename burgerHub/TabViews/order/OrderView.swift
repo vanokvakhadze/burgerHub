@@ -21,24 +21,10 @@ struct OrderView: View {
             Color(uiColor: UIColor.systemBackground)
                 .ignoresSafeArea()
             
+            
             VStack (spacing: 20){
-                ScrollView(.horizontal) {
-                    HStack(spacing: 16){
-                        ForEach(viewModel.cards, id: \.hashValue) { item in
-                            CardTypeList(viewModel: viewModel, item: item)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                }
-                .padding(.horizontal, 4)
-                .scrollIndicators(.hidden)
                 
-                
-                Cards(viewModel: viewModel, show: $showSheet, showAlert: $showAlert, selected: viewModel.selectedCardType ?? "")
-                    .padding(.bottom, 20)
-                
-                
+                CardsView(viewModel: viewModel, showSheet: $showSheet, showAlert: $showAlert)
                 
                 HStack{
                     Spacer()
@@ -97,12 +83,38 @@ struct OrderView: View {
 //    }
 //}
 
+struct CardsView: View {
+    @ObservedObject var viewModel: MainViewModel
+    @Binding var showSheet: Bool
+    @Binding var showAlert: Bool
+    
+    var body: some View {
+        VStack{
+            ScrollView(.horizontal) {
+                HStack(spacing: 16){
+                    ForEach(viewModel.cards, id: \.hashValue) { item in
+                        CardTypeList(viewModel: viewModel, item: item)
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+            }
+            .padding(.horizontal, 4)
+            .scrollIndicators(.hidden)
+            
+            
+            Cards(viewModel: viewModel, show: $showSheet, showAlert: $showAlert)
+                .padding(.bottom, 20)
+        }
+    }
+}
+
 
 struct Cards: View {
     @ObservedObject var viewModel: MainViewModel
     @Binding var show: Bool
     @Binding var showAlert: Bool
-    var selected: String?
+   // var selected: String?
     
     var body: some View {
         
@@ -171,7 +183,7 @@ struct Cards: View {
                         )
                         .sheet(isPresented: $show, content: {
                             
-                            CardDetails(cardType: selected ?? "", viewModel: viewModel, show: $show)
+                            CardDetails(cardType: viewModel.selectedCardType ?? "", viewModel: viewModel, show: $show)
                                 .presentationDetents([.medium])
                             
                         })
@@ -279,7 +291,7 @@ struct Cards: View {
                                   )
                                   .sheet(isPresented: $show, content: {
                                       
-                                      CardDetails(cardType: selected ?? "", viewModel: viewModel, show: $show)
+                                      CardDetails(cardType: viewModel.selectedCardType ?? "", viewModel: viewModel, show: $show)
                                           .presentationDetents([.medium])
                                       
                                   })
@@ -311,10 +323,11 @@ struct Cards: View {
     }
     
     private func deleteCard(at offsets: IndexSet) {
-        offsets.forEach { index in
-            let cardKey = Array(viewModel.creditCard.keys.sorted())[index]
-            viewModel.deleteCard(uniqueKey: cardKey)
-        }
+        for index in offsets {
+                let cardKey = Array(viewModel.creditCard.keys.sorted())[index]
+                viewModel.deleteCard(uniqueKey: cardKey)
+                viewModel.creditCard.removeValue(forKey: cardKey)
+            }
     }
 }
 

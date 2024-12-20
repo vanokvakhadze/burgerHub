@@ -17,13 +17,13 @@ struct CardService{
             kSecValueData as String: data
         ]
         
-        // Delete any existing item with the same key
+       
         SecItemDelete(query as CFDictionary)
-        // Add new item
+        
         SecItemAdd(query as CFDictionary, nil)
     }
     
-    // Fetch a single item by key
+
     static func fetch(key: String) -> String? {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
