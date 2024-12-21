@@ -32,30 +32,43 @@ class BurgerManager {
             viewModel.burgerCart.append(burger)
         }
     }
+    
+    func NavigateToCart(burger: Burgers, in viewModel: MainViewModel) {
+        if let index = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
+            viewModel.burgerCart[index].amount =  viewModel.burgers[index].amount
+        }
+    }
   
     
     func addBurger(of burger: Burgers, in viewModel: MainViewModel) {
         if let index = viewModel.burgers.firstIndex(where: { $0.id == burger.id }) {
-            viewModel.burgers[index].amount += 1
-        }
-        
-        if let index = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
-            viewModel.burgerCart[index].amount += 1
-        }
+               viewModel.burgers[index].amount += 1
+           } else {
+               let burgerInBurgers = burger
+               burgerInBurgers.amount = 1
+               viewModel.burgers.append(burgerInBurgers)
+           }
+
+           if let cartIndex = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
+               viewModel.burgerCart[cartIndex].amount = viewModel.burgers[cartIndex].amount
+           } else {
+               let burgerInCart = burger
+               burgerInCart.amount = viewModel.burgers.first(where: { $0.id == burger.id })?.amount ?? 1
+               viewModel.burgerCart.append(burgerInCart)
+           }
     }
     
     func decreaseBurger(of burger: Burgers, in viewModel: MainViewModel){
-        if let index = viewModel.burgers.firstIndex(where: { $0.id == burger.id}){
-            if viewModel.burgers[index].amount > 1 {
-                viewModel.burgers[index].amount -= 1
+        if let index = viewModel.burgers.firstIndex(where: { $0.id == burger.id }) {
+                if viewModel.burgers[index].amount > 1 {
+                    viewModel.burgers[index].amount -= 1
+                }
             }
-        }
-        
-        if let index = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id}){
-            if viewModel.burgerCart[index].amount > 1 {
-                viewModel.burgerCart[index].amount -= 1
+
+            
+            if let cartIndex = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
+                viewModel.burgerCart[cartIndex].amount = viewModel.burgers[cartIndex].amount
             }
-        }
     }
     
     func getAmount(of burger: Burgers, in viewModel: MainViewModel)  -> Int{

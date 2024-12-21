@@ -94,6 +94,10 @@ class MainViewModel: ObservableObject, Hashable  {
         burgerManager.addToCart(burger: burger, in: self)
     }
     
+    func  navigateToCart(burger: Burgers) {
+        burgerManager.NavigateToCart(burger: burger, in: self)
+    }
+    
     
     func getAmount(of burger: Burgers)  -> Int{
         burgerManager.getAmount(of: burger, in: self)

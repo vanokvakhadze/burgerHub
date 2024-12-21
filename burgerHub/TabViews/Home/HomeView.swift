@@ -108,7 +108,7 @@ struct HomeView: View {
                     }
                 }
                 .navigationDestination(for: Burgers.self)  { item in
-                    DetailsView(burger: $viewModel.burgers[item.id],  viewModel: viewModel, path: $path, tabBarHide: $tabBarHide, activeTab: $activeTab)
+                    DetailsView(burger: $viewModel.burgers[item.id - 1],  viewModel: viewModel, path: $path, tabBarHide: $tabBarHide, activeTab: $activeTab)
                 }
                 
                 

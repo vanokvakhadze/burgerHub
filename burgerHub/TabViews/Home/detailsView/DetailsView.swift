@@ -84,7 +84,7 @@ struct DetailsView: View {
                     
                     
                     Button(action: {
-                        viewModel.addToCart(burger: burger)
+                        viewModel.navigateToCart(burger: burger)
                         activeTab = .basket
                         
                     }) {
