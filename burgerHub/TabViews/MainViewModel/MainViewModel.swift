@@ -208,7 +208,7 @@ extension MainViewModel: ColorBurgerList {
     }
     
     func filterFavorites(burger: Burgers) -> Bool {
-        favoriteBurgers.contains(where: {$0.id == burger.id})
+        favoriteBurgers.contains(where: {$0.id   == burger.id   })
         }
     
     
@@ -225,8 +225,8 @@ extension MainViewModel: ColorBurgerList {
                 context.delete(existingBurger)
                 print("Deleting burger with id: \(existingBurger.id)")
                 
-                if let index = favoriteBurgers.firstIndex(where: { $0.id == existingBurger.id }) {
-                    favoriteBurgers.remove(at: index)
+                if  favoriteBurgers.contains(where: { $0.id   == existingBurger.id   }) {
+                    favoriteBurgers.removeAll { $0.id  == existingBurger.id }
                     print("Burger removed from the array: \(existingBurger.id)")
                 }
                 

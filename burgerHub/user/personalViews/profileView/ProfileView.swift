@@ -13,6 +13,7 @@ struct ProfileView: View {
             UIKitView()
         }
         .ignoresSafeArea(.all)
+        
     }
 }
 

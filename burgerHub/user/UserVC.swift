@@ -63,7 +63,7 @@ class UserVC: UIViewController {
     private func userConfigure(){
         safeArea.addSubview(user)
         safeArea.addSubview(userTitle)
-        userTitle.text = authService().getUser(service: "IOS dev")
+        userTitle.text = viewModel.userName
         user.text = "mail"
         userTitle.isEnabled = false
         
@@ -87,7 +87,7 @@ class UserVC: UIViewController {
         profileImage.clipsToBounds = true
         profileImage.layer.cornerRadius = 70
         
-        if let profileImg = viewModel.fetchImageFromFileManager() {
+        if let profileImg = viewModel.image {
             profileImage.image = profileImg
         } else {
             profileImage.image = UIImage(systemName: "person")
@@ -175,7 +175,7 @@ class UserVC: UIViewController {
     
     func tapEdit()  {
         guard let user = userTitle.text else {return }
-        guard  let currentAccount = authService().getUser(service: "IOS dev") else {return}
+        guard  let currentAccount = viewModel.userName else {return}
         if viewModel.editClicked  {
             do {
                 try viewModel.updateUserName(newAccount: user, service: "IOS dev", currentAccount: currentAccount)

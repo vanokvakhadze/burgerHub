@@ -8,19 +8,11 @@
 import SwiftUI
 import PhotosUI
 
-struct UserView: View {
-    var body: some View {
-        Text("hello user")
-    }
-}
-
 struct SideMenuBar: View {
-    @State private var userName: String = ""
     @Binding var isShow: Bool
     @State private var photoPickerItem: PhotosPickerItem?
-    @StateObject var viewModel = UserViewModel()
+    @ObservedObject var viewModel = UserViewModel()
     @ObservedObject var viewModelMain: MainViewModel
-    @State var profileImage: UIImage?
     @Binding var path: NavigationPath
     
     @State  var activeView: ActiveView?
@@ -29,7 +21,7 @@ struct SideMenuBar: View {
         NavigationStack(path: $path){
             VStack(alignment: .leading, spacing: 0) {
                 
-                userHeader(photoPickerItem: $photoPickerItem, userName: $userName, profileImage: $profileImage, viewModel: viewModel)
+                userHeader(photoPickerItem: $photoPickerItem, userName: viewModel.userName ?? "", profileImage: viewModel.image! , viewModel: viewModel)
                 
                 userViewItems(activeView: $activeView, path: $path)
                 
@@ -37,15 +29,6 @@ struct SideMenuBar: View {
                 LogOutView()
                     .frame(width: 100, height: 50)
                     .padding(.leading, 21)
-            }
-            
-            .onAppear {
-                if let fetchedUserName = authService().getUser(service: "IOS dev") {
-                    userName = fetchedUserName
-                }
-                if let profile = viewModel.fetchImageFromFileManager() {
-                    profileImage = profile
-                }
             }
             .padding(.vertical)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -73,7 +56,12 @@ struct SideMenuBar: View {
                     }
                     .toolbar {
                         ToolbarItem(placement: .navigationBarLeading) {
-                            Button(action: { activeView = nil }) {
+                            Button(action: {
+                                DispatchQueue.main.async{
+                                    self.activeView = nil
+                                    viewModel.fetchUserData()
+                                }
+                            }) {
                                 HStack {
                                     Image(systemName: "chevron.left")
                                             .foregroundStyle(.black)
@@ -198,8 +186,8 @@ struct userViewItems: View {
 
 struct userHeader: View {
     @Binding var photoPickerItem: PhotosPickerItem?
-    @Binding var userName: String
-    @Binding var profileImage: UIImage?
+    var userName: String
+    var profileImage: UIImage?
     @ObservedObject var viewModel: UserViewModel
     
     var body: some View {
@@ -244,7 +232,7 @@ struct userHeader: View {
                 if let photoPickerItem,
                    let data = try? await photoPickerItem.loadTransferable(type: Data.self),
                    let image = UIImage(data: data) {
-                    profileImage = image
+                    viewModel.image = image
                     viewModel.saveImageToFileManager(image)
                 }
                 photoPickerItem = nil

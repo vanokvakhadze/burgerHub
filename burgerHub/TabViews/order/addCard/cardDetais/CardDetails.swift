@@ -53,7 +53,7 @@ struct CardDetails: View {
             
             Spacer()
                 .frame(height: 50)
-            Button("Add & Make Payment  ", action: {
+            Button("Add Card  ", action: {
                
                 let cardInfo: [String: String] = [
                                    "number": cardNumber,

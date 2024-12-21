@@ -17,16 +17,32 @@ class UserViewModel: ObservableObject {
     
     @Published var auth = authService()
     @Published var clicked = false
-    @Published var editClicked = false 
+    @Published var editClicked = false
+    @Published var userName: String?
+    @Published var image: UIImage?
    
     
     let manager = FileManager.default
     @Published var documentsDirectoryPath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first
     
     weak var delegate: UserDelegate?
+   
+  
+    init(){
+        fetchUserData()
+    }
+    
+    func fetchUserData() {
+        self.userName = auth.getUser(service: "IOS dev")
+
+            if let savedImage = fetchImageFromFileManager() {
+                self.image = savedImage
+            }
+        }
     
     func getUser(){
         delegate?.updateUserView()
+        
     }
     
     func toggleEdit(){
@@ -119,30 +135,40 @@ class UserViewModel: ObservableObject {
     
     func saveImageToFileManager(_ image: UIImage) {
         guard var documentsDirectoryPath = FileManager.default.urls(for: .libraryDirectory, in: .userDomainMask).first else {
-                   print("Failed to get documents directory path.")
-                   return
-               }
-    
-               documentsDirectoryPath.appendPathComponent("userImage")
-               DispatchQueue.global().async {
-                   if let imageData = image.pngData() {
-                       do {
-                           let success = self.manager.createFile(
-                               atPath: documentsDirectoryPath.path,
-                               contents: imageData,
-                               attributes: nil
-                           )
-                           
+               print("Failed to get documents directory path.")
+               return
+           }
+           
+           documentsDirectoryPath.appendPathComponent("userImage")
+           
+           DispatchQueue.global().async {
+               if let imageData = image.pngData() {
+                   do {
+                       if FileManager.default.fileExists(atPath: documentsDirectoryPath.path) {
+                           try FileManager.default.removeItem(at: documentsDirectoryPath)
+                       }
+                       
+                       let success = FileManager.default.createFile(atPath: documentsDirectoryPath.path, contents: imageData, attributes: nil)
+                       
+                       DispatchQueue.main.async {
                            if success {
-                               print("Image saved successfully at \(documentsDirectoryPath.path)")
+                               self.image = image
+                               print("Image saved successfully.")
                            } else {
                                print("Failed to save image.")
                            }
                        }
-                   } else {
+                   } catch {
+                       DispatchQueue.main.async {
+                           print("Error saving image: \(error.localizedDescription)")
+                       }
+                   }
+               } else {
+                   DispatchQueue.main.async {
                        print("Failed to convert image to PNG data.")
                    }
                }
+           }
     }
     
     func fetchImageFromFileManager() -> UIImage? {
