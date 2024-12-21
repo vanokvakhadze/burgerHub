@@ -46,7 +46,10 @@ struct CartView: View {
                                 }
                                 
                             }
+                            
                         }
+                        
+                        
                         
                         
                         ZStack(alignment: .bottom) {

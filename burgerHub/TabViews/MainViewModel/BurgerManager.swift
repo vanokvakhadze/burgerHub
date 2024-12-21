@@ -60,15 +60,21 @@ class BurgerManager {
     
     func decreaseBurger(of burger: Burgers, in viewModel: MainViewModel){
         if let index = viewModel.burgers.firstIndex(where: { $0.id == burger.id }) {
-                if viewModel.burgers[index].amount > 1 {
+                if viewModel.burgers[index].amount > 0 {
                     viewModel.burgers[index].amount -= 1
                 }
             }
 
             
-            if let cartIndex = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
+        if let cartIndex = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
+            
+            if viewModel.burgerCart[cartIndex].amount > 1 {
                 viewModel.burgerCart[cartIndex].amount = viewModel.burgers[cartIndex].amount
-            }
+                    } else {
+                        // Remove from burgerCart when amount is less than or equal to 1
+                        viewModel.burgerCart.remove(at: cartIndex)
+                    }
+        }
     }
     
     func getAmount(of burger: Burgers, in viewModel: MainViewModel)  -> Int{

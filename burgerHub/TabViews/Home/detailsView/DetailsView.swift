@@ -26,13 +26,18 @@ struct DetailsView: View {
                     headerImages(burger: burger, path: $path)
                     
                     HStack(spacing: 17){
-                        sysImage(image: "minus.circle", width: 20, height: 20)
-                            .foregroundStyle(.white)
-                            .onTapGesture {
-                                viewModel.decreaseBurger(of: burger)
-                               
-                            }
+                        if burger.amount > 1 {
+                            sysImage(image: "minus.circle", width: 20, height: 20)
+                                .foregroundStyle(.white)
+                                .onTapGesture {
+                                    viewModel.decreaseBurger(of: burger)
+                                    
+                                }
                             
+                        }else {
+                            Spacer()
+                                .frame(width: 20)
+                        }
                         
                         Text("\(viewModel.getAmount(of: burger))")
                             .font(.system(size: 18))
@@ -84,8 +89,13 @@ struct DetailsView: View {
                     
                     
                     Button(action: {
-                        viewModel.navigateToCart(burger: burger)
-                        activeTab = .basket
+                       
+                            viewModel.navigateToCart(burger: burger)
+                            activeTab = .basket
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            path.removeLast()
+                        }
+                        
                         
                     }) {
                         Text("Add to cart ")
