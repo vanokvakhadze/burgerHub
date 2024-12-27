@@ -44,6 +44,7 @@ struct SearchList<Content:View>: View {
                 Spacer()
                     .frame(width: 15)
                 
+                
                 ForEach(burger.images, id: \.sm) { item in
                     fetchImage(imageURL: item.sm ?? "", width: 70, height: 70)
                 }

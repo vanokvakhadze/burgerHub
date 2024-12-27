@@ -11,7 +11,7 @@ import PhotosUI
 struct SideMenuBar: View {
     @Binding var isShow: Bool
     @State private var photoPickerItem: PhotosPickerItem?
-    @ObservedObject var viewModel = UserViewModel()
+    @StateObject var viewModel = UserViewModel()
     @ObservedObject var viewModelMain: MainViewModel
     @Binding var path: NavigationPath
     
@@ -21,7 +21,7 @@ struct SideMenuBar: View {
         NavigationStack(path: $path){
             VStack(alignment: .leading, spacing: 0) {
                 
-                userHeader(photoPickerItem: $photoPickerItem, userName: viewModel.userName ?? "", profileImage: viewModel.image! , viewModel: viewModel)
+                userHeader(photoPickerItem: $photoPickerItem, userName: viewModel.userName ?? "", profileImage: $viewModel.image , viewModel: viewModel)
                 
                 userViewItems(activeView: $activeView, path: $path)
                 
@@ -187,7 +187,7 @@ struct userViewItems: View {
 struct userHeader: View {
     @Binding var photoPickerItem: PhotosPickerItem?
     var userName: String
-    var profileImage: UIImage?
+    @Binding var profileImage: UIImage?
     @ObservedObject var viewModel: UserViewModel
     
     var body: some View {
@@ -225,6 +225,9 @@ struct userHeader: View {
             .padding(.top, -85)
             .padding(.leading, 68)
         }
+        .onAppear{
+            viewModel.fetchUserData()
+        }
         .padding(.horizontal)
         .padding(.leading)
         .onChange(of: photoPickerItem, { _, _ in
@@ -232,8 +235,9 @@ struct userHeader: View {
                 if let photoPickerItem,
                    let data = try? await photoPickerItem.loadTransferable(type: Data.self),
                    let image = UIImage(data: data) {
-                    viewModel.image = image
                     viewModel.saveImageToFileManager(image)
+                    self.profileImage = image
+                 
                 }
                 photoPickerItem = nil
             }

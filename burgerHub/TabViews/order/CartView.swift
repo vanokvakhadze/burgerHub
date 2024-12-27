@@ -13,6 +13,7 @@ struct CartView: View {
     @ObservedObject var viewModel: MainViewModel
     @Binding var tabHide: Bool
     @Binding var activeTab: Tab
+    @State private var cartUpdated: Bool = false
     
     
     var body: some View {
@@ -110,7 +111,10 @@ struct CartView: View {
             }
             .onAppear{
                 tabHide = false
+                
+                
             }
+          
         }
     }
     //struct CartView_Previews: PreviewProvider {

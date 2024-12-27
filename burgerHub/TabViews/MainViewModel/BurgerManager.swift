@@ -41,39 +41,23 @@ class BurgerManager {
   
     
     func addBurger(of burger: Burgers, in viewModel: MainViewModel) {
-        if let index = viewModel.burgers.firstIndex(where: { $0.id == burger.id }) {
-               viewModel.burgers[index].amount += 1
-           } else {
-               let burgerInBurgers = burger
-               burgerInBurgers.amount = 1
-               viewModel.burgers.append(burgerInBurgers)
-           }
+      
 
            if let cartIndex = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
-               viewModel.burgerCart[cartIndex].amount = viewModel.burgers[cartIndex].amount
+              burger.amount += 1
+               viewModel.burgers[cartIndex].amount = viewModel.burgerCart[cartIndex].amount
            } else {
                let burgerInCart = burger
-               burgerInCart.amount = viewModel.burgers.first(where: { $0.id == burger.id })?.amount ?? 1
-               viewModel.burgerCart.append(burgerInCart)
+               burgerInCart.amount += 1
            }
     }
     
     func decreaseBurger(of burger: Burgers, in viewModel: MainViewModel){
-        if let index = viewModel.burgers.firstIndex(where: { $0.id == burger.id }) {
-                if viewModel.burgers[index].amount > 0 {
-                    viewModel.burgers[index].amount -= 1
-                }
-            }
 
-            
-        if let cartIndex = viewModel.burgerCart.firstIndex(where: { $0.id == burger.id }) {
-            
-            if viewModel.burgerCart[cartIndex].amount > 1 {
-                viewModel.burgerCart[cartIndex].amount = viewModel.burgers[cartIndex].amount
-                    } else {
-                        // Remove from burgerCart when amount is less than or equal to 1
-                        viewModel.burgerCart.remove(at: cartIndex)
-                    }
+        if burger.amount > 1 {
+            burger.amount -= 1
+        }else {
+            viewModel.burgerCart.removeAll(where: { $0.id == burger.id })
         }
     }
     

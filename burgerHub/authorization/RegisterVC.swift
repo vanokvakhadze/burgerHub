@@ -182,7 +182,7 @@ class RegisterVC: UIViewController{
         
         
         if !ValidateInfo.isValidEmail(for: emailInput.text ?? "") {
-            sendAlert(message: "invalid userName", title: "Error")
+            sendAlert(message: "invalid mail", title: "Error")
             return
         }
         

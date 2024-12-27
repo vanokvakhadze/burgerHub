@@ -92,6 +92,7 @@ struct DetailsView: View {
                        
                             viewModel.navigateToCart(burger: burger)
                             activeTab = .basket
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                             path.removeLast()
                         }
